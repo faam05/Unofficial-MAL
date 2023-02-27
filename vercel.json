@@ -1,0 +1,11 @@
+{
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/"
+        }
+    ],
+    "cleanUrls": true,
+    "framework": "vite",
+    "installCommand": "npm install"
+}
