@@ -1,0 +1,105 @@
+.h1.detail-title {
+    background-color: #e1e7f5;
+    border-bottom-color: #1c439b;
+    border-left-color: #e5e5e5;
+    border-right-color: #e5e5e5;
+    border-style: solid;
+    border-top-color: #e5e5e5;
+    border-width: 1px;
+    color: #000;
+    font-family: Verdana,Arial;
+    font-weight: 700;
+    margin: 0;
+    padding: 5px 9px;
+    text-align: left;
+    padding-right: 7px;
+}
+
+.content-wrapper {
+    width: 100%;
+    display: table;
+    table-layout: auto;
+}
+
+.content-left {
+    display: table-cell;
+    vertical-align: top;
+    border-width: 0 1px 0 0;
+    border-color: #e5e5e5;
+    border-style: solid;
+    padding: 3px;
+    box-sizing: border-box;
+    width: 225px;
+}
+
+.content-right {
+    display: table-cell;
+    vertical-align: top;
+    padding-left: 8px;
+}
+
+@media screen and (max-width: 800px) {
+    ol, ul {
+        list-style: none;
+    }
+    .content-wrapper {
+        width: 100%;
+        display: flex;
+        table-layout: auto;
+        padding: 0;
+    }
+
+    .content-left {
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        width: 140px;
+    }
+
+    .content-right {
+        max-width: 244px;
+        position: relative;
+        width: calc(100% - 140px - 8px);
+        padding-left: 8px;
+    }
+
+    ul.detail-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .content-main {
+        background-color: #f5f5f5;
+        border-top: #bebebe 1px solid;
+        display: table;
+        width: 100%;
+    }
+
+    .fs16 {
+        font-size: 1.6rem!important;
+    }
+
+    /* table modal information */
+    .ar {
+        text-align: right!important;
+    }
+
+    .modal-main {
+        border: none!important;
+        vertical-align: top!important;
+        font-weight: 700!important;
+    }
+
+    td.modal-title {
+        vertical-align: top!important;
+        line-height: 1!important;
+        white-space: nowrap!important;
+        border: none!important;
+        font-size: 12!important;
+    }
+}
+    

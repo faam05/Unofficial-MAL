@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { createStyles, Header, Container, Group, Burger, Paper, Transition } from '@mantine/core'
+import React, { useState } from 'react'
+import { createStyles, Header, Container, Group, Burger, Paper, Transition, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 
 const HEADER_HEIGHT = 60
@@ -73,18 +73,37 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-export function CustomHeader({ links }) {
+interface HeaderResponsiveProps {
+  links: { link: string; label: string }[]
+}
+
+export function HeaderResponsive({ links }: HeaderResponsiveProps) {
+  console.log(links)
+
   const [opened, { toggle, close }] = useDisclosure(false)
-  // const [active, setActive] = useState(links[0].link)
+  const [active, setActive] = useState(links[0].link)
   const { classes, cx } = useStyles()
-  const [active, setActive] = useState(classes.link)
+
+  const items = links.map((link) => (
+    <a
+      key={link.label}
+      href={link.link}
+      className={cx(classes.link, { [classes.linkActive]: active === link.link })}
+      onClick={(event) => {
+        event.preventDefault()
+        setActive(link.link)
+        close()
+      }}>
+      {link.label}
+    </a>
+  ))
 
   return (
     <Header height={HEADER_HEIGHT} mb={120} className={classes.root}>
       <Container className={classes.header}>
-        {/* <MantineLogo size={28} /> */}
+        <Text>MAL</Text>
         <Group spacing={5} className={classes.links}>
-          {/* {items} */}
+          {items}
         </Group>
 
         <Burger opened={opened} onClick={toggle} className={classes.burger} size='sm' />
@@ -92,7 +111,7 @@ export function CustomHeader({ links }) {
         <Transition transition='pop-top-right' duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
-              {/* {items} */}
+              {items}
             </Paper>
           )}
         </Transition>

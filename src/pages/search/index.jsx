@@ -3,7 +3,6 @@ import { IconBrandYoutube } from '@tabler/icons'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import Layout from '../../components/layouts'
 
 export default function Search() {
   const params = useParams()
@@ -18,34 +17,25 @@ export default function Search() {
   }, [params])
   return (
     <>
-      <div>Search</div>
-      <Link to={'/'}>Home</Link>
-      <Link to={'/about'}>About</Link>
-
+      <Text>Result</Text>
       <SimpleGrid cols={2} style={{ marginTop: '10px' }}>
-        {data
-          ? data.map((item, index) => {
+        {data ? (
+          data.length > 0 ? (
+            data.map((item, index) => {
               return (
                 <Card key={index} shadow='sm' radius='md'>
-                  {/* <Flex>
-                      <Image height={250} width={150} fit='contain' mr={10} src={item.images.jpg.image_url} />
-                      <div style={{ textAlign: 'center' }}>
-                        <Text fz={'xs'}>{item.aired.string}</Text>
-                        <Rating value={item.score / 2} fractions={2} readOnly />
-                      </div>
-                      <Text mt={10} fz='md'>
-                        {item.title}
-                      </Text>
-                    </Flex> */}
                   <SimpleGrid cols={2}>
                     <div>
                       <Center>
                         <Flex direction={'column'}>
-                          <Image height={200} fit='contain' mr={10} src={item.images.jpg.image_url} />
+                          <Image height={250} fit='contain' mr={10} src={item.images.jpg.image_url} />
                           <Text ta={'center'} fz={'xs'}>
                             {item.aired.string}
                           </Text>
-                          <Rating style={{ alignSelf: 'center' }} value={item.score / 2} fractions={2} readOnly />
+                          <Flex justify={'space-evenly'}>
+                            <Rating value={item.score / 2} fractions={2} readOnly />
+                            <Badge fz={'xs'}>{Number(item.score).toFixed(2)}</Badge>
+                          </Flex>
                           <Text ta={'center'}>
                             {item.studios.length > 0
                               ? item.studios.map((studio, index) => {
@@ -68,9 +58,7 @@ export default function Search() {
                     </div>
                     <div>
                       <Text mt={10} fz='md'>
-                        <Anchor href={item.url} target='_blank'>
-                          {item.title}
-                        </Anchor>
+                        <Anchor href={`/detail/${item.mal_id}`}>{item.title}</Anchor>
                       </Text>
                       <Flex mt={10} fz='sm'>
                         <Text>
@@ -97,7 +85,12 @@ export default function Search() {
                 </Card>
               )
             })
-          : null}
+          ) : (
+            <p>Tidak ada data</p>
+          )
+        ) : (
+          <p>Loading...</p>
+        )}
       </SimpleGrid>
     </>
   )
