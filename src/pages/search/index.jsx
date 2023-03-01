@@ -85,11 +85,11 @@ export default function Search() {
                       </SimpleGrid>
                       {matches ? (
                         <Spoiler maxHeight={120} showLabel='Show more' hideLabel='Hide' mt={10} fz='sm'>
-                          {item.synopsis}
+                          {item.synopsis ? item.synopsis : 'No synopsis given.'}
                         </Spoiler>
                       ) : (
                         <Text mt={10} fz='xs'>
-                          {item.synopsis.substring(0, 100) + (item.synopsis.length > 100 ? '...' : '')}
+                          {item.synopsis ? (item.synopsis.length > 100 ? item.synopsis.slice(0, 100) + '...' : item.synopsis) : 'No synopsis given.'}
                         </Text>
                       )}
                     </div>
