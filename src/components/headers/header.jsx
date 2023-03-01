@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { createStyles, Header, Container, Group, Burger, Paper, Transition, Text, Autocomplete, Button } from '@mantine/core'
+import { createStyles, Header, Container, Group, Burger, Paper, Transition, Text, Autocomplete, Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons'
 import { Link, useNavigate } from 'react-router-dom'
@@ -91,9 +91,9 @@ export default function CustomHeader() {
 
   const onSearch = (e) => {
     e.preventDefault()
-    navigate(`/search/${e.target[0].value}`)
-    setActive('')
+    setOpenedModal(false)
     setValue(`${e.target[0].value}`)
+    navigate(`/search/${e.target[0].value}`)
   }
 
   const [query, setQuery] = useState('')
@@ -124,11 +124,28 @@ export default function CustomHeader() {
     </a>
   ))
 
+  const [openedModal, setOpenedModal] = useState(false)
+
   return (
     <Header height={HEADER_HEIGHT}>
       <Container size={1060} className={classes.header}>
         {/* <MantineLogo size={28} /> */}
         <Text>MAL</Text>
+        <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(false)} size='100%'>
+          <form onSubmit={onSearch}>
+            <Autocomplete
+              className={classes.search}
+              placeholder='Search Anime'
+              onChange={(event) => setQuery(event)}
+              icon={<IconSearch size={16} stroke={1.5} />}
+              value={query}
+              data={search}
+            />
+          </form>
+        </Modal>
+        <Button onClick={() => setOpenedModal(true)} ml={'auto'} className={classes.burger}>
+          <IconSearch />
+        </Button>
         <Group spacing={5} className={classes.links}>
           {items}
           <form onSubmit={onSearch}>
@@ -142,16 +159,15 @@ export default function CustomHeader() {
             />
           </form>
         </Group>
-
         <Burger opened={opened} onClick={toggle} className={classes.burger} size='sm' />
 
         <Transition transition='pop-top-right' duration={200} mounted={opened}>
           {(styles) => (
             <Paper className={classes.dropdown} withBorder style={styles}>
               {items}
-              <form style={{ marginTop: '1px' }} onSubmit={onSearch}>
+              {/* <form style={{ marginTop: '1px' }} onSubmit={onSearch}>
                 <Autocomplete className={classes.search} placeholder='Search' icon={<IconSearch size={16} stroke={1.5} />} data={[]} />
-              </form>
+              </form> */}
             </Paper>
           )}
         </Transition>
