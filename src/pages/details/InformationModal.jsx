@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function InformationModal({ opened, close, data }) {
   return (
-    <Modal overflow='inside' opened={opened} onClose={close} title='Information'>
+    <Modal size='calc(100vw - 87px)' overflow='inside' opened={opened} onClose={close} title='Information'>
       <Table p={0} m={0}>
         <tbody>
           <tr>
