@@ -1,30 +1,9 @@
-import {
-  AppShell,
-  Navbar,
-  Header,
-  Footer,
-  Aside,
-  Text,
-  MediaQuery,
-  Burger,
-  useMantineTheme,
-  Flex,
-  SimpleGrid,
-  Grid,
-  Input,
-  Button,
-  Container,
-  Autocomplete,
-  Group,
-  createStyles,
-  Center,
-} from '@mantine/core'
+import { AppShell, useMantineTheme, Container, createStyles } from '@mantine/core'
 
 import { useDisclosure, useMediaQuery } from '@mantine/hooks'
-import { IconSearch } from '@tabler/icons'
 import { useNavigate } from 'react-router-dom'
 import CustomHeader from '../headers/header'
-
+import Footers from '../footers'
 const useStyles = createStyles((theme) => ({
   header: {
     paddingLeft: theme.spacing.md,
@@ -77,11 +56,6 @@ export default function Layout({ children }) {
 
   const navigate = useNavigate()
 
-  const onSearch = (e) => {
-    e.preventDefault()
-    navigate(`/search/${e.target[0].value}`)
-  }
-
   const matches = useMediaQuery('(min-width: 800px)')
 
   return (
@@ -92,31 +66,8 @@ export default function Layout({ children }) {
         },
         width: '100%',
       }}
-      footer={
-        <Footer height={60} p='md'>
-          <Text align='center'>
-            Made with <span style={{ color: '#e25555' }}>&hearts;</span> by{' '}
-            <a target='_blank' href='https://github.com/faam05'>
-              rilSit
-            </a>
-          </Text>
-        </Footer>
-      }
-      header={
-        // <Header height={56} className={classes.header} mb={120}>
-        //   <Container size='md' style={{ display: 'flex', alignItems: 'center', height: 56, justifyContent: 'space-between' }}>
-        //     <Group spacing='xl' grow>
-        //       <Text>MAL</Text>
-        //     </Group>
-        //     <Group spacing='xl'>
-        //       <form onSubmit={onSearch}>
-        //         <Autocomplete className={classes.search} placeholder='Search' icon={<IconSearch size={16} stroke={1.5} />} data={[]} />
-        //       </form>
-        //     </Group>
-        //   </Container>
-        // </Header>
-        <CustomHeader />
-      }>
+      footer={<Footers />}
+      header={<CustomHeader />}>
       {matches ? <Container size={1060}>{children}</Container> : children}
     </AppShell>
   )
