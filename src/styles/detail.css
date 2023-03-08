@@ -88,6 +88,11 @@
         text-align: right!important;
     }
 
+    td.modal-title { 
+        padding-right: 8px!important;
+        line-height: 1.6rem !important;
+    }
+
     .modal-main {
         border: none!important;
         vertical-align: top!important;

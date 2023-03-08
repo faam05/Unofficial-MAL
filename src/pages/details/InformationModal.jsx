@@ -3,20 +3,22 @@ import React from 'react'
 
 export default function InformationModal({ opened, close, data }) {
   return (
-    <Modal size='calc(100vw - 87px)' overflow='inside' opened={opened} onClose={close} title='Information'>
-      <Table p={0} m={0}>
+    <Modal size='calc(100vw - 50px)' overflow='inside' opened={opened} onClose={close} title='Information'>
+      <table>
         <tbody>
           <tr>
-            <td className='ar modal-title'>
-              Alternative
-              <br />
-              Titles
+            <td style={{ width: '10px', padding: 0 }} className='ar modal-title'>
+              <Text fz={14}>
+                Alternative
+                <br />
+                Titles
+              </Text>
             </td>
             <td style={{ verticalAlign: 'top', lineHeight: '1rem' }}>
               {data.titles.map((title, index) => {
                 return (
                   <div key={index}>
-                    <Text fz={11}>{title.type}</Text>
+                    <Text fz={12}>{title.type}</Text>
                     <Text fz={14} fw={700}>
                       {title.title}
                     </Text>
@@ -26,120 +28,169 @@ export default function InformationModal({ opened, close, data }) {
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Type</td>
-            <td className='modal-main'>{data.type}</td>
-          </tr>
-          <tr>
-            <td className='ar modal-title'>Source</td>
-            <td className='modal-main' style={{ fontWeight: 700 }}>
-              {data.source}
+            <td className='ar modal-title' style={{}}>
+              <Text fz={14}>Type</Text>
+            </td>
+            <td className='modal-main'>
+              <Text fz={14} fw={700}>
+                {data.type}
+              </Text>
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Episodes</td>
-            <td className='modal-main'>{data.episodes}</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Source</Text>
+            </td>
+            <td className='modal-main' style={{ fontWeight: 700 }}>
+              <Text fz={14}>{data.source}</Text>
+            </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Status</td>
-            <td className='modal-main'>{data.status}</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Episodes</Text>
+            </td>
+            <td className='modal-main'>
+              <Text fz={14}>{data.episodes}</Text>
+            </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Aired</td>
-            <td className='modal-main'>{data.aired.string}</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Status</Text>
+            </td>
+            <td className='modal-main'>
+              <Text fz={14}>{data.status}</Text>
+            </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Producers</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Aired</Text>
+            </td>
+            <td className='modal-main'>
+              <Text fz={14}>{data.aired.string}</Text>
+            </td>
+          </tr>
+          <tr>
+            <td className='ar modal-title'>
+              <Text fz={14}>Producers</Text>
+            </td>
             <td className='modal-main'>
               <Flex>
                 {data.producers.map((item, index) => {
                   return (
-                    <Badge key={index} mr={1}>
-                      {item.name}
-                    </Badge>
+                    <>
+                      <Text key={index} fz={14} mr={1}>
+                        {item.name}
+                        {index !== data.producers.length - 1 ? ', ' : ''}
+                      </Text>
+                    </>
                   )
                 })}
               </Flex>
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Licensors</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Licensors</Text>
+            </td>
             <td className='modal-main'>
               <Flex>
                 {data.licensors.map((item, index) => {
                   return (
-                    <Badge key={index} mr={1}>
+                    <Text key={index} fz={14} mr={1}>
                       {item.name}
-                    </Badge>
+                      {index !== data.licensors.length - 1 ? ', ' : ''}
+                    </Text>
                   )
                 })}
               </Flex>
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Studio</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Studio</Text>
+            </td>
             <td className='modal-main'>
               <Flex>
                 {data.studios.map((item, index) => {
                   return (
-                    <Badge key={index} mr={1}>
+                    <Text key={index} fz={14} mr={1}>
                       {item.name}
-                    </Badge>
+                      {index !== data.studios.length - 1 ? ', ' : ''}
+                    </Text>
                   )
                 })}
               </Flex>
             </td>
           </tr>
-
           <tr>
-            <td className='ar modal-title'>Genres</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Genres</Text>
+            </td>
             <td className='modal-main'>
-              {data.genres.map((item, index) => {
-                return (
-                  <Badge key={index} mr={1}>
-                    {item.name}
-                  </Badge>
-                )
-              })}
+              <Flex>
+                {data.genres.map((item, index) => {
+                  return (
+                    <Text fz={14} mr={1} key={index}>
+                      {item.name}
+                      {index !== data.genres.length - 1 ? ', ' : ''}
+                    </Text>
+                  )
+                })}
+              </Flex>
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Theme</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Theme</Text>
+            </td>
             <td className='modal-main'>
               <Flex>
                 {data.themes.map((item, index) => {
                   return (
-                    <Badge key={index} mr={1}>
+                    <Text fz={14} mr={1} key={index}>
                       {item.name}
-                    </Badge>
+                      {index !== data.themes.length - 1 ? ', ' : ''}
+                    </Text>
                   )
                 })}
               </Flex>
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Demographic</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Demographic</Text>
+            </td>
             <td className='modal-main'>
               <Flex>
                 {data.demographics.map((item, index) => {
                   return (
-                    <Badge key={index} mr={1}>
+                    <Text key={index} fz={14} mr={1}>
                       {item.name}
-                    </Badge>
+                      {index !== data.demographics.length - 1 ? ', ' : ''}
+                    </Text>
                   )
                 })}
               </Flex>
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Duration</td>
-            <td className='modal-main'>{data.duration}</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Duration</Text>
+            </td>
+            <td className='modal-main'>
+              <Text fz={14}>{data.duration}</Text>
+            </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>Rating</td>
-            <td className='modal-main'>{data.rating}</td>
+            <td className='ar modal-title'>
+              <Text fz={14}>Rating</Text>
+            </td>
+            <td className='modal-main'>
+              <Text fz={14}>{data.rating}</Text>
+            </td>
           </tr>
         </tbody>
-      </Table>
+      </table>
     </Modal>
   )
 }
