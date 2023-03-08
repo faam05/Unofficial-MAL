@@ -99,16 +99,16 @@ export default function CustomHeader() {
   const [query, setQuery] = useState('')
   const [displayMessage, setDisplayMessage] = useState('')
 
-  useEffect(() => {
-    const timeOutId = setTimeout(() => setDisplayMessage(query), 500)
-    // const getData = async () => {
-    //   const { data } = await axios(`https://api.jikan.moe/v4/anime?q=${displayMessage}`)
-    //   // console.log(data)
-    //   // setSearch(data.data)
-    // }
-    // getData()
-    // return () => clearTimeout(timeOutId)
-  }, [query])
+  // useEffect(() => {
+  //   const timeOutId = setTimeout(() => setDisplayMessage(query), 500)
+  //   // const getData = async () => {
+  //   //   const { data } = await axios(`https://api.jikan.moe/v4/anime?q=${displayMessage}`)
+  //   //   // console.log(data)
+  //   //   // setSearch(data.data)
+  //   // }
+  //   // getData()
+  //   // return () => clearTimeout(timeOutId)
+  // }, [query])
 
   const items = links.map((link) => (
     <a
@@ -129,7 +129,6 @@ export default function CustomHeader() {
   return (
     <Header height={HEADER_HEIGHT}>
       <Container size={1060} className={classes.header}>
-        {/* <MantineLogo size={28} /> */}
         <Text>MAL</Text>
         <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(false)} size='100%'>
           <form onSubmit={onSearch}>

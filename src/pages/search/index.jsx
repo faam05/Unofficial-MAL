@@ -3,7 +3,8 @@ import { useMediaQuery } from '@mantine/hooks'
 import { IconBrandYoutube } from '@tabler/icons'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, NavLink, useParams } from 'react-router-dom'
+import Layout from '../../components/layouts'
 
 export default function Search() {
   const params = useParams()
@@ -20,7 +21,7 @@ export default function Search() {
   const matches = useMediaQuery('(min-width: 768px)')
 
   return (
-    <>
+    <Layout>
       <Text>Result</Text>
       {data ? (
         data.length > 0 ? (
@@ -62,7 +63,8 @@ export default function Search() {
                     </div>
                     <div>
                       <Text mt={matches ? 10 : 0} fz={matches ? 'md' : 'sm'}>
-                        <Anchor href={`/detail/${item.mal_id}`}>{item.title}</Anchor>
+                        {/* <Anchor href={`/detail/${item.mal_id}`}>{item.title}</Anchor> */}
+                        <NavLink to={`/detail/${item.mal_id}`}>{item.title}</NavLink>
                       </Text>
                       <Flex mt={matches ? 10 : 5}>
                         <Text fz={matches ? 'md' : 11}>
@@ -104,6 +106,6 @@ export default function Search() {
       ) : (
         <p>Loading...</p>
       )}
-    </>
+    </Layout>
   )
 }
