@@ -1,4 +1,4 @@
-import { Card, Flex, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
+import { Card, Flex, Group, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
 import Characters from '../Characters'
 import Information from '../Information'
 
@@ -11,7 +11,7 @@ export default function DetailDesktop({ data, characters, activeTab, setActiveTa
         </div>
         <div className='detail content-wrapper'>
           <div className='detail content-left'>
-            <Image src={data.images.jpg.image_url} alt={data.title} />
+            <Image width={225} src={data.images.jpg.image_url} alt={data.title} />
             <div style={{ marginTop: 10 }}>
               <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
                 Alternative Titles
@@ -52,38 +52,42 @@ export default function DetailDesktop({ data, characters, activeTab, setActiveTa
                 </Flex>
                 <Flex>
                   <Text fw={600}>Producers:</Text>
-                  {data.producers.map((item, index) => {
-                    return (
-                      <>
-                        <Text ml={5}>{item.name}</Text>
-                        {index !== data.producers.length - 1 ? ',' : ''}
-                      </>
-                    )
-                  })}
+                  <Group spacing={'xs'} ml={5} p={0} style={{ gap: '0' }}>
+                    {data.producers.map((item, index) => {
+                      return (
+                        <Text key={index} mr={1}>
+                          {item.name}
+                          {index !== data.producers.length - 1 ? ',' : ''}
+                        </Text>
+                      )
+                    })}
+                  </Group>
                 </Flex>
                 <Flex>
                   <Text fw={600}>Licensors:</Text>
-                  {data.licensors.map((item, index) => {
-                    return (
-                      <>
-                        <Text ml={5} key={index}>
-                          {item.name}
-                        </Text>
-                        {index !== data.licensors.length - 1 ? ',' : ''}
-                      </>
-                    )
-                  })}
+                  {data.licensors.length === 0 ? (
+                    <Text ml={5}>None found</Text>
+                  ) : (
+                    <>
+                      {data.licensors.map((item, index) => {
+                        return (
+                          <Text ml={5} key={index}>
+                            {item.name}
+                            {index !== data.licensors.length - 1 ? ',' : ''}
+                          </Text>
+                        )
+                      })}
+                    </>
+                  )}
                 </Flex>
                 <Flex>
                   <Text fw={600}>Studios:</Text>
                   {data.studios.map((item, index) => {
                     return (
-                      <>
-                        <Text ml={5} key={index}>
-                          {item.name}
-                        </Text>
+                      <Text ml={5} key={index}>
+                        {item.name}
                         {index !== data.studios.length - 1 ? ',' : ''}
-                      </>
+                      </Text>
                     )
                   })}
                 </Flex>
@@ -95,12 +99,10 @@ export default function DetailDesktop({ data, characters, activeTab, setActiveTa
                   <Text fw={600}>Genres:</Text>
                   {data.genres.map((item, index) => {
                     return (
-                      <>
-                        <Text ml={5} key={index}>
-                          {item.name}
-                        </Text>
+                      <Text ml={5} key={index}>
+                        {item.name}
                         {index !== data.genres.length - 1 ? ',' : ''}
-                      </>
+                      </Text>
                     )
                   })}
                 </Flex>
@@ -108,12 +110,10 @@ export default function DetailDesktop({ data, characters, activeTab, setActiveTa
                   <Text fw={600}>Themes:</Text>
                   {data.themes.map((item, index) => {
                     return (
-                      <>
-                        <Text ml={5} key={index}>
-                          {item.name}
-                        </Text>
+                      <Text ml={5} key={index}>
+                        {item.name}
                         {index !== data.themes.length - 1 ? ',' : ''}
-                      </>
+                      </Text>
                     )
                   })}
                 </Flex>
@@ -123,12 +123,10 @@ export default function DetailDesktop({ data, characters, activeTab, setActiveTa
                       <Text fw={600}>Demographics:</Text>
                       {data.demographics.map((item, index) => {
                         return (
-                          <>
-                            <Text ml={5} key={index}>
-                              {item.name}
-                            </Text>
+                          <Text ml={5} key={index}>
+                            {item.name}
                             {index !== data.demographics.length - 1 ? ',' : ''}
-                          </>
+                          </Text>
                         )
                       })}
                     </>

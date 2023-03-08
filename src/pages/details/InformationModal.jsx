@@ -1,4 +1,4 @@
-import { Badge, Flex, Modal, SimpleGrid, Table, Text } from '@mantine/core'
+import { Badge, Flex, Group, Modal, SimpleGrid, Table, Text } from '@mantine/core'
 import React from 'react'
 
 export default function InformationModal({ opened, close, data }) {
@@ -75,16 +75,18 @@ export default function InformationModal({ opened, close, data }) {
             </td>
             <td className='modal-main'>
               <Flex>
-                {data.producers.map((item, index) => {
-                  return (
-                    <>
-                      <Text key={index} fz={14} mr={1}>
-                        {item.name}
-                        {index !== data.producers.length - 1 ? ', ' : ''}
-                      </Text>
-                    </>
-                  )
-                })}
+                <Group style={{ gap: 0 }}>
+                  {data.producers.map((item, index) => {
+                    return (
+                      <>
+                        <Text key={index} fz={14} mr={1}>
+                          {item.name}
+                          {index !== data.producers.length - 1 ? ', ' : ''}
+                        </Text>
+                      </>
+                    )
+                  })}
+                </Group>
               </Flex>
             </td>
           </tr>
@@ -94,14 +96,20 @@ export default function InformationModal({ opened, close, data }) {
             </td>
             <td className='modal-main'>
               <Flex>
-                {data.licensors.map((item, index) => {
-                  return (
-                    <Text key={index} fz={14} mr={1}>
-                      {item.name}
-                      {index !== data.licensors.length - 1 ? ', ' : ''}
-                    </Text>
-                  )
-                })}
+                {data.licensors.length === 0 ? (
+                  <Text fz={14}>None found</Text>
+                ) : (
+                  <>
+                    {data.licensors.map((item, index) => {
+                      return (
+                        <Text key={index} fz={14} mr={1}>
+                          {item.name}
+                          {index !== data.licensors.length - 1 ? ', ' : ''}
+                        </Text>
+                      )
+                    })}
+                  </>
+                )}
               </Flex>
             </td>
           </tr>
