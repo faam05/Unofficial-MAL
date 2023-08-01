@@ -11,6 +11,7 @@ export default function Search() {
   const [data, setData] = useState(null)
 
   const getData = async () => {
+    setData(null)
     const { data } = await axios(`https://api.jikan.moe/v4/anime?q=${params.value}`)
     setData(data.data)
   }
@@ -33,7 +34,7 @@ export default function Search() {
                     <div>
                       <Center>
                         <Flex direction={'column'}>
-                          <Image height={matches ? 250 : 150} fit='contain' mr={10} src={item.images.jpg.image_url} />
+                          <Image height={matches ? 250 : 150} fit='contain' mr={10} src={item.images.jpg.image_url} withPlaceholder />
                           <Text ta={'center'} fz={'xs'}>
                             {item.aired.string}
                           </Text>

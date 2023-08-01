@@ -7,30 +7,45 @@ export default function Information({ data }) {
       <Card bg={'#f8f8f8'}>
         <Flex>
           <div style={{ display: 'block', textAlign: 'center' }}>
-            <Badge>Score</Badge>
-            <Title order={3} fw={700}>
-              {data.score}
+            <Badge size='xs'>Score</Badge>
+            <Title order={5} fw={800}>
+              {data.score ? data.score : 'N/A'}
             </Title>
-            <Text fz={10}>{Number(data.scored_by).toLocaleString()} users</Text>
+            <Text fz={10}>{data.scored_by ? Number(data.scored_by).toLocaleString() : '-'} users</Text>
           </div>
           <div style={{ display: 'inline-block', marginLeft: 10, paddingLeft: 10, borderWidth: '0 0px 0 1px', borderStyle: 'solid' }}>
-            <Flex>
+            <Flex mt='auto'>
               <SimpleGrid cols={3}>
                 <div style={{ textAlign: 'center' }}>
-                  <Badge>Ranked</Badge>
-                  <Text fw={700}>#{data.rank}</Text>
+                  <Flex>
+                    <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                      Ranked
+                    </Text>
+                    <Text fw={700}>{data.rank ? '#' + data.rank : 'N/A'}</Text>
+                  </Flex>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <Badge>Popularity</Badge>
-                  <Text fw={700}>#{data.popularity}</Text>
+                  <Flex>
+                    <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                      Popularity
+                    </Text>
+                    <Text fw={700}>{data.popularity ? '#' + data.popularity : 'N/A'}</Text>
+                  </Flex>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <Badge>Members</Badge>
-                  <Text fw={700}>{Number(data.members).toLocaleString()}</Text>
+                  <Flex>
+                    <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                      Members
+                    </Text>
+                    <Text fw={700}>{data.members ? Number(data.members).toLocaleString() : 'N/A'}</Text>
+                  </Flex>
                 </div>
               </SimpleGrid>
             </Flex>
-            <Text style={{ float: 'left!important', padding: '0px 15px' }} fz={11} mt={5}>
+            <Text style={{ marginTop: '5%' }} fz={10}>
+              <span style={{ padding: '0px 5px 0 0', borderStyle: 'solid', borderWidth: '0 1px 0 0' }}>
+                {data.season && data.season.charAt(0).toUpperCase() + data.season.slice(1)} {data.year}
+              </span>
               <span style={{ padding: '0px 5px', borderStyle: 'solid', borderWidth: '0 1px 0 0' }}>{data.type}</span>
               {data.studios.map((item, index) => {
                 return (

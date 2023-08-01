@@ -30,7 +30,7 @@ function Detail() {
   }
   useEffect(() => {
     getData()
-  }, [activeTab])
+  }, [activeTab, params.id])
 
   const matches = useMediaQuery('(min-width: 800px)')
 
