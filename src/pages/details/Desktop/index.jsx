@@ -1,6 +1,6 @@
 import { Card, Flex, Group, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
 import Characters from '../Characters'
-import Information from '../information'
+import Information from '../Information'
 
 export default function DetailDesktop({ data, characters, activeTab, setActiveTab }) {
   return (
