@@ -38,7 +38,9 @@ export default function DetailMobile({ data, opened, setOpened }) {
                   Studios
                 </Text>
                 <Text fz={12} style={{ margin: 0 }}>
-                  {data.studios.map((studio) => studio.name)}
+                  {data.studios.map((studio, index) => (
+                    <Text key={index}>studio.name</Text>
+                  ))}
                 </Text>
               </List.Item>
               <List.Item style={{ marginTop: 10 }}>

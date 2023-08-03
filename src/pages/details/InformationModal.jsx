@@ -78,12 +78,10 @@ export default function InformationModal({ opened, close, data }) {
                 <Group style={{ gap: 0 }}>
                   {data.producers.map((item, index) => {
                     return (
-                      <>
-                        <Text key={index} fz={14} mr={1}>
-                          {item.name}
-                          {index !== data.producers.length - 1 ? ', ' : ''}
-                        </Text>
-                      </>
+                      <Text key={index} fz={14} mr={1}>
+                        {item.name}
+                        {index !== data.producers.length - 1 ? ', ' : ''}
+                      </Text>
                     )
                   })}
                 </Group>

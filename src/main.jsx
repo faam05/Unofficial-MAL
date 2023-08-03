@@ -13,13 +13,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           withGlobalStyles
           withNormalizeCSS
           theme={{
-            // breakpoints: {
-            //   xs: 500,
-            //   sm: 800,
-            //   md: 1000,
-            //   lg: 1200,
-            //   xl: 1400,
-            // },
+            breakpoints: {
+              xs: 500,
+              sm: 800,
+              md: 1000,
+              lg: 1200,
+              xl: 1400,
+            },
             components: {
               Container: {
                 defaultProps: {

@@ -1,9 +1,7 @@
-import { AppShell, useMantineTheme, Container, createStyles, Navbar, Header, MediaQuery, Burger } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
+import { AppShell, useMantineTheme, Container, createStyles, Navbar, Header, MediaQuery, Burger, Text } from '@mantine/core'
 import CustomHeader from '../headers/header'
 import CustomHeader2 from '../headers/header2'
 import Footers from '../footers'
-import { useState } from 'react'
 const useStyles = createStyles((theme) => ({
   header: {
     paddingLeft: theme.spacing.md,
@@ -50,10 +48,6 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Layout({ children }) {
-  const matches = useMediaQuery('(min-width: 720px)')
-  const [opened, setOpened] = useState(false)
-  const theme = useMantineTheme()
-
   return (
     <AppShell footer={<Footers />} header={<CustomHeader2 />}>
       <Container size={1060}>{children}</Container>
