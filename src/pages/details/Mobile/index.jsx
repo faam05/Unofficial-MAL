@@ -39,7 +39,7 @@ export default function DetailMobile({ data, opened, setOpened }) {
                 </Text>
                 <Text fz={12} style={{ margin: 0 }}>
                   {data.studios.map((studio, index) => (
-                    <Text key={index}>studio.name</Text>
+                    <Text key={index}>{studio.name}</Text>
                   ))}
                 </Text>
               </List.Item>
@@ -55,7 +55,7 @@ export default function DetailMobile({ data, opened, setOpened }) {
           </div>
         </div>
       </div>
-      <div className='content-main' style={{ fontSize: '100%' }}>
+      <div className='content-main' style={{ fontSize: '100%', padding: '0 10px 10px 10px' }}>
         <h2 style={{ fontSize: '14px' }}>Synopsis</h2>
         <Spoiler maxHeight={120} showLabel='Show more' hideLabel='Hide' mt={5} fz='xs'>
           {data.synopsis}
