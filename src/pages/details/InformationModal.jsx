@@ -70,34 +70,36 @@ export default function InformationModal({ opened, close, data }) {
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title'>
-              <Text fz={14}>Producers</Text>
-            </td>
-            <td className='modal-main'>
-              <Flex>
-                <Group style={{ gap: 0 }}>
-                  {data.producers.map((item, index) => {
-                    return (
-                      <Text key={index} fz={14} mr={1}>
-                        {item.name}
-                        {index !== data.producers.length - 1 ? ', ' : ''}
-                      </Text>
-                    )
-                  })}
-                </Group>
-              </Flex>
-            </td>
+            {data.producers.length == 0 ? null : (
+              <>
+                <td className='ar modal-title'>
+                  <Text fz={14}>Producers</Text>
+                </td>
+                <td className='modal-main'>
+                  <Flex>
+                    <Group style={{ gap: 0 }}>
+                      {data.producers.map((item, index) => {
+                        return (
+                          <Text key={index} fz={14} mr={1}>
+                            {item.name}
+                            {index !== data.producers.length - 1 ? ', ' : ''}
+                          </Text>
+                        )
+                      })}
+                    </Group>
+                  </Flex>
+                </td>
+              </>
+            )}
           </tr>
           <tr>
-            <td className='ar modal-title'>
-              <Text fz={14}>Licensors</Text>
-            </td>
-            <td className='modal-main'>
-              <Flex>
-                {data.licensors.length === 0 ? (
-                  <Text fz={14}>None found</Text>
-                ) : (
-                  <>
+            {data.licensors.length === 0 ? null : (
+              <>
+                <td className='ar modal-title'>
+                  <Text fz={14}>Licensors</Text>
+                </td>
+                <td className='modal-main'>
+                  <Flex>
                     {data.licensors.map((item, index) => {
                       return (
                         <Text key={index} fz={14} mr={1}>
@@ -106,86 +108,106 @@ export default function InformationModal({ opened, close, data }) {
                         </Text>
                       )
                     })}
-                  </>
-                )}
-              </Flex>
-            </td>
+                  </Flex>
+                </td>
+              </>
+            )}
           </tr>
           <tr>
-            <td className='ar modal-title'>
-              <Text fz={14}>Studio</Text>
-            </td>
-            <td className='modal-main'>
-              <Flex>
-                {data.studios.map((item, index) => {
-                  return (
-                    <Text key={index} fz={14} mr={1}>
-                      {item.name}
-                      {index !== data.studios.length - 1 ? ', ' : ''}
-                    </Text>
-                  )
-                })}
-              </Flex>
-            </td>
+            {data.studios.length == 0 ? null : (
+              <>
+                <td className='ar modal-title'>
+                  <Text fz={14}>Studio</Text>
+                </td>
+                <td className='modal-main'>
+                  <Flex>
+                    {data.studios.map((item, index) => {
+                      return (
+                        <Text key={index} fz={14} mr={1}>
+                          {item.name}
+                          {index !== data.studios.length - 1 ? ', ' : ''}
+                        </Text>
+                      )
+                    })}
+                  </Flex>
+                </td>
+              </>
+            )}
           </tr>
           <tr>
-            <td className='ar modal-title'>
-              <Text fz={14}>Genres</Text>
-            </td>
-            <td className='modal-main'>
-              <Flex>
-                {data.genres.map((item, index) => {
-                  return (
-                    <Text fz={14} mr={1} key={index}>
-                      {item.name}
-                      {index !== data.genres.length - 1 ? ', ' : ''}
-                    </Text>
-                  )
-                })}
-              </Flex>
-            </td>
+            {data.genres.length == 0 ? null : (
+              <>
+                <td className='ar modal-title'>
+                  <Text fz={14}>Genres</Text>
+                </td>
+                <td className='modal-main'>
+                  <Flex>
+                    {data.genres.map((item, index) => {
+                      return (
+                        <Text fz={14} mr={1} key={index}>
+                          {item.name}
+                          {index !== data.genres.length - 1 ? ', ' : ''}
+                        </Text>
+                      )
+                    })}
+                  </Flex>
+                </td>
+              </>
+            )}
           </tr>
           <tr>
-            <td className='ar modal-title'>
-              <Text fz={14}>Theme</Text>
-            </td>
-            <td className='modal-main'>
-              <Flex>
-                {data.themes.map((item, index) => {
-                  return (
-                    <Text fz={14} mr={1} key={index}>
-                      {item.name}
-                      {index !== data.themes.length - 1 ? ', ' : ''}
-                    </Text>
-                  )
-                })}
-              </Flex>
-            </td>
+            {data.themes.length == 0 ? null : (
+              <>
+                <td className='ar modal-title'>
+                  <Text fz={14}>Theme</Text>
+                </td>
+                <td className='modal-main'>
+                  <Flex>
+                    {data.themes.map((item, index) => {
+                      return (
+                        <Text fz={14} mr={1} key={index}>
+                          {item.name}
+                          {index !== data.themes.length - 1 ? ', ' : ''}
+                        </Text>
+                      )
+                    })}
+                  </Flex>
+                </td>
+              </>
+            )}
           </tr>
           <tr>
-            <td className='ar modal-title'>
-              <Text fz={14}>Demographic</Text>
-            </td>
-            <td className='modal-main'>
-              <Flex>
-                {data.demographics.map((item, index) => {
-                  return (
-                    <Text key={index} fz={14} mr={1}>
-                      {item.name}
-                      {index !== data.demographics.length - 1 ? ', ' : ''}
-                    </Text>
-                  )
-                })}
-              </Flex>
-            </td>
+            {data.demographics.length == 0 ? null : (
+              <>
+                <td className='ar modal-title'>
+                  <Text fz={14}>Demographic</Text>
+                </td>
+                <td className='modal-main'>
+                  <Flex>
+                    {data.demographics.map((item, index) => {
+                      return (
+                        <Text key={index} fz={14} mr={1}>
+                          {item.name}
+                          {index !== data.demographics.length - 1 ? ', ' : ''}
+                        </Text>
+                      )
+                    })}
+                  </Flex>
+                </td>
+              </>
+            )}
           </tr>
           <tr>
-            <td className='ar modal-title'>
-              <Text fz={14}>Duration</Text>
-            </td>
-            <td className='modal-main'>
-              <Text fz={14}>{data.duration}</Text>
-            </td>
+            {data.duration && (
+              <>
+                <td className='ar modal-title'>
+                  <Text fz={14}>Duration</Text>
+                </td>
+                <td className='modal-main'>
+                  <Text fz={14}>{data.duration}</Text>
+                </td>
+              </>
+            )}
           </tr>
           <tr>
             <td className='ar modal-title'>
