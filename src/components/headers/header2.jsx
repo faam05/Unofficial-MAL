@@ -5,16 +5,15 @@ import MobileSearch from './Mobile/MobileSearch'
 import { useMediaQuery } from '@mantine/hooks'
 
 export default function CustomHeader2() {
-  const matches = useMediaQuery('(min-width: 720px)')
+  const matches = useMediaQuery('(min-width: 768px)')
 
   return (
-    <Header height={{ base: 50, md: 70 }} p='md'>
+    <Header height={{ base: 70, md: 70 }} p='md'>
       <Container
         size={1060}
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: '100%',
           justifyContent: 'space-between',
         }}>
         {matches ? <DesktopSearch /> : <MobileSearch />}

@@ -8,7 +8,7 @@ import { Text } from '@mantine/core'
 import axios from 'axios'
 
 export default function Home() {
-  const matches = useMediaQuery('(min-width: 720px)')
+  const matches = useMediaQuery('(min-width: 768px)')
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
 
