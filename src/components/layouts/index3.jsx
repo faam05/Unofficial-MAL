@@ -6,7 +6,7 @@ export default function Layout3({ children }) {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
 
-  const matches = useMediaQuery('(min-width: 800px)')
+  const matches = useMediaQuery('(min-width: 768px)')
   return (
     <AppShell
       styles={{
@@ -31,7 +31,7 @@ export default function Layout3({ children }) {
         </Header>
       }>
       {/* <Text>Resize app to see responsive navbar in action</Text> */}
-      {matches ? <Container size={'sm'}>{children}</Container> : children}
+      {matches ? <Container size={'lg'}>{children}</Container> : children}
       {/* {children} */}
     </AppShell>
   )

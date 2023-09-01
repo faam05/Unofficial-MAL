@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Image, Text } from '@mantine/core'
 import { createStyles } from '@mantine/core'
-import axios from 'axios'
 import { NavLink } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
 
@@ -22,37 +21,7 @@ const useStyles = createStyles((_theme, _params, getRef) => ({
 }))
 
 function HomeDesktop(props) {
-  // const [props.data, setData] = useState(null)
-  // const [loading, setLoading] = useState(false)
-
-  console.log('props', props)
-
   const { classes } = useStyles()
-
-  // const getData = async () => {
-  //   setLoading(true)
-  //   try {
-  //     const { props.data } = await axios(`https://api.jikan.moe/v4/seasons/now`)
-  //     setData(props.data.props.data)
-  //   } catch (e) {
-  //     console.log('error', e)
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-  // useEffect(() => {
-  //   getData()
-  //   localStorage.removeItem('search')
-  // }, [])
-
-  const breakpoints = {
-    xs: 500,
-    sm: 800,
-    md: 1000,
-    lg: 1200,
-    xl: 1400,
-  }
-
   return (
     <>
       <Text style={{ borderColor: '#bebebe', borderStyle: 'solid', borderWidth: '0 0 1px' }} transform='capitalize'>

@@ -28,7 +28,7 @@ export default function InformationModal({ opened, close, data }) {
             </td>
           </tr>
           <tr>
-            <td className='ar modal-title' style={{}}>
+            <td className='ar modal-title'>
               <Text fz={14}>Type</Text>
             </td>
             <td className='modal-main'>
@@ -76,18 +76,16 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Producers</Text>
                 </td>
                 <td className='modal-main'>
-                  <Flex>
-                    <Group style={{ gap: 0 }}>
-                      {data.producers.map((item, index) => {
-                        return (
-                          <Text key={index} fz={14} mr={1}>
-                            {item.name}
-                            {index !== data.producers.length - 1 ? ', ' : ''}
-                          </Text>
-                        )
-                      })}
-                    </Group>
-                  </Flex>
+                  <Text fz={14} mr={1}>
+                    {data.producers.map((item, index) => {
+                      return (
+                        <span key={index}>
+                          {item.name}
+                          {index !== data.producers.length - 1 ? ', ' : ''}
+                        </span>
+                      )
+                    })}
+                  </Text>
                 </td>
               </>
             )}
@@ -99,16 +97,16 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Licensors</Text>
                 </td>
                 <td className='modal-main'>
-                  <Flex>
+                  <Text fz={14} mr={1}>
                     {data.licensors.map((item, index) => {
                       return (
-                        <Text key={index} fz={14} mr={1}>
+                        <span key={index}>
                           {item.name}
                           {index !== data.licensors.length - 1 ? ', ' : ''}
-                        </Text>
+                        </span>
                       )
                     })}
-                  </Flex>
+                  </Text>
                 </td>
               </>
             )}
@@ -120,16 +118,16 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Studio</Text>
                 </td>
                 <td className='modal-main'>
-                  <Flex>
+                  <Text fz={14} mr={1}>
                     {data.studios.map((item, index) => {
                       return (
-                        <Text key={index} fz={14} mr={1}>
+                        <span key={index}>
                           {item.name}
                           {index !== data.studios.length - 1 ? ', ' : ''}
-                        </Text>
+                        </span>
                       )
                     })}
-                  </Flex>
+                  </Text>
                 </td>
               </>
             )}
@@ -141,16 +139,16 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Genres</Text>
                 </td>
                 <td className='modal-main'>
-                  <Flex>
+                  <Text fz={14}>
                     {data.genres.map((item, index) => {
                       return (
-                        <Text fz={14} mr={1} key={index}>
+                        <span key={index}>
                           {item.name}
                           {index !== data.genres.length - 1 ? ', ' : ''}
-                        </Text>
+                        </span>
                       )
                     })}
-                  </Flex>
+                  </Text>
                 </td>
               </>
             )}
@@ -162,16 +160,16 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Theme</Text>
                 </td>
                 <td className='modal-main'>
-                  <Flex>
+                  <Text fz={14} mr={1}>
                     {data.themes.map((item, index) => {
                       return (
-                        <Text fz={14} mr={1} key={index}>
+                        <span key={index}>
                           {item.name}
                           {index !== data.themes.length - 1 ? ', ' : ''}
-                        </Text>
+                        </span>
                       )
                     })}
-                  </Flex>
+                  </Text>
                 </td>
               </>
             )}
@@ -183,16 +181,16 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Demographic</Text>
                 </td>
                 <td className='modal-main'>
-                  <Flex>
+                  <Text fz={14} mr={1}>
                     {data.demographics.map((item, index) => {
                       return (
-                        <Text key={index} fz={14} mr={1}>
+                        <span key={index}>
                           {item.name}
                           {index !== data.demographics.length - 1 ? ', ' : ''}
-                        </Text>
+                        </span>
                       )
                     })}
-                  </Flex>
+                  </Text>
                 </td>
               </>
             )}

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Image, Text } from '@mantine/core'
 import { createStyles } from '@mantine/core'
-import axios from 'axios'
 import { NavLink } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
-import { useMediaQuery } from '@mantine/hooks'
 
 const useStyles = createStyles((_theme, _params, getRef) => ({
   controls: {

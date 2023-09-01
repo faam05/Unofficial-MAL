@@ -10,12 +10,14 @@ import DetailMobile from './Mobile'
 function Detail() {
   const params = useParams()
   const [data, setData] = useState(null)
+  const [dataAccordion, setDataAccordion] = useState(null)
   const [characters, setCharacters] = useState([])
   const [opened, setOpened] = useState(false)
 
   const [activeTab, setActiveTab] = useState('details')
+  const [accordionValue, setAccordionValue] = useState('characters')
 
-  const getData = async () => {
+  const getDataDesktop = async () => {
     try {
       if (activeTab == 'details') {
         const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
@@ -28,11 +30,30 @@ function Detail() {
       console.log(error)
     }
   }
+
+  const getDataAccordion = async () => {
+    try {
+      if (accordionValue == 'characters') {
+        const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
+        setDataAccordion(data.data)
+      }
+      // else if (accordionValue == 'reviews') {
+      //   // setCharacters(characters.data.data)
+      // }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
-    getData()
+    getDataDesktop()
   }, [activeTab, params.id])
 
-  const matches = useMediaQuery('(min-width: 800px)')
+  useEffect(() => {
+    getDataAccordion()
+  }, [params.id, accordionValue])
+
+  const matches = useMediaQuery('(min-width: 768px)')
 
   return (
     <Layout>
@@ -41,7 +62,14 @@ function Detail() {
           {matches ? (
             <DetailDesktop data={data} characters={characters} activeTab={activeTab} setActiveTab={setActiveTab} />
           ) : (
-            <DetailMobile data={data} opened={opened} setOpened={setOpened} />
+            <DetailMobile
+              data={data}
+              opened={opened}
+              setOpened={setOpened}
+              accordionValue={accordionValue}
+              setAccordionValue={setAccordionValue}
+              dataAccordion={dataAccordion}
+            />
           )}
         </>
       ) : (
