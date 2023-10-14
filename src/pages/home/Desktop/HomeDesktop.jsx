@@ -28,6 +28,7 @@ function HomeDesktop(props) {
   const loading = props.loading
   const dataSchedules = props.schedule
   const dataSeasonNow = props.data
+  const dataTopAnime = props.topAnime
 
   return (
     <>
@@ -134,6 +135,83 @@ function HomeDesktop(props) {
         classNames={classes}>
         {!loading
           ? dataSchedules.map((item, index) => {
+              return (
+                <Carousel.Slide
+                  key={index}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flexDirection: 'column',
+                    marginTop: '5px',
+                  }}>
+                  <NavLink
+                    to={`/detail/${item.mal_id}`}
+                    style={{
+                      position: 'relative',
+                    }}>
+                    <Image imageProps={{ loading: 'loading' }} height={220} width={160} src={item.images.jpg.image_url} withPlaceholder />
+                    <Text
+                      style={{
+                        width: '100%',
+                        fontSize: '11px',
+                        fontWeight: 400,
+                        padding: '15px 5px 5px',
+                        bottom: 0,
+                        position: 'absolute',
+                        color: '#fff',
+                        background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
+                      }}>
+                      {item.title}
+                    </Text>
+                  </NavLink>
+                </Carousel.Slide>
+              )
+            })
+          : Array(10)
+              .fill()
+              .map((item, index) => {
+                return (
+                  <Carousel.Slide
+                    key={index}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                      marginTop: '5px',
+                    }}>
+                    <Skeleton height={220} width={160} />
+                  </Carousel.Slide>
+                )
+              })}
+      </Carousel>
+      <Text
+        style={{
+          marginTop: '15px',
+          borderColor: '#bebebe',
+          borderStyle: 'solid',
+          borderWidth: '0 0 1px',
+        }}>
+        {loading ? <Skeleton /> : 'Top Anime'}
+      </Text>
+      <Carousel
+        controlSize={40}
+        height='auto'
+        slideSize='162'
+        slideGap='sm'
+        loop
+        align='start'
+        // breakpoints={[
+        //   { maxWidth: 'md', slideSize: '50%' },
+        //   { maxWidth: 'sm', slideSize: '10%', slideGap: 'sm' },
+        // ]}
+        style={{
+          position: 'relative',
+        }}
+        classNames={classes}>
+        {!loading
+          ? dataTopAnime.map((item, index) => {
               return (
                 <Carousel.Slide
                   key={index}
