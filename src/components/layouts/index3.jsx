@@ -6,7 +6,7 @@ export default function Layout3({ children }) {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
 
-  const matches = useMediaQuery('(min-width: 768px)')
+  const matches = useMediaQuery('(min-width: 720px)')
   return (
     <AppShell
       styles={{
