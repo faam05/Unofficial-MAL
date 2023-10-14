@@ -53,7 +53,7 @@ function Detail() {
     getDataAccordion()
   }, [params.id, accordionValue])
 
-  const matches = useMediaQuery('(min-width: 768px)')
+  const matches = useMediaQuery('(min-width: 720px)')
 
   return (
     <Layout>

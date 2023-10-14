@@ -4,24 +4,34 @@ import Layout3 from '../../components/layouts/index3'
 import { useMediaQuery } from '@mantine/hooks'
 import HomeDesktop from './Desktop/HomeDesktop'
 import HomeMobile from './Mobile/HomeMobile'
-import { Text } from '@mantine/core'
 import axios from 'axios'
+import { Text } from '@mantine/core'
+import useMobileDevice from '../../hooks/useMobile'
 
 export default function Home() {
-  const matches = useMediaQuery('(min-width: 768px)')
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(false)
+  // const matches = useMediaQuery('(min-width: 720px)')
+  const mobile = useMobileDevice()
+  const [data, setData] = useState([])
+  const [schedule, setSchedule] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const getDate = new Date()
+  const date = getDate.toLocaleString('en-EN', { weekday: 'long' })
 
   const getData = async () => {
     setLoading(true)
-    try {
-      const { data } = await axios(`https://api.jikan.moe/v4/seasons/now`)
-      setData(data.data)
-    } catch (e) {
-      console.log('error', e)
-    } finally {
-      setLoading(false)
-    }
+    setTimeout(async () => {
+      try {
+        const { data } = await axios(`https://api.jikan.moe/v4/seasons/now`)
+        setData(data.data)
+        const res = await axios(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
+        setSchedule(res.data.data)
+      } catch (e) {
+        console.log('error', e)
+      } finally {
+        setLoading(false)
+      }
+    }, 500)
   }
   useEffect(() => {
     getData()
@@ -30,7 +40,16 @@ export default function Home() {
 
   return (
     <Layout>
-      {!loading && data && data.length > 0 ? <>{matches ? <HomeDesktop data={data} /> : <HomeMobile data={data} />}</> : <Text>Loading...</Text>}
+      {mobile ? <HomeMobile loading={loading} schedule={schedule} data={data} /> : <HomeDesktop loading={loading} schedule={schedule} data={data} />}
+      {/* {!loading && data && data.length > 0 ? (
+        matches ? (
+          <HomeDesktop schedule={schedule} data={data} loading={loading} />
+        ) : (
+          <HomeMobile schedule={schedule} data={data} loading={loading} />
+        )
+      ) : (
+        <Text>Loading...</Text>
+      )} */}
     </Layout>
   )
 }

@@ -149,7 +149,7 @@ function MobileSearch() {
       <Burger opened={opened} onClick={toggle} size='sm' color={theme.colors.gray[6]} />
       <Transition transition='pop-top-right' duration={200} mounted={opened}>
         {(styles) => (
-          <Paper className={classes.dropdown} withBorder style={styles}>
+          <Paper className={classes.dropdown} withBorder style={{ ...styles, display: 'block' }}>
             {items}
           </Paper>
         )}
