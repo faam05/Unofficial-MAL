@@ -19,7 +19,7 @@ export default function Search() {
     getData()
   }, [params])
 
-  const matches = useMediaQuery('(min-width: 768px)')
+  const matches = useMediaQuery('(min-width: 720px)')
 
   return (
     <Layout>
