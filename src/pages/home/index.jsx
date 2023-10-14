@@ -13,6 +13,7 @@ export default function Home() {
   const mobile = useMobileDevice()
   const [data, setData] = useState([])
   const [schedule, setSchedule] = useState([])
+  const [topAnime, setTopAnime] = useState([])
   const [loading, setLoading] = useState(true)
 
   const getDate = new Date()
@@ -24,10 +25,24 @@ export default function Home() {
       try {
         const { data } = await axios(`https://api.jikan.moe/v4/seasons/now`)
         setData(data.data)
+      } catch (e) {
+        console.log('error', e)
+      }
+    }, 500)
+    setTimeout(async () => {
+      try {
         const res = await axios(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
         setSchedule(res.data.data)
       } catch (e) {
         console.log('error', e)
+      }
+    }, 500)
+    setTimeout(async () => {
+      try {
+        const resTop = await axios(`https://api.jikan.moe/v4/top/anime`)
+        setTopAnime(resTop.data.data)
+      } catch (err) {
+        console.error(err)
       } finally {
         setLoading(false)
       }
@@ -40,7 +55,11 @@ export default function Home() {
 
   return (
     <Layout>
-      {mobile ? <HomeMobile loading={loading} schedule={schedule} data={data} /> : <HomeDesktop loading={loading} schedule={schedule} data={data} />}
+      {mobile ? (
+        <HomeMobile topAnime={topAnime} loading={loading} schedule={schedule} data={data} />
+      ) : (
+        <HomeDesktop topAnime={topAnime} loading={loading} schedule={schedule} data={data} />
+      )}
       {/* {!loading && data && data.length > 0 ? (
         matches ? (
           <HomeDesktop schedule={schedule} data={data} loading={loading} />
