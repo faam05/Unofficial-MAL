@@ -193,7 +193,7 @@ function HomeDesktop(props) {
           borderStyle: 'solid',
           borderWidth: '0 0 1px',
         }}>
-        {loading ? <Skeleton /> : 'Top Anime'}
+        {loading ? <Skeleton /> : 'Top 25 Anime'}
       </Text>
       <Carousel
         controlSize={40}
@@ -227,7 +227,27 @@ function HomeDesktop(props) {
                     style={{
                       position: 'relative',
                     }}>
-                    <Image imageProps={{ loading: 'loading' }} height={220} width={160} src={item.images.jpg.image_url} withPlaceholder />
+                    <Image
+                      imageProps={{ loading: 'loading' }}
+                      height={220}
+                      width={160}
+                      src={item.images.jpg.image_url}
+                      withPlaceholder
+                      style={{ position: 'relative' }}
+                    />
+                    <Text
+                      color='white'
+                      fz={14}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                        fontWeight: 600,
+                        padding: '0px 5px',
+                        background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
+                      }}>
+                      # {index + 1}
+                    </Text>
                     <Text
                       style={{
                         width: '100%',
