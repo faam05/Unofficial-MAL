@@ -11,7 +11,7 @@ export default function DetailMobile({ data, opened, setOpened, accordionValue, 
           <Text fz={16}>{data.title}</Text>
         </div>
         <div className='content-wrapper'>
-          <div className='content-left' style={{ backgroundImage: `url('${data.images.jpg.image_url}')` }}></div>
+          <div className='content-left' style={{ backgroundImage: `url('${data.images.jpg.large_image_url}')` }}></div>
           <div className='content-right'>
             <List>
               <List.Item>
