@@ -7,7 +7,6 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Skeleton from 'react-loading-skeleton'
 
-// export default function DetailDesktop({ data, characters, staff, activeTab, setActiveTab }) {
 export default function DetailDesktop() {
   const params = useParams()
 
@@ -54,8 +53,6 @@ export default function DetailDesktop() {
       setLoading(false)
     }
   }
-
-  console.log(params.id, id)
 
   useEffect(() => {
     getData()
