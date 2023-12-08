@@ -35,26 +35,27 @@ export default function DetailDesktop() {
         setId(data.data.mal_id)
         setActiveTab('details')
         setLoading(false)
+      } else if (activeTab == 'characters') {
+        if (dataCharacters.length == 0 || id != params.id) {
+          const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
+          setDataCharacters(data.data)
+          setLoading(false)
+        }
+      } else if (activeTab == 'staff') {
+        if (dataStaff.length == 0 || id != params.id) {
+          const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/staff`)
+          setDataStaff(data.data)
+          setLoading(false)
+        }
       }
-      // else if (activeTab == 'characters') {
-      //   if (dataCharacters.length == 0 || id != params.id) {
-      //     const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
-      //     setDataCharacters(data.data)
-      //     setLoading(false)
-      //   }
-      // } else if (activeTab == 'staff') {
-      //   if (dataStaff.length == 0 || id != params.id) {
-      //     const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/staff`)
-      //     setDataStaff(data.data)
-      //     setLoading(false)
-      //   }
-      // }
     } catch (error) {
       console.error(error)
       setError(true)
       setLoading(false)
     }
   }
+
+  console.log(params.id, id)
 
   useEffect(() => {
     getData()
