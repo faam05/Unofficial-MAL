@@ -21,22 +21,25 @@ export default function Home() {
 
   const getData = async () => {
     setLoading(true)
+    // season now
     setTimeout(async () => {
       try {
         const { data } = await axios(`https://api.jikan.moe/v4/seasons/now`)
         setData(data.data)
       } catch (e) {
-        console.log('error', e)
+        console.error('error', e)
       }
     }, 500)
+    // today airing
     setTimeout(async () => {
       try {
         const res = await axios(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
         setSchedule(res.data.data)
       } catch (e) {
-        console.log('error', e)
+        console.error('error', e)
       }
     }, 500)
+    // top anime
     setTimeout(async () => {
       try {
         const resTop = await axios(`https://api.jikan.moe/v4/top/anime`)
