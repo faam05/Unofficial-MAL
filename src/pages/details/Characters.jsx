@@ -10,9 +10,16 @@ export default function Characters({ data }) {
         <>
           {data.map((item, index) => {
             return (
-              <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? '#f8f8f8' : 'white'}>
+              <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
                 <Flex>
-                  <Image withPlaceholder height={200} width={120} src={item.character.images.jpg.image_url} alt={item.name} />
+                  <Image
+                    imageProps={{ loading: 'lazy' }}
+                    withPlaceholder
+                    height={200}
+                    width={120}
+                    src={item.character.images.jpg.image_url}
+                    alt={item.name}
+                  />
                   <div style={{ marginLeft: '10px' }}>
                     <Text fz={14}>{item.character.name}</Text>
                     <Text fz={14}>{item.role}</Text>
@@ -28,7 +35,7 @@ export default function Characters({ data }) {
                           <Text fz={12}>{item.language}</Text>
                         </div>
                         <a href={item.person.url} target='_blank'>
-                          <Image withPlaceholder width={42} height={62} src={item.person.images.jpg.image_url} />
+                          <Image imageProps={{ loading: 'lazy' }} withPlaceholder width={42} height={62} src={item.person.images.jpg.image_url} />
                         </a>
                       </Flex>
                     )
