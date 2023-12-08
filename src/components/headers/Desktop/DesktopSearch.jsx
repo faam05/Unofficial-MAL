@@ -1,7 +1,6 @@
-import { Autocomplete, Button, Flex, Group, Image, Text } from '@mantine/core'
+import { Autocomplete, Button, Group, Image, Text } from '@mantine/core'
 import { IconSearch } from '@tabler/icons'
-import React, { forwardRef, useEffect, useState } from 'react'
-import useDebounce from '../../../hooks/useDebounce'
+import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
@@ -10,9 +9,11 @@ function DesktopSearch() {
     <>
       <div ref={ref} {...others}>
         <Group noWrap>
-          <Image width={60} height={70} src={image} />
+          <Image width={60} src={image} />
           <div>
-            <Text size={'xs'}>{value}</Text>
+            <Text size='xs' lineClamp={4}>
+              {value}
+            </Text>
             <Text size='xs' c='dimmed'>
               {description}
             </Text>
@@ -25,42 +26,48 @@ function DesktopSearch() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  //
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState([])
-  const [loading, setLoading] = useState(false)
+  const searchRef = useRef(null)
 
-  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+  const search = useCallback(async () => {
+    // console.log('render usecallback')
+    if (searchTerm !== '') {
+      try {
+        const response = await axios(`https://api.jikan.moe/v4/anime?q=${searchTerm}`)
+        var date = new Date(response.data.data[0].aired.from)
+        setResults(
+          response.data.data.map((item) => ({
+            group: item.genres.length > 0 ? item.genres[0].type : 'Unknown',
+            value: item.title,
+            description: item.year
+              ? item.type !== null
+                ? `(${item.type}, ${item.year})`
+                : `(${item.year})`
+              : item.type !== null
+              ? `(${item.type}, ${date.getFullYear()})`
+              : `${date.getFullYear()}`,
+            id: item.mal_id,
+            image: item.images.jpg.image_url,
+          }))
+        )
+      } catch (error) {
+        console.error('Error during search:', error)
+      }
+    }
+  }, [searchTerm])
 
   useEffect(() => {
-    setLoading(true)
-    if (debouncedSearchTerm) {
-      const fetchResults = async () => {
-        await axios(`https://api.jikan.moe/v4/anime?q=${debouncedSearchTerm}`).then((res) => {
-          setResults(
-            res.data.data.map((item) => ({
-              group: item.genres.length > 0 ? item.genres[0].type : 'Unknown',
-              value: item.title,
-              description: `(${item.type}, ${item.year})`,
-              id: item.mal_id,
-              image: item.images.jpg.small_image_url,
-            }))
-          )
-        })
-        setLoading(false)
-      }
-      fetchResults()
-    }
-    setLoading(false)
-  }, [debouncedSearchTerm])
+    // console.log('render use effect')
+    const timerId = setTimeout(() => search(), 500) // Delay 500 ms
+
+    return () => clearTimeout(timerId)
+  }, [search])
 
   return (
     <>
-      <NavLink
-        style={{ textDecoration: 'none' }}
-        onClick={(event) => {
-          event.preventDefault()
-          navigate(`/`)
-        }}>
+      <NavLink to='/' style={{ textDecoration: 'none' }}>
         MAL
       </NavLink>
       <Group spacing={5}>
@@ -73,8 +80,9 @@ function DesktopSearch() {
           <Text>Home</Text>
         </Button>
         <Autocomplete
+          ref={searchRef}
           dropdownComponent={({ children, ...others }) => <div style={{ width: 300, maxHeight: 300, overflow: 'auto' }}>{children}</div>}
-          nothingFound={debouncedSearchTerm ? (loading ? 'Loading...' : 'No results found') : 'Type to search'}
+          nothingFound={'Type to search'}
           value={searchTerm}
           limit={30}
           itemComponent={AutoCompleteItem}
@@ -85,6 +93,7 @@ function DesktopSearch() {
           onItemSubmit={(item) => {
             setSearchTerm('')
             navigate(`/detail/${item.id}`)
+            searchRef.current.blur()
           }}
         />
       </Group>

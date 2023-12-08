@@ -1,9 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { createStyles, Header, Container, Group, Burger, Paper, Transition, Text, Autocomplete, Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 const HEADER_HEIGHT = 56
 
