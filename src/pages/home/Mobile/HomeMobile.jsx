@@ -1,29 +1,12 @@
 import React, { memo } from 'react'
 import { Image, Text } from '@mantine/core'
-import { createStyles } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
-const useStyles = createStyles((_theme, _params, getRef) => ({
-  controls: {
-    ref: getRef('controls'),
-    transition: 'opacity 150ms ease',
-    opacity: 0,
-  },
-
-  root: {
-    '&:hover': {
-      [`& .${getRef('controls')}`]: {
-        opacity: 1,
-      },
-    },
-  },
-}))
+import CarouselCustom from '../../../components/Carousel'
 
 function HomeMobile(props) {
-  const { classes } = useStyles()
   const breakpoints = {
     xs: 500,
     sm: 800,
@@ -48,21 +31,7 @@ function HomeMobile(props) {
           </>
         )}
       </Text>
-      <Carousel
-        controlSize={40}
-        height='auto'
-        slideSize='162'
-        slideGap='sm'
-        loop
-        align='start'
-        // breakpoints={[
-        //   { maxWidth: 'md', slideSize: '50%' },
-        //   { maxWidth: 'sm', slideSize: '10%', slideGap: 'sm' },
-        // ]}
-        style={{
-          position: 'relative',
-        }}
-        classNames={classes}>
+      <CarouselCustom>
         {loading
           ? Array(10)
               .fill()
@@ -115,7 +84,7 @@ function HomeMobile(props) {
                 </Carousel.Slide>
               )
             })}
-      </Carousel>
+      </CarouselCustom>
       <Text
         style={{
           marginTop: '15px',
@@ -125,21 +94,7 @@ function HomeMobile(props) {
         }}>
         {loading ? <Skeleton /> : 'Today Airing'}
       </Text>
-      <Carousel
-        controlSize={40}
-        height='auto'
-        slideSize='162'
-        slideGap='sm'
-        loop
-        align='start'
-        // breakpoints={[
-        //   { maxWidth: 'md', slideSize: '50%' },
-        //   { maxWidth: 'sm', slideSize: '10%', slideGap: 'sm' },
-        // ]}
-        style={{
-          position: 'relative',
-        }}
-        classNames={classes}>
+      <CarouselCustom>
         {loading
           ? Array(10)
               .fill()
@@ -192,7 +147,7 @@ function HomeMobile(props) {
                 </Carousel.Slide>
               )
             })}
-      </Carousel>
+      </CarouselCustom>
       <Text
         style={{
           marginTop: '15px',
@@ -202,21 +157,7 @@ function HomeMobile(props) {
         }}>
         {loading ? <Skeleton /> : 'Top 25 Anime'}
       </Text>
-      <Carousel
-        controlSize={40}
-        height='auto'
-        slideSize='162'
-        slideGap='sm'
-        loop
-        align='start'
-        // breakpoints={[
-        //   { maxWidth: 'md', slideSize: '50%' },
-        //   { maxWidth: 'sm', slideSize: '10%', slideGap: 'sm' },
-        // ]}
-        style={{
-          position: 'relative',
-        }}
-        classNames={classes}>
+      <CarouselCustom>
         {loading
           ? Array(10)
               .fill()
@@ -282,7 +223,7 @@ function HomeMobile(props) {
                 </Carousel.Slide>
               )
             })}
-      </Carousel>
+      </CarouselCustom>
     </>
   )
 }
