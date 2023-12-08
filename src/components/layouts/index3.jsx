@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { AppShell, Navbar, Header, Footer, Aside, Text, MediaQuery, Burger, useMantineTheme, Container } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
+// import { useMediaQuery } from '@mantine/hooks'
 
 export default function Layout3({ children }) {
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
 
-  const matches = useMediaQuery('(min-width: 720px)')
+  // const matches = useMediaQuery('(min-width: 720px)')
   return (
     <AppShell
       styles={{
