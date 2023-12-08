@@ -1,4 +1,4 @@
-import { Autocomplete, Burger, Button, Flex, Group, Image, Modal, Paper, Text, Transition, createStyles, useMantineTheme } from '@mantine/core'
+import { Autocomplete, Burger, Button, Group, Image, Modal, Paper, Text, Transition, createStyles, useMantineTheme } from '@mantine/core'
 import { IconSearch } from '@tabler/icons'
 import React, { forwardRef, useEffect, useState } from 'react'
 import useDebounce from '../../../hooks/useDebounce'
@@ -128,7 +128,7 @@ function MobileSearch() {
       <Button onClick={() => setOpenedModal(true)} ml={'auto'} className={''}>
         <IconSearch />
       </Button>
-      <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(false)} size='100%'>
+      <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(!openedModal)} size='100%'>
         <Autocomplete
           className={classes.search}
           dropdownComponent={({ children, ...others }) => <div style={{ width: '100%', maxHeight: 300, overflow: 'auto' }}>{children}</div>}
@@ -143,6 +143,7 @@ function MobileSearch() {
           onItemSubmit={(item) => {
             setSearchTerm('')
             navigate(`/detail/${item.id}`)
+            setOpenedModal(!openedModal)
           }}
         />
       </Modal>
