@@ -33,7 +33,6 @@ function HomeDesktop(props) {
 
   return (
     <>
-      <generateArray />
       <Text style={{ borderColor: '#bebebe', borderStyle: 'solid', borderWidth: '0 0 1px' }} transform='capitalize'>
         {loading ? (
           <Skeleton />
@@ -126,23 +125,7 @@ function HomeDesktop(props) {
                 </Carousel.Slide>
               )
             })
-          : Array(10)
-              .fill()
-              .map((item, index) => {
-                return (
-                  <Carousel.Slide
-                    key={index}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'column',
-                      marginTop: '5px',
-                    }}>
-                    <Skeleton height={220} width={160} />
-                  </Carousel.Slide>
-                )
-              })}
+          : generateArray()}
       </CarouselCustom>
       <Text
         style={{
@@ -209,23 +192,7 @@ function HomeDesktop(props) {
                 </Carousel.Slide>
               )
             })
-          : Array(10)
-              .fill()
-              .map((item, index) => {
-                return (
-                  <Carousel.Slide
-                    key={index}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'column',
-                      marginTop: '5px',
-                    }}>
-                    <Skeleton height={220} width={160} />
-                  </Carousel.Slide>
-                )
-              })}
+          : generateArray()}
       </CarouselCustom>
     </>
   )

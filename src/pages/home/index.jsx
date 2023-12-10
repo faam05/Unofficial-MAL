@@ -63,15 +63,6 @@ export default function Home() {
       ) : (
         <HomeDesktop topAnime={topAnime} loading={loading} schedule={schedule} data={data} />
       )}
-      {/* {!loading && data && data.length > 0 ? (
-        matches ? (
-          <HomeDesktop schedule={schedule} data={data} loading={loading} />
-        ) : (
-          <HomeMobile schedule={schedule} data={data} loading={loading} />
-        )
-      ) : (
-        <Text>Loading...</Text>
-      )} */}
     </Layout>
   )
 }
