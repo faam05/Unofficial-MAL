@@ -231,12 +231,10 @@ export default function Information({ data, loading, error }) {
             ) : (
               <Carousel
                 controlSize={40}
-                height='auto'
-                slideSize='162'
-                dragFree
-                slideGap='sm'
-                loop
+                slideSize='fit-contain'
+                slideGap='xs'
                 align='start'
+                slidesToScroll={5}
                 style={{
                   position: 'relative',
                 }}
@@ -260,7 +258,7 @@ export default function Information({ data, loading, error }) {
                         <Image
                           imageProps={{ loading: 'lazy' }}
                           height={220}
-                          width={160}
+                          width={140}
                           src={item.entry.images.jpg.image_url}
                           withPlaceholder
                           style={{ position: 'relative' }}
@@ -437,7 +435,16 @@ export default function Information({ data, loading, error }) {
             <Skeleton />
           </h2>
           <div>
-            <Carousel controlSize={40} height='auto' slideSize='162' dragFree slideGap='sm' loop align='start' classNames={classes}>
+            <Carousel
+              controlSize={40}
+              slideSize='fit-contain'
+              slideGap='xs'
+              align='start'
+              slidesToScroll={5}
+              style={{
+                position: 'relative',
+              }}
+              classNames={classes}>
               {Array(10)
                 .fill()
                 .map((item, index) => (
@@ -451,7 +458,7 @@ export default function Information({ data, loading, error }) {
                       marginTop: '5px',
                     }}>
                     <div>
-                      <Skeleton height={220} width={160} />
+                      <Skeleton height={220} width={140} />
                     </div>
                   </Carousel.Slide>
                 ))}
