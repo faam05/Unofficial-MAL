@@ -1,4 +1,4 @@
-import { Card, Flex, Group, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
+import { Card, Container, Flex, Group, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
 import Characters from '../Characters'
 import Information from '../Information'
 import StaffDesktop from './Staff'
@@ -294,7 +294,7 @@ export default function DetailDesktop() {
                 </div>
               </div>
             </div>
-            <div className='detail content-right' style={{ maxWidth: '743px' }}>
+            <div className='detail content-right' style={{ maxWidth: '500px' }}>
               <Tabs value={activeTab} onTabChange={setActiveTab}>
                 <Tabs.List>
                   <Tabs.Tab value='details'>Detail</Tabs.Tab>
@@ -364,7 +364,7 @@ export default function DetailDesktop() {
               </div>
             </div>
 
-            <div className='detail content-right' style={{ maxWidth: '743px' }}>
+            <div className='detail content-right' style={{ maxWidth: '500px' }}>
               <Tabs value={activeTab} onTabChange={setActiveTab}>
                 <Tabs.List>
                   <Tabs.Tab value='loading-1'>
