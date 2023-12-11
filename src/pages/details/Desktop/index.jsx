@@ -294,7 +294,7 @@ export default function DetailDesktop() {
                 </div>
               </div>
             </div>
-            <div className='detail content-right' style={{ maxWidth: '500px' }}>
+            <div className='detail content-right' style={{ maxWidth: '400px' }}>
               <Tabs value={activeTab} onTabChange={setActiveTab}>
                 <Tabs.List>
                   <Tabs.Tab value='details'>Detail</Tabs.Tab>
@@ -364,7 +364,7 @@ export default function DetailDesktop() {
               </div>
             </div>
 
-            <div className='detail content-right' style={{ maxWidth: '500px' }}>
+            <div className='detail content-right' style={{ maxWidth: '400px' }}>
               <Tabs value={activeTab} onTabChange={setActiveTab}>
                 <Tabs.List>
                   <Tabs.Tab value='loading-1'>
