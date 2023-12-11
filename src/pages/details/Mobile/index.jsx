@@ -1,9 +1,11 @@
-import { Anchor, Badge, Group, List, Spoiler, Text, Accordion, Flex, Image } from '@mantine/core'
-import React, { useEffect, useState } from 'react'
+import { Anchor, Badge, Group, List, Spoiler, Text, Accordion, Flex } from '@mantine/core'
+import { useEffect, useState } from 'react'
 import InformationModal from '../InformationModal'
-import { Carousel } from '@mantine/carousel'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import CharactersMobile from './Characters'
+import Skeleton from 'react-loading-skeleton'
+import StaffMobile from './Staff'
 
 export default function DetailMobile() {
   const params = useParams()
@@ -14,33 +16,17 @@ export default function DetailMobile() {
   const [accordionValue, setAccordionValue] = useState('characters')
 
   const [dataInformation, setDataInformation] = useState(null)
-  const [dataAccordion, setDataAccordion] = useState(null)
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
   const getData = async () => {
-    if (params.id != id) {
-      setLoading(true)
-    }
     try {
       if (dataInformation === null || id != params.id) {
         const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
         setDataInformation(data.data)
         setId(data.data.mal_id)
         setLoading(false)
-      } else if (accordionValue == 'characters') {
-        if (dataCharacters.length == 0 || id != params.id) {
-          const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
-          setDataCharacters(data.data)
-          setLoading(false)
-        }
-      } else if (accordionValue == 'staff') {
-        if (dataStaff.length == 0 || id != params.id) {
-          const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/staff`)
-          setDataStaff(data.data)
-          setLoading(false)
-        }
       }
     } catch (error) {
       console.error(error)
@@ -49,30 +35,14 @@ export default function DetailMobile() {
     }
   }
 
-  const getDataAccordion = async () => {
-    try {
-      const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
-      setDataInformation(data.data)
-
-      if (accordionValue == 'characters') {
-        const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
-        setDataAccordion(data.data)
-      }
-      // else if (accordionValue == 'reviews') {
-      //   // setCharacters(characters.data.data)
-      // }
-    } catch (error) {
-      console.error(error)
-      setError(true)
-    }
-  }
-
   useEffect(() => {
-    getData()
-    getDataAccordion()
-  }, [accordionValue, params.id])
+    if (params.id != id) {
+      setLoading(true)
+      getData()
+    }
+  }, [params.id])
 
-  if (!loading) {
+  if (!loading && !error) {
     return (
       <>
         <div className='top'>
@@ -132,100 +102,109 @@ export default function DetailMobile() {
           </Spoiler>
         </div>
         <div style={{ margin: '10px 0' }}>
-          <Accordion defaultValue={accordionValue} chevronPosition='left'>
+          <Accordion defaultValue={accordionValue} chevronPosition='left' onChange={(e) => setAccordionValue(e)}>
             <Accordion.Item value='characters'>
-              <Accordion.Control>Characters</Accordion.Control>
+              <Accordion.Control>Characters & Voice Actors</Accordion.Control>
               <Accordion.Panel>
-                <Carousel
-                  align='start'
-                  dragFree
-                  withControls={false}
-                  slideSize='160'
-                  style={{
-                    position: 'relative',
-                  }}>
-                  {dataAccordion?.map((item, index) => {
-                    if (item.voice_actors[0]) {
-                      return (
-                        <Carousel.Slide key={index}>
-                          <Flex>
-                            <Image h={108.88} withPlaceholder width={70} src={item.character.images.jpg.image_url} alt={item.name} />
-                            <Text
-                              color='white'
-                              fz={8}
-                              style={{
-                                position: 'absolute',
-                                top: 0,
-                                right: 0,
-                                fontWeight: 400,
-                                padding: '0px 5px',
-                                background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                              }}>
-                              {Number(item.favorites).toLocaleString()} users
-                            </Text>
-                            <Text
-                              fz={8}
-                              truncate
-                              color='white'
-                              style={{
-                                width: '100%',
-                                top: 78,
-                                fontWeight: 400,
-                                padding: '15px 5px 5px',
-                                position: 'absolute',
-                                background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                              }}>
-                              {item.character.name}
-                            </Text>
-                          </Flex>
-                          <Flex>
-                            <Image withPlaceholder width={70} src={item.voice_actors[0]?.person.images.jpg.image_url} alt={item.name} />
-                            <Text
-                              truncate
-                              fz={8}
-                              color='white'
-                              style={{
-                                width: '100%',
-                                fontWeight: 400,
-                                padding: '15px 5px 5px',
-                                bottom: 0,
-                                position: 'absolute',
-                                background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                              }}>
-                              {item.voice_actors[0]?.person.name}
-                            </Text>
-                          </Flex>
-                        </Carousel.Slide>
-                      )
-                    }
-                  })}
-                </Carousel>
-                <Carousel
-                  align='start'
-                  dragFree
-                  withControls={false}
-                  height='auto'
-                  slideSize='162'
-                  style={{
-                    position: 'relative',
-                  }}>
-                  {dataAccordion?.map((item, index) => (
-                    <Carousel.Slide key={index}></Carousel.Slide>
-                  ))}
-                </Carousel>
+                <CharactersMobile accordionValue={accordionValue} id={id} loaded={!loading} />
               </Accordion.Panel>
             </Accordion.Item>
 
-            <Accordion.Item value='reviews'>
-              <Accordion.Control>Reviews</Accordion.Control>
+            <Accordion.Item value='staff'>
+              <Accordion.Control>Staff</Accordion.Control>
               <Accordion.Panel>
-                Configure components appearance and behavior with vast amount of settings or overwrite any part of component styles
+                <StaffMobile accordionValue={accordionValue} id={id} loaded={!loading} />
               </Accordion.Panel>
             </Accordion.Item>
 
             <Accordion.Item value='recomendations'>
               <Accordion.Control>Recomendations</Accordion.Control>
               <Accordion.Panel>With new :focus-visible pseudo-class focus ring appears only when user navigates with keyboard</Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
+        </div>
+      </>
+    )
+  } else if (error) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Text>Something went wrong</Text>
+      </div>
+    )
+  } else if (loading) {
+    return (
+      <>
+        <div className='top'>
+          <div className='h1 detail-title'>
+            <Skeleton />
+          </div>
+          <div className='content-wrapper'>
+            {/* image */}
+            <Skeleton height={200} width={140} />
+            <div className='content-right' style={{ width: '100%' }}>
+              <List>
+                <List.Item>
+                  <Flex align='center'>
+                    <Badge size='xs' style={{ marginRight: 10 }}>
+                      <Skeleton width={20} />
+                    </Badge>
+                    <Skeleton width={100} />
+                  </Flex>
+                </List.Item>
+                <List.Item>
+                  <Skeleton width={100} />
+                </List.Item>
+                <List.Item>
+                  <Skeleton width={50} />
+                </List.Item>
+                <List.Item style={{ lineHeight: '1.25rem' }}>
+                  <Skeleton width={50} />
+                  <Skeleton width={150} />
+                </List.Item>
+                <List.Item style={{ lineHeight: '1.25rem' }}>
+                  <Skeleton width={50} />
+                  <Skeleton width={75} />
+                </List.Item>
+                <List.Item style={{ marginTop: 10 }}>
+                  <Skeleton width={100} />
+                </List.Item>
+              </List>
+            </div>
+          </div>
+        </div>
+        <div className='content-main' style={{ fontSize: '100%', padding: '0 10px 10px 10px' }}>
+          <h2 style={{ fontSize: '14px' }}>
+            <Skeleton width={70} />
+          </h2>
+          <Skeleton height={120} />
+        </div>
+        <div style={{ margin: '10px 0' }}>
+          <Accordion defaultValue={accordionValue} chevronPosition='left'>
+            <Accordion.Item value='characters'>
+              <Accordion.Control>
+                <Skeleton width={200} />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <CharactersMobile accordionValue={accordionValue} id={id} loaded={!loading} />
+              </Accordion.Panel>
+            </Accordion.Item>
+
+            <Accordion.Item value='staff'>
+              <Accordion.Control>
+                <Skeleton width={200} />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <StaffMobile accordionValue={accordionValue} id={id} loaded={!loading} />
+              </Accordion.Panel>
+            </Accordion.Item>
+
+            <Accordion.Item value='recomendations'>
+              <Accordion.Control>
+                <Skeleton width={200} />
+              </Accordion.Control>
+              <Accordion.Panel>
+                <Skeleton />
+              </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
         </div>
