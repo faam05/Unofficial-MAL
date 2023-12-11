@@ -41,7 +41,7 @@ export default function DetailDesktop() {
       setActiveTab('loading-1')
       getData()
     }
-  }, [activeTab, params.id])
+  }, [params.id])
 
   return (
     <>
