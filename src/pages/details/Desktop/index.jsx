@@ -13,8 +13,6 @@ export default function DetailDesktop() {
   const [id, setId] = useState(null)
 
   const [dataInformation, setDataInformation] = useState(null)
-  const [dataCharacters, setDataCharacters] = useState([])
-  const [dataStaff, setDataStaff] = useState([])
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -27,25 +25,11 @@ export default function DetailDesktop() {
     }
     try {
       if (dataInformation === null || id != params.id) {
-        setDataCharacters([])
-        setDataStaff([])
         const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
         setDataInformation(data.data)
         setId(data.data.mal_id)
         setActiveTab('details')
         setLoading(false)
-      } else if (activeTab == 'characters') {
-        if (dataCharacters.length == 0 || id != params.id) {
-          const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
-          setDataCharacters(data.data)
-          setLoading(false)
-        }
-      } else if (activeTab == 'staff') {
-        if (dataStaff.length == 0 || id != params.id) {
-          const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/staff`)
-          setDataStaff(data.data)
-          setLoading(false)
-        }
       }
     } catch (error) {
       console.error(error)
@@ -60,7 +44,7 @@ export default function DetailDesktop() {
 
   return (
     <>
-      {!loading ? (
+      {!loading && !error ? (
         <Card shadow='sm' p='lg' radius='md' withBorder>
           <div className='h1 detail-title'>
             <Text fz={16}>{dataInformation.title}</Text>
@@ -305,10 +289,10 @@ export default function DetailDesktop() {
                   <Information data={dataInformation} loading={loading} error={error} />
                 </Tabs.Panel>
                 <Tabs.Panel value='characters'>
-                  <Characters data={dataCharacters} />
+                  <Characters activeTab={activeTab} id={id} />
                 </Tabs.Panel>
                 <Tabs.Panel value='staff'>
-                  <StaffDesktop data={dataStaff} />
+                  <StaffDesktop activeTab={activeTab} id={id} />
                 </Tabs.Panel>
               </Tabs>
             </div>
