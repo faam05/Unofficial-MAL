@@ -1,4 +1,4 @@
-import { Card, Flex, Group, Image, SimpleGrid, Text } from '@mantine/core'
+import { Card, Flex, Image, SimpleGrid, Text } from '@mantine/core'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
