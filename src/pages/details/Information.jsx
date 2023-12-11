@@ -1,29 +1,13 @@
 import { Carousel } from '@mantine/carousel'
-import { Badge, Card, Flex, Image, SimpleGrid, Text, Title, createStyles } from '@mantine/core'
+import { Badge, Card, Flex, Image, SimpleGrid, Text, Title } from '@mantine/core'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { NavLink, useParams } from 'react-router-dom'
-
-const useStyles = createStyles((_theme, _params, getRef) => ({
-  controls: {
-    ref: getRef('controls'),
-    transition: 'opacity 150ms ease',
-    opacity: 0,
-  },
-
-  root: {
-    '&:hover': {
-      [`& .${getRef('controls')}`]: {
-        opacity: 1,
-      },
-    },
-  },
-}))
+import CarouselM from '../../components/CarouselM'
 
 export default function Information({ data, loading, error }) {
   const { id } = useParams()
-  const { classes } = useStyles()
 
   const [dataOpening, setDataOpening] = useState([])
   const [dataEnding, setDataEnding] = useState([])
@@ -229,16 +213,7 @@ export default function Information({ data, loading, error }) {
             {dataRecommendation.length === 0 ? (
               <Text fz={12}>Recommendation not update yet</Text>
             ) : (
-              <Carousel
-                controlSize={40}
-                slideSize='fit-contain'
-                slideGap='xs'
-                align='start'
-                slidesToScroll={5}
-                style={{
-                  position: 'relative',
-                }}
-                classNames={classes}>
+              <CarouselM>
                 {dataRecommendation.map((item, index) => {
                   return (
                     <Carousel.Slide
@@ -293,7 +268,7 @@ export default function Information({ data, loading, error }) {
                     </Carousel.Slide>
                   )
                 })}
-              </Carousel>
+              </CarouselM>
             )}
           </div>
         </div>
@@ -435,16 +410,7 @@ export default function Information({ data, loading, error }) {
             <Skeleton />
           </h2>
           <div>
-            <Carousel
-              controlSize={40}
-              slideSize='fit-contain'
-              slideGap='xs'
-              align='start'
-              slidesToScroll={5}
-              style={{
-                position: 'relative',
-              }}
-              classNames={classes}>
+            <CarouselM>
               {Array(10)
                 .fill()
                 .map((item, index) => (
@@ -462,7 +428,7 @@ export default function Information({ data, loading, error }) {
                     </div>
                   </Carousel.Slide>
                 ))}
-            </Carousel>
+            </CarouselM>
           </div>
         </div>
       </>
