@@ -1,5 +1,5 @@
 import { Carousel } from '@mantine/carousel'
-import { Badge, Card, Container, Flex, Image, SimpleGrid, Text, Title, createStyles } from '@mantine/core'
+import { Badge, Card, Flex, Image, SimpleGrid, Text, Title, createStyles } from '@mantine/core'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
@@ -55,14 +55,14 @@ export default function Information({ data, loading, error }) {
   }
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && !error && data) {
       getDataVideos()
       getRecommendation()
       setLoadingData(false)
     }
 
     return () => {}
-  }, [id, loading])
+  }, [loading])
 
   if (!loading && !loadingData) {
     return (

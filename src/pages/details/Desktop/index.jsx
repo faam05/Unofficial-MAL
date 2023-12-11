@@ -1,4 +1,4 @@
-import { Card, Container, Flex, Group, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
+import { Card, Flex, Group, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
 import Characters from '../Characters'
 import Information from '../Information'
 import StaffDesktop from './Staff'
@@ -19,10 +19,6 @@ export default function DetailDesktop() {
   const [activeTab, setActiveTab] = useState('loading-1')
 
   const getData = async () => {
-    if (params.id != id) {
-      setLoading(true)
-      setActiveTab('loading-1')
-    }
     try {
       if (dataInformation === null || id != params.id) {
         const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
@@ -39,7 +35,12 @@ export default function DetailDesktop() {
   }
 
   useEffect(() => {
-    getData()
+    if (params.id != id) {
+      setDataInformation(null)
+      setLoading(true)
+      setActiveTab('loading-1')
+      getData()
+    }
   }, [activeTab, params.id])
 
   return (
