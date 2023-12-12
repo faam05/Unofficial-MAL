@@ -6,6 +6,7 @@ import axios from 'axios'
 import CharactersMobile from './Characters'
 import Skeleton from 'react-loading-skeleton'
 import StaffMobile from './Staff'
+import RecommendationM from './Recommendation'
 
 export default function DetailMobile() {
   const params = useParams()
@@ -38,6 +39,7 @@ export default function DetailMobile() {
   useEffect(() => {
     if (params.id != id) {
       setLoading(true)
+      setAccordionValue('characters')
       getData()
     }
   }, [params.id])
@@ -102,7 +104,7 @@ export default function DetailMobile() {
           </Spoiler>
         </div>
         <div style={{ margin: '10px 0' }}>
-          <Accordion defaultValue={accordionValue} chevronPosition='left' onChange={(e) => setAccordionValue(e)}>
+          <Accordion value={accordionValue} chevronPosition='left' onChange={(e) => setAccordionValue(e)}>
             <Accordion.Item value='characters'>
               <Accordion.Control>Characters & Voice Actors</Accordion.Control>
               <Accordion.Panel>
@@ -119,7 +121,9 @@ export default function DetailMobile() {
 
             <Accordion.Item value='recomendations'>
               <Accordion.Control>Recomendations</Accordion.Control>
-              <Accordion.Panel>With new :focus-visible pseudo-class focus ring appears only when user navigates with keyboard</Accordion.Panel>
+              <Accordion.Panel>
+                <RecommendationM accordionValue={accordionValue} id={id} loaded={!loading} />
+              </Accordion.Panel>
             </Accordion.Item>
           </Accordion>
         </div>
