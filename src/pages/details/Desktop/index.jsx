@@ -64,14 +64,18 @@ export default function DetailDesktop() {
                   Alternative Titles
                 </Title>
                 <Spoiler my={10} maxHeight={60} fz={12} showLabel='More titles' hideLabel='Less titles'>
-                  {dataInformation.titles.map((item, index) => {
-                    return (
-                      <Flex style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }} key={index}>
-                        <Text fw={700}>{item.type}: </Text>
-                        <Text ml={5}>{item.title}</Text>
-                      </Flex>
-                    )
-                  })}
+                  <div>
+                    {dataInformation.titles
+                      .filter((item) => item.type != 'Default')
+                      .map((item, index) => {
+                        return (
+                          <div key={index}>
+                            <span style={{ fontWeight: 700 }}>{item.type + ': '}</span>
+                            <span>{item.title}</span>
+                          </div>
+                        )
+                      })}
+                  </div>
                 </Spoiler>
               </div>
               <div>
@@ -82,7 +86,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.type && (
                       <>
-                        <Text fw={600}>Type:</Text>
+                        <Text fw={700}>Type:</Text>
                         <Text ml={5}>{dataInformation.type}</Text>
                       </>
                     )}
@@ -90,7 +94,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.episodes && (
                       <>
-                        <Text fw={600}>Episodes:</Text>
+                        <Text fw={700}>Episodes:</Text>
                         <Text ml={5}>{dataInformation.episodes}</Text>
                       </>
                     )}
@@ -98,7 +102,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.status && (
                       <>
-                        <Text fw={600}>Status:</Text>
+                        <Text fw={700}>Status:</Text>
                         <Text ml={5}>{dataInformation.status}</Text>
                       </>
                     )}
@@ -106,115 +110,83 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.aired && (
                       <>
-                        <Text fw={600}>Aired:</Text>
+                        <Text fw={700}>Aired:</Text>
                         <Text ml={5}>{dataInformation.aired.string}</Text>
                       </>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.producers.length === 0 ? null : (
-                      <>
-                        <Text fw={600}>Producers:</Text>
-                        <Group spacing={'xs'} ml={5} p={0} style={{ gap: '0' }}>
-                          {dataInformation.producers.map((item, index) => {
-                            return (
-                              <Text key={index} mr={1}>
-                                {item.name}
-                                {index !== dataInformation.producers.length - 1 ? ', ' : ''}
-                              </Text>
-                            )
-                          })}
-                        </Group>
-                      </>
+                      <div>
+                        <span style={{ fontWeight: 700 }}>Producers: </span>
+                        {dataInformation.producers.map((item, index) => {
+                          return <span key={index}>{index !== dataInformation.producers.length - 1 ? ' ' + item.name + ', ' : item.name}</span>
+                        })}
+                      </div>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.licensors.length === 0 ? null : (
-                      <>
-                        <Text fw={600}>Licensors:</Text>
+                      <div>
+                        <span style={{ fontWeight: 700 }}>Licensors: </span>
                         {dataInformation.licensors.map((item, index) => {
-                          return (
-                            <Text ml={5} key={index}>
-                              {item.name}
-                              {index !== dataInformation.licensors.length - 1 ? ', ' : ''}
-                            </Text>
-                          )
+                          return <span key={index}>{index !== dataInformation.licensors.length - 1 ? item.name + ', ' : item.name}</span>
                         })}
-                      </>
+                      </div>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.studios.length === 0 ? null : (
-                      <>
-                        <Text fw={600}>Studios:</Text>
+                      <div>
+                        <span style={{ fontWeight: 700 }}>Studios: </span>
                         {dataInformation.studios.map((item, index) => {
-                          return (
-                            <Text ml={5} key={index}>
-                              {item.name}
-                              {index !== dataInformation.studios.length - 1 ? ', ' : ''}
-                            </Text>
-                          )
+                          return <span key={index}>{index !== dataInformation.studios.length - 1 ? item.name + ', ' : item.name}</span>
                         })}
-                      </>
+                      </div>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.source && (
                       <>
-                        <Text fw={600}>Source:</Text>
+                        <Text fw={700}>Source:</Text>
                         <Text ml={5}>{dataInformation.source}</Text>
                       </>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.genres.length === 0 ? null : (
-                      <>
-                        <Text fw={600}>Genres:</Text>
+                      <div>
+                        <span style={{ fontWeight: 700 }}>Genres: </span>
                         {dataInformation.genres.map((item, index) => {
-                          return (
-                            <Text ml={5} key={index}>
-                              {item.name}
-                              {index !== dataInformation.genres.length - 1 ? ', ' : ''}
-                            </Text>
-                          )
+                          return <span key={index}>{index !== dataInformation.genres.length - 1 ? item.name + ', ' : item.name}</span>
                         })}
-                      </>
+                      </div>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.themes.length === 0 ? null : (
-                      <>
-                        <Text fw={600}>Themes:</Text>
+                      <div>
+                        <span style={{ fontWeight: 700 }}>Themes: </span>
                         {dataInformation.themes.map((item, index) => {
-                          return (
-                            <Text ml={5} key={index}>
-                              {item.name}
-                              {index !== dataInformation.themes.length - 1 ? ', ' : ''}
-                            </Text>
-                          )
+                          return <span key={index}>{index !== dataInformation.themes.length - 1 ? item.name + ', ' : item.name}</span>
                         })}
-                      </>
+                      </div>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.demographics.length === 0 ? null : (
-                      <>
-                        <Text fw={600}>Demographics:</Text>
+                      <div>
+                        <span style={{ fontWeight: 700 }}>Demographics: </span>
                         {dataInformation.demographics.map((item, index) => {
-                          return (
-                            <Text ml={5} key={index}>
-                              {item.name}
-                              {index !== dataInformation.demographics.length - 1 ? ', ' : ''}
-                            </Text>
-                          )
+                          return <span key={index}>{index !== dataInformation.demographics.length - 1 ? item.name + ', ' : item.name}</span>
                         })}
-                      </>
+                      </div>
                     )}
                   </Flex>
                   <Flex>
                     {dataInformation.duration && (
                       <>
-                        <Text fw={600}>Duration:</Text>
+                        <Text fw={700}>Duration:</Text>
                         <Text ml={5}>{dataInformation.duration}</Text>
                       </>
                     )}
@@ -222,7 +194,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.rating && (
                       <>
-                        <Text fw={600}>Rating:</Text>
+                        <Text fw={700}>Rating:</Text>
                         <Text ml={5}>{dataInformation.rating}</Text>
                       </>
                     )}
@@ -237,7 +209,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.score && (
                       <>
-                        <Text fw={600}>Score : </Text>
+                        <Text fw={700}>Score : </Text>
                         <Text ml={5}>
                           {dataInformation.score} (scored by {Number(dataInformation.scored_by).toLocaleString()} users)
                         </Text>
@@ -247,7 +219,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.rank && (
                       <>
-                        <Text fw={600}>Ranked : </Text>
+                        <Text fw={700}>Ranked : </Text>
                         <Text ml={5}>#{dataInformation.rank}</Text>
                       </>
                     )}
@@ -255,7 +227,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.popularity && (
                       <>
-                        <Text fw={600}>Popularity : </Text>
+                        <Text fw={700}>Popularity : </Text>
                         <Text ml={5}>#{dataInformation.popularity}</Text>
                       </>
                     )}
@@ -263,7 +235,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.members && (
                       <>
-                        <Text fw={600}>Members : </Text>
+                        <Text fw={700}>Members : </Text>
                         <Text ml={5}>{Number(dataInformation.members).toLocaleString()}</Text>
                       </>
                     )}
@@ -271,7 +243,7 @@ export default function DetailDesktop() {
                   <Flex>
                     {dataInformation.favorites && (
                       <>
-                        <Text fw={600}>Favorites : </Text>
+                        <Text fw={700}>Favorites : </Text>
                         <Text ml={5}>{Number(dataInformation.favorites).toLocaleString()}</Text>
                       </>
                     )}
@@ -322,7 +294,7 @@ export default function DetailDesktop() {
                 </Title>
                 <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
                   <Flex>
-                    <Text fw={600}>
+                    <Text fw={700}>
                       <Skeleton count={10} width={110} />
                     </Text>
                     <Text ml={5}>
@@ -338,7 +310,7 @@ export default function DetailDesktop() {
                 </Title>
                 <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
                   <Flex>
-                    <Text fw={600}>
+                    <Text fw={700}>
                       <Skeleton count={10} width={110} />
                     </Text>
                     <Text ml={5}>
