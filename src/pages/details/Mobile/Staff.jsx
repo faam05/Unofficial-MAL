@@ -29,7 +29,7 @@ const StaffMobile = ({ accordionValue, id, loaded }) => {
   }
 
   useEffect(() => {
-    if (loaded && accordionValue == 'staff') {
+    if (loaded && accordionValue == 'staff' && params.id == id) {
       getData()
     }
   }, [params.id, loaded, accordionValue])
@@ -50,7 +50,7 @@ const StaffMobile = ({ accordionValue, id, loaded }) => {
               <NavLink to={item.person.url}>
                 <Image imageProps={{ loading: 'lazy' }} height={126} width={90} src={item.person.images.jpg.image_url} withPlaceholder />
               </NavLink>
-              <Text fz={10} truncate style={{}}>
+              <Text fz={10} truncate>
                 {item.positions ? item.positions.join(', ') : ''}
               </Text>
               <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
