@@ -255,7 +255,7 @@ export default function DetailDesktop() {
               <Tabs value={activeTab} onTabChange={setActiveTab}>
                 <Tabs.List>
                   <Tabs.Tab value='details'>Detail</Tabs.Tab>
-                  <Tabs.Tab value='characters'>Characters</Tabs.Tab>
+                  <Tabs.Tab value='characters'>Characters & Voice Actors</Tabs.Tab>
                   <Tabs.Tab value='staff'>Staff</Tabs.Tab>
                 </Tabs.List>
                 <Tabs.Panel value='details'>

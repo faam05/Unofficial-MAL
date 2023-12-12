@@ -7,6 +7,8 @@ import CharactersMobile from './Characters'
 import Skeleton from 'react-loading-skeleton'
 import StaffMobile from './Staff'
 import RecommendationM from './Recommendation'
+import RecomendationMLoading from '../../../components/loading/LRecomendationM'
+import StaffMLoading from '../../../components/loading/LStaffM'
 
 export default function DetailMobile() {
   const params = useParams()
@@ -143,7 +145,6 @@ export default function DetailMobile() {
             <Skeleton />
           </div>
           <div className='content-wrapper'>
-            {/* image */}
             <Skeleton height={200} width={140} />
             <div className='content-right' style={{ width: '100%' }}>
               <List>
@@ -198,7 +199,7 @@ export default function DetailMobile() {
                 <Skeleton width={200} />
               </Accordion.Control>
               <Accordion.Panel>
-                <StaffMobile accordionValue={accordionValue} id={id} loaded={!loading} />
+                <StaffMLoading />
               </Accordion.Panel>
             </Accordion.Item>
 
@@ -207,7 +208,7 @@ export default function DetailMobile() {
                 <Skeleton width={200} />
               </Accordion.Control>
               <Accordion.Panel>
-                <Skeleton />
+                <RecomendationMLoading />
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>

@@ -120,9 +120,7 @@ const CharactersMobile = ({ accordionValue, id, loaded }) => {
               .fill()
               .map((item, index) => (
                 <Carousel.Slide key={index}>
-                  <Flex>
-                    <Skeleton height={108.88} width={70} />
-                  </Flex>
+                  <Skeleton height={108.88} width={70} count={2} />
                 </Carousel.Slide>
               ))}
           </Carousel>
