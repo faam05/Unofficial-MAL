@@ -1,4 +1,4 @@
-import { Card, Flex, Group, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
+import { Card, Flex, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
 import Characters from '../Characters'
 import Information from '../Information'
 import StaffDesktop from './Staff'
@@ -40,6 +40,12 @@ export default function DetailDesktop() {
       setLoading(true)
       setActiveTab('loading-1')
       getData()
+    }
+
+    return () => {
+      setDataInformation(null)
+      setLoading(true)
+      setActiveTab('loading-1')
     }
   }, [params.id])
 

@@ -4,7 +4,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { NavLink, useParams } from 'react-router-dom'
-import CarouselM from '../../components/CarouselM'
+import MyCarousel from '../../components/Carousel'
 
 export default function Information({ data, loading, error }) {
   const { id } = useParams()
@@ -213,7 +213,7 @@ export default function Information({ data, loading, error }) {
             {dataRecommendation.length === 0 ? (
               <Text fz={12}>Recommendation not update yet</Text>
             ) : (
-              <CarouselM>
+              <MyCarousel slideGap='xs'>
                 {dataRecommendation.map((item, index) => {
                   return (
                     <Carousel.Slide
@@ -268,7 +268,7 @@ export default function Information({ data, loading, error }) {
                     </Carousel.Slide>
                   )
                 })}
-              </CarouselM>
+              </MyCarousel>
             )}
           </div>
         </div>
@@ -410,7 +410,7 @@ export default function Information({ data, loading, error }) {
             <Skeleton />
           </h2>
           <div>
-            <CarouselM>
+            <MyCarousel slideGap='xs'>
               {Array(10)
                 .fill()
                 .map((item, index) => (
@@ -428,7 +428,7 @@ export default function Information({ data, loading, error }) {
                     </div>
                   </Carousel.Slide>
                 ))}
-            </CarouselM>
+            </MyCarousel>
           </div>
         </div>
       </>

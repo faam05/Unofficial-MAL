@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { NavLink, useParams } from 'react-router-dom'
 import { Image, Text } from '@mantine/core'
-import CarouselM from '../../../components/CarouselM'
 import { Carousel } from '@mantine/carousel'
 import StaffMLoading from '../../../components/loading/LStaffM'
+import MyCarousel from '../../../components/Carousel'
 
 const StaffMobile = ({ accordionValue, id, loaded }) => {
   const params = useParams()
@@ -40,7 +40,7 @@ const StaffMobile = ({ accordionValue, id, loaded }) => {
       ) : error ? (
         <Text>Something went wrong</Text>
       ) : (
-        <CarouselM drag slideGap='1px' withControls={false}>
+        <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain'>
           {dataStaff?.map((item, index) => {
             return (
               <Carousel.Slide
@@ -65,7 +65,7 @@ const StaffMobile = ({ accordionValue, id, loaded }) => {
               </Carousel.Slide>
             )
           })}
-        </CarouselM>
+        </MyCarousel>
       )}
     </>
   )

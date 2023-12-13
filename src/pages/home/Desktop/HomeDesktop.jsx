@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import CarouselCustom from '../../../components/Carousel'
+import MyCarousel from '../../../components/Carousel'
 
 function HomeDesktop(props) {
   const loading = props.loading
@@ -42,7 +42,7 @@ function HomeDesktop(props) {
           </>
         )}
       </Text>
-      <CarouselCustom>
+      <MyCarousel loop changeSlide={6}>
         {!loading
           ? dataSeasonNow.map((item, index) => {
               return (
@@ -79,7 +79,7 @@ function HomeDesktop(props) {
               )
             })
           : generateArray()}
-      </CarouselCustom>
+      </MyCarousel>
       <Text
         style={{
           marginTop: '15px',
@@ -89,7 +89,7 @@ function HomeDesktop(props) {
         }}>
         {loading ? <Skeleton /> : 'Today Airing'}
       </Text>
-      <CarouselCustom>
+      <MyCarousel loop changeSlide={6}>
         {!loading
           ? dataSchedules.map((item, index) => {
               return (
@@ -126,7 +126,7 @@ function HomeDesktop(props) {
               )
             })
           : generateArray()}
-      </CarouselCustom>
+      </MyCarousel>
       <Text
         style={{
           marginTop: '15px',
@@ -136,7 +136,7 @@ function HomeDesktop(props) {
         }}>
         {loading ? <Skeleton /> : 'Top 25 Anime'}
       </Text>
-      <CarouselCustom>
+      <MyCarousel loop changeSlide={6}>
         {!loading
           ? dataTopAnime.map((item, index) => {
               return (
@@ -193,7 +193,7 @@ function HomeDesktop(props) {
               )
             })
           : generateArray()}
-      </CarouselCustom>
+      </MyCarousel>
     </>
   )
 }

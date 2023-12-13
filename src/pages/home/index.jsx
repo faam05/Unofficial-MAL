@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/layouts'
-import Layout3 from '../../components/layouts/index3'
 import { useMediaQuery } from '@mantine/hooks'
 import HomeDesktop from './Desktop/HomeDesktop'
 import HomeMobile from './Mobile/HomeMobile'
 import axios from 'axios'
-import { Text } from '@mantine/core'
 import useMobileDevice from '../../hooks/useMobile'
 
 export default function Home() {

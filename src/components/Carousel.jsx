@@ -18,17 +18,20 @@ const useStyles = createStyles((_theme, _params, getRef) => ({
   },
 }))
 
-const CarouselCustom = ({ children }) => {
+const MyCarousel = ({ children, changeSlide = 5, slideGap = 'sm', slideSize = '162', drag = false, withControls = true, loop = false }) => {
   const { classes } = useStyles()
 
   return (
     <Carousel
+      withControls={withControls}
+      dragFree={drag}
       controlSize={40}
       height='auto'
-      slideSize='162'
-      slideGap='sm'
-      loop
+      slideSize={slideSize}
+      slideGap={slideGap}
+      loop={loop}
       align='start'
+      slidesToScroll={changeSlide}
       // breakpoints={[
       //   { maxWidth: 'md', slideSize: '50%' },
       //   { maxWidth: 'sm', slideSize: '10%', slideGap: 'sm' },
@@ -42,4 +45,4 @@ const CarouselCustom = ({ children }) => {
   )
 }
 
-export default CarouselCustom
+export default MyCarousel

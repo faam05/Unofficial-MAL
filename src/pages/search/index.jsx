@@ -1,9 +1,9 @@
-import { Anchor, Badge, Card, CardSection, Center, Flex, Grid, Group, Image, Rating, SimpleGrid, Spoiler, Stack, Text } from '@mantine/core'
+import { Badge, Card, Center, Flex, Image, Rating, SimpleGrid, Spoiler, Text } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import { IconBrandYoutube } from '@tabler/icons'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink, useParams } from 'react-router-dom'
+import { NavLink, useParams } from 'react-router-dom'
 import Layout from '../../components/layouts'
 
 export default function Search() {
@@ -34,7 +34,14 @@ export default function Search() {
                     <div>
                       <Center>
                         <Flex direction={'column'}>
-                          <Image height={matches ? 250 : 150} fit='contain' mr={10} src={item.images.jpg.image_url} withPlaceholder />
+                          <Image
+                            imageProps={{ loading: 'lazy' }}
+                            height={matches ? 250 : 150}
+                            fit='contain'
+                            mr={10}
+                            src={item.images.jpg.image_url}
+                            withPlaceholder
+                          />
                           <Text ta={'center'} fz={'xs'}>
                             {item.aired.string}
                           </Text>
