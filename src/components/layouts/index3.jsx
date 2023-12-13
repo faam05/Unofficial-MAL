@@ -30,9 +30,7 @@ export default function Layout3({ children }) {
           </div>
         </Header>
       }>
-      {/* <Text>Resize app to see responsive navbar in action</Text> */}
       {matches ? <Container size={'lg'}>{children}</Container> : children}
-      {/* {children} */}
     </AppShell>
   )
 }
