@@ -1,4 +1,4 @@
-import { Badge, Flex, Group, Modal, SimpleGrid, Table, Text } from '@mantine/core'
+import { Modal, Text } from '@mantine/core'
 import React from 'react'
 
 export default function InformationModal({ opened, close, data }) {

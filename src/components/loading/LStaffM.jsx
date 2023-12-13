@@ -1,11 +1,11 @@
 import React from 'react'
-import CarouselM from '../CarouselM'
 import { Carousel } from '@mantine/carousel'
 import Skeleton from 'react-loading-skeleton'
+import MyCarousel from '../Carousel'
 
 const StaffMLoading = () => {
   return (
-    <CarouselM drag slideGap='1px' withControls={false}>
+    <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain'>
       {Array(10)
         .fill()
         .map((item, index) => {
@@ -24,7 +24,7 @@ const StaffMLoading = () => {
             </Carousel.Slide>
           )
         })}
-    </CarouselM>
+    </MyCarousel>
   )
 }
 

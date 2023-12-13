@@ -54,7 +54,14 @@ const CharactersMobile = ({ accordionValue, id, loaded }) => {
                 return (
                   <Carousel.Slide key={index}>
                     <Flex>
-                      <Image h={108.88} withPlaceholder width={70} src={item.character.images.jpg.image_url} alt={item.name} />
+                      <Image
+                        imageProps={{ loading: 'lazy' }}
+                        h={108.88}
+                        withPlaceholder
+                        width={70}
+                        src={item.character.images.jpg.image_url}
+                        alt={item.name}
+                      />
                       <Text
                         color='white'
                         fz={8}
@@ -84,7 +91,13 @@ const CharactersMobile = ({ accordionValue, id, loaded }) => {
                       </Text>
                     </Flex>
                     <Flex>
-                      <Image withPlaceholder width={70} src={item.voice_actors[0]?.person.images.jpg.image_url} alt={item.name} />
+                      <Image
+                        imageProps={{ loading: 'lazy' }}
+                        withPlaceholder
+                        width={70}
+                        src={item.voice_actors[0]?.person.images.jpg.image_url}
+                        alt={item.name}
+                      />
                       <Text
                         truncate
                         fz={8}

@@ -1,10 +1,10 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
-import CarouselM from '../../../components/CarouselM'
 import { Carousel } from '@mantine/carousel'
 import { Image, Text } from '@mantine/core'
 import RecomendationMLoading from '../../../components/loading/LRecomendationM'
+import MyCarousel from '../../../components/Carousel'
 
 const RecommendationM = ({ accordionValue, id, loaded }) => {
   const params = useParams()
@@ -40,7 +40,7 @@ const RecommendationM = ({ accordionValue, id, loaded }) => {
       ) : error ? (
         <p>Something went wrong...</p>
       ) : (
-        <CarouselM drag slideGap='1px' withControls={false}>
+        <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain'>
           {dataRecommendation?.map((item, index) => {
             return (
               <Carousel.Slide key={index}>
@@ -87,7 +87,7 @@ const RecommendationM = ({ accordionValue, id, loaded }) => {
               </Carousel.Slide>
             )
           })}
-        </CarouselM>
+        </MyCarousel>
       )}
     </>
   )
