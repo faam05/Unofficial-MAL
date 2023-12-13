@@ -70,7 +70,7 @@ function MobileSearch() {
     <>
       <div ref={ref} {...others}>
         <Group noWrap>
-          <Image width={60} height={70} src={image} />
+          <Image width={60} src={image} imageProps={{ loading: 'lazy' }} />
           <div>
             <Text size={'xs'}>{value}</Text>
             <Text size='xs' c='dimmed'>
@@ -98,17 +98,29 @@ function MobileSearch() {
     setLoading(true)
     if (debouncedSearchTerm) {
       const fetchResults = async () => {
-        await axios(`https://api.jikan.moe/v4/anime?q=${debouncedSearchTerm}`).then((res) => {
+        try {
+          const response = await axios(`https://api.jikan.moe/v4/anime?q=${searchTerm}`)
+          var date = new Date(response.data.data[0].aired.from)
           setResults(
-            res.data.data.map((item) => ({
+            response.data.data.map((item) => ({
+              group: item.genres.length > 0 ? item.genres[0].type : 'Unknown',
               value: item.title,
-              description: `(${item.type}, ${item.year})`,
+              description: item.year
+                ? item.type !== null
+                  ? `(${item.type}, ${item.year})`
+                  : `(${item.year})`
+                : item.type !== null
+                ? `(${item.type}, ${date.getFullYear()})`
+                : `${date.getFullYear()}`,
               id: item.mal_id,
-              image: item.images.jpg.small_image_url,
+              image: item.images.jpg.image_url,
             }))
           )
-        })
-        setLoading(false)
+          setLoading(false)
+        } catch (error) {
+          console.error('Error during search:', error)
+          setLoading(false)
+        }
       }
       fetchResults()
     }
@@ -137,11 +149,19 @@ function MobileSearch() {
           limit={30}
           itemComponent={AutoCompleteItem}
           placeholder={'Search'}
-          onChange={(e) => setSearchTerm(e)}
+          onChange={(e) => {
+            if (e != '') {
+              setSearchTerm(e)
+            } else {
+              setResults([])
+              setSearchTerm(e)
+            }
+          }}
           icon={<IconSearch size={16} stroke={1.5} />}
           data={results}
           onItemSubmit={(item) => {
             setSearchTerm('')
+            setResults([])
             navigate(`/detail/${item.id}`)
             setOpenedModal(!openedModal)
           }}

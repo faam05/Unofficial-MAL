@@ -9,7 +9,7 @@ function DesktopSearch() {
     <>
       <div ref={ref} {...others}>
         <Group noWrap>
-          <Image width={60} src={image} />
+          <Image width={60} src={image} imageProps={{ loading: 'lazy' }} />
           <div>
             <Text size='xs' lineClamp={4}>
               {value}
@@ -32,7 +32,6 @@ function DesktopSearch() {
   const searchRef = useRef(null)
 
   const search = useCallback(async () => {
-    // console.log('render usecallback')
     if (searchTerm !== '') {
       try {
         const response = await axios(`https://api.jikan.moe/v4/anime?q=${searchTerm}`)
@@ -59,7 +58,6 @@ function DesktopSearch() {
   }, [searchTerm])
 
   useEffect(() => {
-    // console.log('render use effect')
     const timerId = setTimeout(() => search(), 500) // Delay 500 ms
 
     return () => clearTimeout(timerId)
@@ -87,11 +85,19 @@ function DesktopSearch() {
           limit={30}
           itemComponent={AutoCompleteItem}
           placeholder={'Search'}
-          onChange={(e) => setSearchTerm(e)}
+          onChange={(e) => {
+            if (e != '') {
+              setSearchTerm(e)
+            } else {
+              setResults([])
+              setSearchTerm(e)
+            }
+          }}
           icon={<IconSearch size={16} stroke={1.5} />}
           data={results}
           onItemSubmit={(item) => {
             setSearchTerm('')
+            setResults([])
             navigate(`/detail/${item.id}`)
             searchRef.current.blur()
           }}
