@@ -1,4 +1,3 @@
-import React from 'react'
 import { Footer, Text } from '@mantine/core'
 
 const Footers = () => {

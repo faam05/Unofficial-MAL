@@ -1,5 +1,4 @@
-import { AppShell, useMantineTheme, Container, createStyles, Navbar, Header, MediaQuery, Burger, Text } from '@mantine/core'
-import CustomHeader from '../headers/header'
+import { AppShell, Container, createStyles } from '@mantine/core'
 import CustomHeader2 from '../headers/header2'
 import Footers from '../footers'
 const useStyles = createStyles((theme) => ({
