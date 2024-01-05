@@ -42,7 +42,7 @@ function HomeDesktop(props) {
           </>
         )}
       </Text>
-      <MyCarousel loop changeSlide={6}>
+      <MyCarousel loop changeSlide={'auto'}>
         {!loading
           ? dataSeasonNow.map((item, index) => {
               return (
@@ -89,7 +89,7 @@ function HomeDesktop(props) {
         }}>
         {loading ? <Skeleton /> : 'Today Airing'}
       </Text>
-      <MyCarousel loop changeSlide={6}>
+      <MyCarousel loop changeSlide={'auto'}>
         {!loading
           ? dataSchedules.map((item, index) => {
               return (
@@ -136,7 +136,7 @@ function HomeDesktop(props) {
         }}>
         {loading ? <Skeleton /> : 'Top 25 Anime'}
       </Text>
-      <MyCarousel loop changeSlide={6}>
+      <MyCarousel loop changeSlide={'auto'}>
         {!loading
           ? dataTopAnime.map((item, index) => {
               return (

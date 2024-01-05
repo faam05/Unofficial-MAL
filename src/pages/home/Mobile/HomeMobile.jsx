@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import CarouselCustom from '../../../components/Carousel'
+import MyCarousel from '../../../components/Carousel'
 
 function HomeMobile(props) {
   const breakpoints = {
@@ -31,7 +31,7 @@ function HomeMobile(props) {
           </>
         )}
       </Text>
-      <CarouselCustom>
+      <MyCarousel drag slideGap='xs' withControls={false} slideSize='fit-contain' changeSlide='auto'>
         {loading
           ? Array(10)
               .fill()
@@ -84,7 +84,7 @@ function HomeMobile(props) {
                 </Carousel.Slide>
               )
             })}
-      </CarouselCustom>
+      </MyCarousel>
       <Text
         style={{
           marginTop: '15px',
@@ -94,7 +94,7 @@ function HomeMobile(props) {
         }}>
         {loading ? <Skeleton /> : 'Today Airing'}
       </Text>
-      <CarouselCustom>
+      <MyCarousel drag slideGap='xs' withControls={false} slideSize='fit-contain' changeSlide='auto'>
         {loading
           ? Array(10)
               .fill()
@@ -147,7 +147,7 @@ function HomeMobile(props) {
                 </Carousel.Slide>
               )
             })}
-      </CarouselCustom>
+      </MyCarousel>
       <Text
         style={{
           marginTop: '15px',
@@ -157,7 +157,7 @@ function HomeMobile(props) {
         }}>
         {loading ? <Skeleton /> : 'Top 25 Anime'}
       </Text>
-      <CarouselCustom>
+      <MyCarousel drag slideGap='xs' withControls={false} slideSize='fit-contain' changeSlide='auto'>
         {loading
           ? Array(10)
               .fill()
@@ -223,7 +223,7 @@ function HomeMobile(props) {
                 </Carousel.Slide>
               )
             })}
-      </CarouselCustom>
+      </MyCarousel>
     </>
   )
 }
