@@ -1,9 +1,9 @@
 import { Burger, Button, Container, Group, Header, Modal, Paper, Text, Transition, createStyles, useMantineTheme } from '@mantine/core'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import useMobileDevice from '../../hooks/useMobile'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { IconSearch } from '@tabler/icons'
-import CSearch from '../Search'
+import CSearch from '../CSearch'
 import { useDisclosure } from '@mantine/hooks'
 
 // Mobile
