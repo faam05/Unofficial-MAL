@@ -48,7 +48,7 @@ const useStyles = createStyles((theme) => ({
 
 export default function Layout({ children }) {
   return (
-    <AppShell footer={<Footers />} header={<CustomHeader2 />}>
+    <AppShell style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden' }} footer={<Footers />} header={<CustomHeader2 />}>
       <Container size={1060}>{children}</Container>
     </AppShell>
   )
