@@ -1,11 +1,76 @@
-import { Container, Header } from '@mantine/core'
-import React from 'react'
-import DesktopSearch from './Desktop/DesktopSearch'
-import MobileSearch from './Mobile/MobileSearch'
+import { Burger, Button, Container, Group, Header, Modal, Paper, Text, Transition, createStyles, useMantineTheme } from '@mantine/core'
+import React, { useState } from 'react'
 import useMobileDevice from '../../hooks/useMobile'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { IconSearch } from '@tabler/icons'
+import CSearch from '../Search'
+import { useDisclosure } from '@mantine/hooks'
+
+// Mobile
+const HEADER_HEIGHT = 56
+
+const links = [{ link: '/', label: 'Home' }]
+
+const useStyles = createStyles((theme) => ({
+  dropdown: {
+    position: 'absolute',
+    top: HEADER_HEIGHT,
+    left: 0,
+    right: 0,
+    zIndex: 0,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    borderTopWidth: 0,
+    overflow: 'hidden',
+
+    [theme.fn.largerThan('sm')]: {
+      display: 'none',
+    },
+  },
+
+  link: {
+    display: 'block',
+    lineHeight: 1,
+    padding: '8px 30px',
+    borderRadius: theme.radius.xs,
+    textDecoration: 'none',
+    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+    fontSize: theme.fontSizes.sm,
+    fontWeight: 700,
+
+    '&:hover': {
+      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+    },
+  },
+}))
 
 export default function CustomHeader2() {
   const mobile = useMobileDevice()
+
+  // Mobile
+  const theme = useMantineTheme()
+  const { classes, cx } = useStyles()
+  const location = useLocation()
+
+  const items = links.map((link) => (
+    <NavLink
+      key={link.label}
+      className={cx(classes.link)}
+      style={{ textDecoration: 'none', backgroundColor: location.pathname == link.link ? theme.colors.gray[2] : 'transparent' }}
+      onClick={(event) => {
+        event.preventDefault()
+        navigate(`${link.link}`)
+        close()
+      }}>
+      {link.label}
+    </NavLink>
+  ))
+
+  const navigate = useNavigate()
+
+  //   Modal
+  const [opened, { toggle, close }] = useDisclosure(false)
+  const [openedModal, setOpenedModal] = useState(false)
 
   return (
     <Header height={{ base: 70, md: 70 }} p='md'>
@@ -16,7 +81,61 @@ export default function CustomHeader2() {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        {mobile ? <MobileSearch /> : <DesktopSearch />}
+        <NavLink to='/' style={{ textDecoration: 'none' }}>
+          MAL
+        </NavLink>
+        {mobile ? (
+          <>
+            <Button onClick={() => setOpenedModal(true)} ml={'auto'} className={''}>
+              <IconSearch />
+            </Button>
+            <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(!openedModal)} size='100%'>
+              <CSearch
+                buttonStyle={{ padding: 5 }}
+                setOpenedModal={setOpenedModal}
+                openedModal={openedModal}
+                dropdownStyle={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflowY: 'auto',
+                  overflowX: 'hidden',
+                  width: '100%',
+                  maxHeight: 350,
+                }}
+              />
+            </Modal>
+            <Burger opened={opened} onClick={toggle} size='sm' color={theme.colors.gray[6]} />
+            <Transition transition='pop-top-right' duration={200} mounted={opened}>
+              {(styles) => (
+                <Paper className={classes.dropdown} withBorder style={{ ...styles, display: 'block' }}>
+                  {items}
+                </Paper>
+              )}
+            </Transition>
+          </>
+        ) : (
+          <>
+            <Group spacing={5}>
+              <Button
+                variant={location.pathname != '/' ? 'subtle' : 'filled'}
+                style={{
+                  marginRight: 10,
+                }}
+                onClick={() => navigate('/')}>
+                <Text>Home</Text>
+              </Button>
+              <CSearch
+                grow
+                dropdownStyle={{
+                  overflowY: 'auto',
+                  overflowX: 'hidden',
+                  width: 300,
+                  maxHeight: 350,
+                }}
+              />
+            </Group>
+          </>
+        )}
       </Container>
     </Header>
   )
