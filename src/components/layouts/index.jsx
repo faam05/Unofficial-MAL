@@ -1,6 +1,7 @@
 import { AppShell, Container, createStyles } from '@mantine/core'
 import CustomHeader2 from '../headers/header2'
 import Footers from '../footers'
+import useMobileDevice from '../../hooks/useMobile'
 const useStyles = createStyles((theme) => ({
   header: {
     paddingLeft: theme.spacing.md,
@@ -47,9 +48,11 @@ const useStyles = createStyles((theme) => ({
 }))
 
 export default function Layout({ children }) {
+  const matches = useMobileDevice()
+
   return (
     <AppShell style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden' }} footer={<Footers />} header={<CustomHeader2 />}>
-      <Container size={1060}>{children}</Container>
+      {matches ? <>{children}</> : <Container size={1060}>{children}</Container>}
     </AppShell>
   )
 }
