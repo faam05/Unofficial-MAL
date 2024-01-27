@@ -4,6 +4,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { useParams } from 'react-router-dom'
+import CarouselLoading from '../../../components/loading/CarouselLoading'
 
 const CharactersMobile = ({ accordionValue, id, loaded }) => {
   const params = useParams()
@@ -121,22 +122,9 @@ const CharactersMobile = ({ accordionValue, id, loaded }) => {
         </>
       ) : (
         <>
-          <Carousel
-            align='start'
-            dragFree
-            withControls={false}
-            slideSize='160'
-            style={{
-              position: 'relative',
-            }}>
-            {Array(10)
-              .fill()
-              .map((item, index) => (
-                <Carousel.Slide key={index}>
-                  <Skeleton height={108.88} width={70} count={2} />
-                </Carousel.Slide>
-              ))}
-          </Carousel>
+          <CarouselLoading gap={0}>
+            <Skeleton height={108.88} width={70} count={2} />
+          </CarouselLoading>
         </>
       )}
     </>

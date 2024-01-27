@@ -3,8 +3,9 @@ import axios from 'axios'
 import { NavLink, useParams } from 'react-router-dom'
 import { Image, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
-import StaffMLoading from '../../../components/loading/LStaffM'
 import MyCarousel from '../../../components/Carousel'
+import CarouselLoading from '../../../components/loading/CarouselLoading'
+import Skeleton from 'react-loading-skeleton'
 
 const StaffMobile = ({ accordionValue, id, loaded }) => {
   const params = useParams()
@@ -36,11 +37,15 @@ const StaffMobile = ({ accordionValue, id, loaded }) => {
   return (
     <>
       {loading && !error ? (
-        <StaffMLoading />
+        <CarouselLoading carouselStyle={{ display: 'flex', flexDirection: 'column', maxWidth: '90px', marginRight: 1 }}>
+          <Skeleton width={90} height={126} />
+          <Skeleton width={30} />
+          <Skeleton width={80} />
+        </CarouselLoading>
       ) : error ? (
         <Text>Something went wrong</Text>
       ) : (
-        <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain'>
+        <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain' changeSlide='auto'>
           {dataStaff?.map((item, index) => {
             return (
               <Carousel.Slide

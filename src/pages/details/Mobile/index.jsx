@@ -1,14 +1,13 @@
 import { Anchor, Badge, Group, List, Spoiler, Text, Accordion, Flex } from '@mantine/core'
 import { useEffect, useState } from 'react'
-import InformationModal from '../InformationModal'
+import InformationModal from './InformationModal'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import CharactersMobile from './Characters'
 import Skeleton from 'react-loading-skeleton'
 import StaffMobile from './Staff'
 import RecommendationM from './Recommendation'
-import RecomendationMLoading from '../../../components/loading/LRecomendationM'
-import StaffMLoading from '../../../components/loading/LStaffM'
+import CarouselLoading from '../../../components/loading/CarouselLoading'
 
 export default function DetailMobile() {
   const params = useParams()
@@ -199,7 +198,12 @@ export default function DetailMobile() {
                 <Skeleton width={200} />
               </Accordion.Control>
               <Accordion.Panel>
-                <StaffMLoading />
+                <CarouselLoading carouselStyle={{ display: 'flex', flexDirection: 'column', maxWidth: '90px', marginRight: 1 }}>
+                  <Skeleton width={90} height={126} />
+                  <Skeleton width={30} />
+                  <Skeleton width={80} />
+                </CarouselLoading>
+                <StaffMobile accordionValue={accordionValue} id={id} loaded={!loading} />
               </Accordion.Panel>
             </Accordion.Item>
 
@@ -208,7 +212,9 @@ export default function DetailMobile() {
                 <Skeleton width={200} />
               </Accordion.Control>
               <Accordion.Panel>
-                <RecomendationMLoading />
+                <CarouselLoading>
+                  <Skeleton height={126} width={90} />
+                </CarouselLoading>
               </Accordion.Panel>
             </Accordion.Item>
           </Accordion>

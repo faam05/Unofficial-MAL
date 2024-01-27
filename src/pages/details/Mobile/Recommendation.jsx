@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
 import { Image, Text } from '@mantine/core'
-import RecomendationMLoading from '../../../components/loading/LRecomendationM'
 import MyCarousel from '../../../components/Carousel'
+import CarouselLoading from '../../../components/loading/CarouselLoading'
+import Skeleton from 'react-loading-skeleton'
 
 const RecommendationM = ({ accordionValue, id, loaded }) => {
   const params = useParams()
@@ -36,11 +37,13 @@ const RecommendationM = ({ accordionValue, id, loaded }) => {
   return (
     <>
       {loading && !error ? (
-        <RecomendationMLoading />
+        <CarouselLoading>
+          <Skeleton height={126} width={90} />
+        </CarouselLoading>
       ) : error ? (
         <p>Something went wrong...</p>
       ) : (
-        <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain'>
+        <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain' changeSlide='auto'>
           {dataRecommendation?.map((item, index) => {
             return (
               <Carousel.Slide key={index}>
