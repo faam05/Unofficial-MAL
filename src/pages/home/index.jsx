@@ -12,6 +12,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 import MyCarousel from '../../components/Carousel'
+import DesktopLoading from '../../components/loading/DesktopLoading'
 
 export default function Home() {
   // const matches = useMediaQuery('(min-width: 720px)')
@@ -24,72 +25,81 @@ export default function Home() {
   const getDate = new Date()
   const date = getDate.toLocaleString('en-EN', { weekday: 'long' })
 
-  const getData = async () => {
-    setLoading(true)
-    // season now
-    setTimeout(async () => {
+  const getSeason = (month) => {
+    if (month >= 0 && month <= 2) {
+      return 'Winter'
+    } else if (month > 2 && month <= 5) {
+      return 'Spring'
+    } else if (month > 5 && month <= 8) {
+      return 'Summer'
+    } else if (month > 8 && month <= 11) {
+      return 'Fall'
+    }
+  }
+
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     setLoading(true)
+  //     try {
+  //       // season now
+  //       const resNow = await axios(`https://api.jikan.moe/v4/seasons/now`)
+  //       setData(resNow.data.data)
+  //       // today airing
+  //       const res = await axios(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
+  //       setSchedule(res.data.data)
+  //       // top anime
+  //       const resTop = await axios(`https://api.jikan.moe/v4/top/anime`)
+  //       setTopAnime(resTop.data.data)
+  //     } catch (err) {
+  //       console.error('error', err)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
+
+  //   getData()
+  //   localStorage.removeItem('search')
+
+  //   return () => {
+  //     setData([])
+  //     setSchedule([])
+  //     setTopAnime([])
+  //   }
+  // }, [])
+
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true)
       try {
-        const { data } = await axios(`https://api.jikan.moe/v4/seasons/now`)
-        setData(data.data)
-      } catch (e) {
-        console.error('error', e)
-      }
-    }, 500)
-    // today airing
-    setTimeout(async () => {
-      try {
-        const res = await axios(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
-        setSchedule(res.data.data)
-      } catch (e) {
-        console.error('error', e)
-      }
-    }, 500)
-    // top anime
-    setTimeout(async () => {
-      try {
-        const resTop = await axios(`https://api.jikan.moe/v4/top/anime`)
+        const [resNow, resSchedule, resTop] = await Promise.all([
+          axios(`https://api.jikan.moe/v4/seasons/now`),
+          axios(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`),
+          axios(`https://api.jikan.moe/v4/top/anime`),
+        ])
+        setData(resNow.data.data)
+        setSchedule(resSchedule.data.data)
         setTopAnime(resTop.data.data)
       } catch (err) {
-        console.error(err)
+        console.error('error', err)
       } finally {
         setLoading(false)
       }
-    }, 500)
-  }
-  useEffect(() => {
+    }
+
     getData()
     localStorage.removeItem('search')
-  }, [])
 
-  const generateArray = () =>
-    Array(10)
-      .fill()
-      .map((item, index) => {
-        return (
-          <Carousel.Slide
-            key={index}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-              marginTop: '5px',
-            }}>
-            <Skeleton height={220} width={160} />
-          </Carousel.Slide>
-        )
-      })
+    return () => {
+      setData([])
+      setSchedule([])
+      setTopAnime([])
+    }
+  }, [])
 
   return (
     <Layout>
       <Text style={{ borderColor: '#bebebe', borderStyle: 'solid', borderWidth: '0 0 1px' }} transform='capitalize'>
-        {loading ? (
-          <Skeleton />
-        ) : (
-          <>
-            {data[0]?.season} {data[0]?.year} anime
-          </>
-        )}
+        {loading ? <Skeleton /> : `${getSeason(getDate.getMonth())} ${getDate.getFullYear()} anime`}
       </Text>
       <MyCarousel
         drag={mobile ? true : false}
@@ -99,7 +109,9 @@ export default function Home() {
         loop={mobile ? false : true}
         changeSlide='auto'>
         {loading
-          ? generateArray()
+          ? Array(10)
+              .fill()
+              .map((_, index) => <DesktopLoading key={index} />)
           : data.map((item, index) => {
               return (
                 <Carousel.Slide
@@ -152,7 +164,9 @@ export default function Home() {
         loop={mobile ? false : true}
         changeSlide='auto'>
         {loading
-          ? generateArray()
+          ? Array(10)
+              .fill()
+              .map((_, index) => <DesktopLoading key={index} />)
           : schedule.map((item, index) => {
               return (
                 <Carousel.Slide
@@ -205,7 +219,9 @@ export default function Home() {
         loop={mobile ? false : true}
         changeSlide='auto'>
         {loading
-          ? generateArray()
+          ? Array(10)
+              .fill()
+              .map((_, index) => <DesktopLoading key={index} />)
           : topAnime.map((item, index) => {
               return (
                 <Carousel.Slide
