@@ -4,7 +4,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { NavLink, useParams } from 'react-router-dom'
-import MyCarousel from '../../components/Carousel'
+import MyCarousel from '../../../components/Carousel'
 
 export default function Information({ data, loading, error }) {
   const { id } = useParams()
