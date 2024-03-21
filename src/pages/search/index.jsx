@@ -5,6 +5,8 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
 import Layout from '../../components/layouts'
+import SearchCardLoading from '../../components/loading/SearchCardLoading'
+import useMobileDevice from '../../hooks/useMobile'
 
 export default function Search() {
   const params = useParams()
@@ -19,41 +21,53 @@ export default function Search() {
     getData()
   }, [params])
 
-  const matches = useMediaQuery('(min-width: 720px)')
+  // const matches = useMediaQuery('(min-width: 720px)')
+  const matches = useMobileDevice()
 
   return (
     <Layout>
-      <Text>Result</Text>
+      <Text
+        variant='gradient'
+        gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
+        sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
+        ta='center'
+        fz='xl'
+        fw={700}>
+        Result
+      </Text>
       {data ? (
         data.length > 0 ? (
-          <SimpleGrid cols={matches ? 2 : 1} style={{ marginTop: '10px' }}>
+          <SimpleGrid cols={matches ? 1 : 2} style={{ marginTop: '10px' }}>
             {data.map((item, index) => {
               return (
                 <Card key={index} shadow='sm' radius='md'>
                   <SimpleGrid cols={2}>
+                    {/* Left content */}
                     <div>
                       <Center>
                         <Flex direction={'column'}>
-                          <Image
-                            imageProps={{ loading: 'lazy' }}
-                            height={matches ? 250 : 150}
-                            fit='contain'
-                            mr={10}
-                            src={item.images.jpg.image_url}
-                            withPlaceholder
-                          />
+                          <NavLink to={`/detail/${item.mal_id}`}>
+                            <Image
+                              imageProps={{ loading: 'lazy' }}
+                              height={!matches ? 250 : 150}
+                              fit='contain'
+                              mr={10}
+                              src={item.images.jpg.image_url}
+                              withPlaceholder
+                            />
+                          </NavLink>
                           <Text ta={'center'} fz={'xs'}>
                             {item.aired.string}
                           </Text>
                           <Flex justify={'space-evenly'}>
-                            <Rating size={matches ? 'md' : 'xs'} value={item.score / 2} fractions={2} readOnly />
-                            <Badge size={matches ? 'md' : 'xs'}>{Number(item.score).toFixed(2)}</Badge>
+                            <Rating size={!matches ? 'md' : 'xs'} value={item.score / 2} fractions={2} readOnly />
+                            <Badge size={!matches ? 'md' : 'xs'}>{Number(item.score).toFixed(2)}</Badge>
                           </Flex>
                           <Text ta={'center'}>
                             {item.studios.length > 0
                               ? item.studios.map((studio, index) => {
                                   return (
-                                    <Badge key={index} m='10px 1px' color={'gray'} size={matches ? 'md' : 'xs'}>
+                                    <Badge key={index} m='10px 1px' color={'gray'} size={!matches ? 'md' : 'xs'}>
                                       {studio.name}
                                     </Badge>
                                   )
@@ -69,17 +83,19 @@ export default function Search() {
                         </Flex>
                       </Center>
                     </div>
+                    {/* Right content */}
                     <div>
-                      <Text mt={matches ? 10 : 0} fz={matches ? 'md' : 'sm'}>
-                        {/* <Anchor href={`/detail/${item.mal_id}`}>{item.title}</Anchor> */}
-                        <NavLink to={`/detail/${item.mal_id}`}>{item.title}</NavLink>
+                      <Text mt={!matches ? 10 : 0} fz={!matches ? 'md' : 'sm'}>
+                        <NavLink to={`/detail/${item.mal_id}`} style={{ textDecoration: 'none' }}>
+                          {item.title}
+                        </NavLink>
                       </Text>
-                      <Flex mt={matches ? 10 : 5}>
-                        <Text fz={matches ? 'md' : 11}>
+                      <Flex mt={!matches ? 10 : 5}>
+                        <Text fz={!matches ? 'md' : 11}>
                           {item.type} {item.episodes ? `(${item.episodes} episodes)` : `( ${item.status} )`}
                         </Text>
                         {item.trailer.url ? (
-                          <a target={'_blank'} style={{ marginLeft: matches ? 10 : 0 }} href={item.trailer.url}>
+                          <a target={'_blank'} style={{ marginLeft: !matches ? 10 : 0 }} href={item.trailer.url}>
                             <IconBrandYoutube />
                           </a>
                         ) : null}
@@ -87,13 +103,13 @@ export default function Search() {
                       <SimpleGrid cols={2} mt={10}>
                         {item.genres.map((genre, index) => {
                           return (
-                            <Badge key={index} size={matches ? 'md' : 'xs'} color={'gray'}>
+                            <Badge key={index} size={!matches ? 'md' : 'xs'} color={'gray'}>
                               {genre.name}
                             </Badge>
                           )
                         })}
                       </SimpleGrid>
-                      {matches ? (
+                      {!matches ? (
                         <Spoiler maxHeight={120} showLabel='Show more' hideLabel='Hide' mt={10} fz='sm'>
                           {item.synopsis ? item.synopsis : 'No synopsis given.'}
                         </Spoiler>
@@ -112,7 +128,7 @@ export default function Search() {
           <p>Tidak ada data</p>
         )
       ) : (
-        <p>Loading...</p>
+        <SearchCardLoading />
       )}
     </Layout>
   )

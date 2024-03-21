@@ -1,6 +1,6 @@
 import { Card, Flex, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
-import Characters from '../Characters'
-import Information from '../Information'
+import Characters from './Characters'
+import Information from './Information'
 import StaffDesktop from './Staff'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
