@@ -120,10 +120,10 @@ export default function CustomHeader2() {
           <>
             <Group spacing={5}>
               <Button
-                variant={location.pathname != '/' ? 'subtle' : 'filled'}
+                variant={location.pathname !== '/' ? 'subtle' : 'filled'}
                 style={{
                   marginRight: 10,
-                  background: '#0000FF',
+                  background: location.pathname === '/' ? '#0000FF' : 'transparent',
                 }}
                 onClick={() => navigate('/')}>
                 <Text>Home</Text>
