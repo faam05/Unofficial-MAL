@@ -1,9 +1,8 @@
 import { Badge, Card, Center, Flex, Rating, SimpleGrid, Text } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
 import Skeleton from 'react-loading-skeleton'
-import useMobileDevice from '../../hooks/useMobile'
+import { useMobileDevice } from '../../hooks'
 
-const SearchCardLoading = () => {
+const CardLoading = () => {
   // const matches = useMediaQuery('(min-width: 720px)')
   const matches = useMobileDevice()
   return (
@@ -69,4 +68,4 @@ const SearchCardLoading = () => {
   // }
 }
 
-export default SearchCardLoading
+export default CardLoading
