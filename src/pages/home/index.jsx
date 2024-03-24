@@ -99,7 +99,7 @@ export default function Home() {
                       position: 'relative',
                     }}>
                     <Image
-                      imageProps={{ loading: 'loading' }}
+                      imageProps={{ loading: 'lazy' }}
                       height={220}
                       width={160}
                       src={item.images.jpg.image_url}
@@ -163,7 +163,7 @@ export default function Home() {
                       position: 'relative',
                     }}>
                     <Image
-                      imageProps={{ loading: 'loading' }}
+                      imageProps={{ loading: 'lazy' }}
                       height={220}
                       width={160}
                       src={item.images.jpg.image_url}
@@ -226,7 +226,7 @@ export default function Home() {
                       position: 'relative',
                     }}>
                     <Image
-                      imageProps={{ loading: 'loading' }}
+                      imageProps={{ loading: 'lazy' }}
                       height={220}
                       width={160}
                       src={item.images.jpg.image_url}
