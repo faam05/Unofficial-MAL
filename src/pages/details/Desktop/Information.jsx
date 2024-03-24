@@ -42,11 +42,25 @@ export default function Information({ data, loading, error }) {
     if (!loading && !error && data) {
       getDataVideos()
       getRecommendation()
+      testData()
       setLoadingData(false)
     }
 
     return () => {}
   }, [loading])
+
+  const testData = async () => {
+    try {
+      if (data) {
+        const { data } = await axios(`http://localhost:3000/anime`)
+        // console.log('data', data)
+        // setDataOpening(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('op')))
+        // setDataEnding(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')))
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   if (!loading && !loadingData) {
     return (
@@ -272,6 +286,7 @@ export default function Information({ data, loading, error }) {
             )}
           </div>
         </div>
+        <div>A</div>
       </>
     )
   } else if (error) {

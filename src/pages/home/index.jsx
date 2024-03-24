@@ -102,7 +102,7 @@ export default function Home() {
                       imageProps={{ loading: 'lazy' }}
                       height={220}
                       width={160}
-                      src={item.images.jpg.image_url}
+                      src={item.images.webp.image_url}
                       withPlaceholder
                       alt={item.title.replace(/[ , -]/g, '_')}
                     />
@@ -166,7 +166,7 @@ export default function Home() {
                       imageProps={{ loading: 'lazy' }}
                       height={220}
                       width={160}
-                      src={item.images.jpg.image_url}
+                      src={item.images.webp.image_url}
                       withPlaceholder
                       alt={item.title.replace(/[ , -]/g, '_')}
                     />
@@ -229,7 +229,7 @@ export default function Home() {
                       imageProps={{ loading: 'lazy' }}
                       height={220}
                       width={160}
-                      src={item.images.jpg.image_url}
+                      src={item.images.webp.image_url}
                       withPlaceholder
                       alt={item.title.replace(/[ , -]/g, '_')}
                     />
