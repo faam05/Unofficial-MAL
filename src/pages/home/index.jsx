@@ -14,7 +14,6 @@ import MyCarousel from '../../components/Carousel'
 import DesktopLoading from '../../components/loading/DesktopLoading'
 
 export default function Home() {
-  // const matches = useMediaQuery('(min-width: 720px)')
   const mobile = useMobileDevice()
   const [data, setData] = useState([])
   const [schedule, setSchedule] = useState([])
@@ -36,40 +35,7 @@ export default function Home() {
     }
   }
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     setLoading(true)
-  //     try {
-  //       // season now
-  //       const resNow = await axios(`https://api.jikan.moe/v4/seasons/now`)
-  //       setData(resNow.data.data)
-  //       // today airing
-  //       const res = await axios(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
-  //       setSchedule(res.data.data)
-  //       // top anime
-  //       const resTop = await axios(`https://api.jikan.moe/v4/top/anime`)
-  //       setTopAnime(resTop.data.data)
-  //     } catch (err) {
-  //       console.error('error', err)
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   }
-
-  //   getData()
-  //   localStorage.removeItem('search')
-
-  //   return () => {
-  //     setData([])
-  //     setSchedule([])
-  //     setTopAnime([])
-  //   }
-  // }, [])
-
   useEffect(() => {
-    // const abortController = new AbortController()
-    // const signal = abortController.signal
-
     const getData = async () => {
       setLoading(true)
       try {
@@ -82,22 +48,15 @@ export default function Home() {
         setSchedule(resSchedule.data.data)
         setTopAnime(resTop.data.data)
       } catch (err) {
-        console.error('error', err)
       } finally {
         setLoading(false)
       }
     }
 
-    let ignore = false
-    if (!ignore) getData()
-    localStorage.removeItem('search')
+    getData()
 
     return () => {
-      ignore = true
       setLoading(true)
-      // setData([])
-      // setSchedule([])
-      // setTopAnime([])
     }
   }, [])
 
