@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/layouts'
-import { useMediaQuery } from '@mantine/hooks'
 import axios from 'axios'
-import useMobileDevice from '../../hooks/useMobile'
+import { useMobileDevice } from '../../hooks'
 
 // Desktop
-import { Image, Text } from '@mantine/core'
+import { Flex, Image, Text } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
 import Skeleton from 'react-loading-skeleton'
@@ -68,6 +67,9 @@ export default function Home() {
   // }, [])
 
   useEffect(() => {
+    // const abortController = new AbortController()
+    // const signal = abortController.signal
+
     const getData = async () => {
       setLoading(true)
       try {
@@ -86,21 +88,29 @@ export default function Home() {
       }
     }
 
-    getData()
+    let ignore = false
+    if (!ignore) getData()
     localStorage.removeItem('search')
 
     return () => {
-      setData([])
-      setSchedule([])
-      setTopAnime([])
+      ignore = true
+      setLoading(true)
+      // setData([])
+      // setSchedule([])
+      // setTopAnime([])
     }
   }, [])
 
   return (
     <Layout>
-      <Text style={{ borderColor: '#bebebe', borderStyle: 'solid', borderWidth: '0 0 1px' }} transform='capitalize'>
-        {loading ? <Skeleton /> : `${getSeason(getDate.getMonth())} ${getDate.getFullYear()} anime`}
-      </Text>
+      <Flex style={{ borderColor: '#bebebe', borderStyle: 'solid', borderWidth: '0 0 1px' }}>
+        <Text transform='capitalize'>{loading ? <Skeleton /> : `${getSeason(getDate.getMonth())} ${getDate.getFullYear()} anime`}</Text>
+        {!mobile && (
+          <NavLink to='/coming-soon' style={{ marginLeft: 'auto', textDecoration: 'none' }} id='coming-soon'>
+            Coming Soon
+          </NavLink>
+        )}
+      </Flex>
       <MyCarousel
         drag={mobile ? true : false}
         slideGap={mobile ? 'xs' : 'sm'}
@@ -124,11 +134,19 @@ export default function Home() {
                     marginTop: '5px',
                   }}>
                   <NavLink
+                    aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`}
                     to={`/detail/${item.mal_id}`}
                     style={{
                       position: 'relative',
                     }}>
-                    <Image imageProps={{ loading: 'loading' }} height={220} width={160} src={item.images.jpg.image_url} withPlaceholder />
+                    <Image
+                      imageProps={{ loading: 'loading' }}
+                      height={220}
+                      width={160}
+                      src={item.images.jpg.image_url}
+                      withPlaceholder
+                      alt={item.title.replace(/[ , -]/g, '_')}
+                    />
                     <Text
                       style={{
                         width: '100%',
@@ -168,6 +186,7 @@ export default function Home() {
               .fill()
               .map((_, index) => <DesktopLoading key={index} />)
           : schedule.map((item, index) => {
+              // console.log(`${item.mal_id}-${item.title.replace(/ /g, '')}`)
               return (
                 <Carousel.Slide
                   key={index}
@@ -179,11 +198,19 @@ export default function Home() {
                     marginTop: '5px',
                   }}>
                   <NavLink
+                    aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`}
                     to={`/detail/${item.mal_id}`}
                     style={{
                       position: 'relative',
                     }}>
-                    <Image imageProps={{ loading: 'loading' }} height={220} width={160} src={item.images.jpg.image_url} withPlaceholder />
+                    <Image
+                      imageProps={{ loading: 'loading' }}
+                      height={220}
+                      width={160}
+                      src={item.images.jpg.image_url}
+                      withPlaceholder
+                      alt={item.title.replace(/[ , -]/g, '_')}
+                    />
                     <Text
                       style={{
                         width: '100%',
@@ -234,11 +261,19 @@ export default function Home() {
                     marginTop: '5px',
                   }}>
                   <NavLink
+                    aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`}
                     to={`/detail/${item.mal_id}`}
                     style={{
                       position: 'relative',
                     }}>
-                    <Image imageProps={{ loading: 'loading' }} height={220} width={160} src={item.images.jpg.image_url} withPlaceholder />
+                    <Image
+                      imageProps={{ loading: 'loading' }}
+                      height={220}
+                      width={160}
+                      src={item.images.jpg.image_url}
+                      withPlaceholder
+                      alt={item.title.replace(/[ , -]/g, '_')}
+                    />
                     <Text
                       color='white'
                       fz={14}

@@ -2,7 +2,7 @@ import Layout from '../../components/layouts'
 import '../../styles/detail.css'
 import DetailDesktop from './Desktop'
 import DetailMobile from './Mobile'
-import useMobileDevice from '../../hooks/useMobile'
+import { useMobileDevice } from '../../hooks'
 
 function Detail() {
   const mobile = useMobileDevice()

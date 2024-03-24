@@ -1,7 +1,7 @@
 import { AppShell, Container, createStyles } from '@mantine/core'
 import CustomHeader2 from '../headers/header2'
 import Footers from '../footers'
-import useMobileDevice from '../../hooks/useMobile'
+import { useMobileDevice } from '../../hooks'
 const useStyles = createStyles((theme) => ({
   header: {
     paddingLeft: theme.spacing.md,

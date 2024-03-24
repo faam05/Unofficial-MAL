@@ -1,15 +1,18 @@
 import { Burger, Button, Container, Group, Header, Modal, Paper, Text, Transition, createStyles, useMantineTheme } from '@mantine/core'
 import { useState } from 'react'
-import useMobileDevice from '../../hooks/useMobile'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { IconSearch } from '@tabler/icons'
 import CSearch from '../CSearch'
 import { useDisclosure } from '@mantine/hooks'
+import { useMobileDevice } from '../../hooks'
 
 // Mobile
 const HEADER_HEIGHT = 56
 
-const links = [{ link: '/', label: 'Home' }]
+const links = [
+  { link: '/', label: 'Home' },
+  { link: '/coming-soon', label: 'Coming Soon' },
+]
 
 const useStyles = createStyles((theme) => ({
   dropdown: {
@@ -120,6 +123,7 @@ export default function CustomHeader2() {
                 variant={location.pathname != '/' ? 'subtle' : 'filled'}
                 style={{
                   marginRight: 10,
+                  background: '#0000FF',
                 }}
                 onClick={() => navigate('/')}>
                 <Text>Home</Text>

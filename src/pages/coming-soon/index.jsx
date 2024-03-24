@@ -5,24 +5,32 @@ import { useParams } from 'react-router-dom'
 import Layout from '../../components/layouts'
 import CardLoading from '../../components/loading/CardLoading'
 import DisplayCard from '../../components/DisplayCard'
+import Skeleton from 'react-loading-skeleton'
+import { useFirstLetter } from '../../hooks'
 
-export default function Search() {
+export default function ComingSoon() {
   const params = useParams()
   const [data, setData] = useState(null)
 
-  const getData = async () => {
-    setData(null)
-    const { data } = await axios(`https://api.jikan.moe/v4/anime?q=${params.value}`)
-    setData(data.data)
-  }
   useEffect(() => {
+    const getData = async () => {
+      setData(null)
+      try {
+        const { data } = await axios(`https://api.jikan.moe/v4/seasons/upcoming`)
+        setData(data.data)
+        // console.log(data.data[0].season)
+        console.log(data.data[0].season.charAt(0).toUpperCase() + data.data[0].season.slice(1))
+      } catch (error) {
+        console.error('error', error)
+      }
+    }
     getData()
 
     return () => setData(null)
   }, [params])
 
   // const matches = useMediaQuery('(min-width: 720px)')
-  // const matches = useMobileDevice()
+  //   const matches = useMobileDevice()
 
   return (
     <Layout>
@@ -33,7 +41,7 @@ export default function Search() {
         ta='center'
         fz='xl'
         fw={700}>
-        Result
+        {data ? `${useFirstLetter(data[0].season)} Anime` : <Skeleton />}
       </Text>
       {data ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
     </Layout>

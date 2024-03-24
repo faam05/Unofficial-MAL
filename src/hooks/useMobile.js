@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const useMobileDevice = () => {
+export const useMobileDevice = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth)
 
   const checkMobile = () => {
@@ -15,5 +15,3 @@ const useMobileDevice = () => {
 
   return isMobile <= 769
 }
-
-export default useMobileDevice
