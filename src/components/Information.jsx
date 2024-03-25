@@ -175,12 +175,16 @@ export default function Information({ data, loading, error }) {
               ) : (
                 dataOpening.map((item, index) => (
                   <Flex key={index} mb={10}>
-                    <Image imageProps={{ loading: 'lazy' }} width={100} height={55} src={item.video.images.image_url} />
+                    <Image
+                      imageProps={{ loading: 'lazy' }}
+                      width={100}
+                      height={55}
+                      src={item.video.images.image_url}
+                      alt={item.title.replace(/[ , -]/g, '_')}
+                    />
                     <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
                       <Text fz={12}>{item.title}</Text>
-                      <Text fz={10}>
-                        {item.meta.title} by {item.meta.author}
-                      </Text>
+                      <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
                     </div>
                   </Flex>
                 ))
@@ -205,7 +209,13 @@ export default function Information({ data, loading, error }) {
               ) : (
                 dataEnding.map((item, index) => (
                   <Flex key={index} mb={10}>
-                    <Image imageProps={{ loading: 'lazy' }} width={100} height={55} src={item.video.images.image_url} />
+                    <Image
+                      imageProps={{ loading: 'lazy' }}
+                      width={100}
+                      height={55}
+                      src={item.video.images.image_url}
+                      alt={item.meta.title.replace(/[ , -]/g, '_')}
+                    />
                     <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
                       <Text fz={12}>{item.title}</Text>
                       <Text fz={10}>
@@ -255,8 +265,9 @@ export default function Information({ data, loading, error }) {
                           imageProps={{ loading: 'lazy' }}
                           height={220}
                           width={140}
-                          src={item.entry.images.jpg.image_url}
+                          src={item.entry.images.webp.image_url}
                           withPlaceholder
+                          alt={item.entry.title.replace(/[ , -]/g, '_')}
                           style={{ position: 'relative' }}
                         />
                         <Text
