@@ -50,7 +50,7 @@ export default function Characters({ activeTab, id }) {
                     withPlaceholder
                     height={200}
                     width={120}
-                    src={item.character.images.jpg.image_url}
+                    src={item.character.images.webp.image_url}
                     alt={item.name}
                   />
                   <div style={{ marginLeft: '10px' }}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, lazy } from 'react'
 import Layout from '../../components/layouts'
 import axios from 'axios'
 import { useMobileDevice } from '../../hooks'
@@ -10,7 +10,8 @@ import { Carousel } from '@mantine/carousel'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-import MyCarousel from '../../components/Carousel'
+// import MyCarousel from '../../components/Carousel'
+const MyCarousel = lazy(() => import('../../components/Carousel'))
 import DesktopLoading from '../../components/loading/DesktopLoading'
 
 export default function Home() {
@@ -99,7 +100,7 @@ export default function Home() {
                       position: 'relative',
                     }}>
                     <Image
-                      imageProps={{ loading: 'lazy' }}
+                      imageProps={{ loading: 'eager' }}
                       height={220}
                       width={160}
                       src={item.images.webp.image_url}
@@ -163,7 +164,7 @@ export default function Home() {
                       position: 'relative',
                     }}>
                     <Image
-                      imageProps={{ loading: 'lazy' }}
+                      imageProps={{ loading: 'eager' }}
                       height={220}
                       width={160}
                       src={item.images.webp.image_url}
@@ -226,7 +227,7 @@ export default function Home() {
                       position: 'relative',
                     }}>
                     <Image
-                      imageProps={{ loading: 'lazy' }}
+                      imageProps={{ loading: 'eager' }}
                       height={220}
                       width={160}
                       src={item.images.webp.image_url}

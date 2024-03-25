@@ -4,7 +4,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { NavLink, useParams } from 'react-router-dom'
-import MyCarousel from '../../../components/Carousel'
+import MyCarousel from './Carousel'
 
 export default function Information({ data, loading, error }) {
   const { id } = useParams()
@@ -42,7 +42,6 @@ export default function Information({ data, loading, error }) {
     if (!loading && !error && data) {
       getDataVideos()
       getRecommendation()
-      testData()
       setLoadingData(false)
     }
 
@@ -74,36 +73,44 @@ export default function Information({ data, loading, error }) {
               </Title>
               <Text fz={10}>{data.scored_by ? Number(data.scored_by).toLocaleString() : '-'} users</Text>
             </div>
-            <div style={{ display: 'inline-block', marginLeft: 10, paddingLeft: 10, borderWidth: '0 0px 0 1px', borderStyle: 'solid' }}>
-              <Flex mt='auto'>
-                <SimpleGrid cols={3}>
-                  <div style={{ textAlign: 'center' }}>
-                    <Flex>
-                      <Text c={'dimmed'} style={{ marginRight: 5 }}>
-                        Ranked
-                      </Text>
-                      <Text fw={700}>{data.rank ? '#' + data.rank : 'N/A'}</Text>
-                    </Flex>
-                  </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <Flex>
-                      <Text c={'dimmed'} style={{ marginRight: 5 }}>
-                        Popularity
-                      </Text>
-                      <Text fw={700}>{data.popularity ? '#' + data.popularity : 'N/A'}</Text>
-                    </Flex>
-                  </div>
-                  <div style={{ textAlign: 'center' }}>
-                    <Flex>
-                      <Text c={'dimmed'} style={{ marginRight: 5 }}>
-                        Members
-                      </Text>
-                      <Text fw={700}>{data.members ? Number(data.members).toLocaleString() : 'N/A'}</Text>
-                    </Flex>
-                  </div>
-                </SimpleGrid>
-              </Flex>
-              <Text style={{ marginTop: '5%' }} fz={10}>
+            <div
+              style={{
+                display: 'flex',
+                marginLeft: 10,
+                paddingLeft: 10,
+                borderWidth: '0 0px 0 1px',
+                borderStyle: 'solid',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                overflow: 'hidden',
+              }}>
+              <div style={{ display: 'flex', gap: '3px 16px', flexWrap: 'wrap' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <Flex>
+                    <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                      Ranked
+                    </Text>
+                    <Text fw={700}>{data.rank ? '#' + data.rank : 'N/A'}</Text>
+                  </Flex>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <Flex>
+                    <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                      Popularity
+                    </Text>
+                    <Text fw={700}>{data.popularity ? '#' + data.popularity : 'N/A'}</Text>
+                  </Flex>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <Flex>
+                    <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                      Members
+                    </Text>
+                    <Text fw={700}>{data.members ? Number(data.members).toLocaleString() : 'N/A'}</Text>
+                  </Flex>
+                </div>
+              </div>
+              <Text fz={10}>
                 <span style={{ padding: '0px 5px 0 0', borderStyle: 'solid', borderWidth: '0 1px 0 0' }}>
                   {data.season && data.season.charAt(0).toUpperCase() + data.season.slice(1)} {data.year}
                 </span>
@@ -286,7 +293,6 @@ export default function Information({ data, loading, error }) {
             )}
           </div>
         </div>
-        <div>A</div>
       </>
     )
   } else if (error) {

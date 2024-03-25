@@ -7,10 +7,13 @@ import Search from '../pages/search'
 import NotFound from '../components/layouts/404'
 import ComingSoon from '../pages/coming-soon'
 
-const LazyHome = React.lazy(() => import('../pages/home'))
-// const LazyDetail = React.lazy(() => import('../pages/details'))
-// const LazyAbout = React.lazy(() => import('../pages/about'))
 // const LazySearch = React.lazy(() => import('../pages/search'))
+// const LazyHome = () => import('../pages/home')
+// const LazyDetail = () => import('../pages/details')
+// const LazyAbout = () => import('../pages/about')
+// const LazySearch = () => import('../pages/search')
+// const LazyComingSoon = () => import('../pages/coming-soon')
+// const LazyNotFound = () => import('../components/layouts/404')
 
 export const routes = [
   {
@@ -23,3 +26,9 @@ export const routes = [
   { path: '/detail/:id', component: <Detail /> },
   { path: '*', component: <NotFound /> },
 ]
+
+// function wait(time) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, time)
+//   })
+// }

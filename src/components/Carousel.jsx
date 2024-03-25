@@ -18,7 +18,7 @@ const useStyles = createStyles((_theme, _params, getRef) => ({
   },
 }))
 
-const MyCarousel = ({ children, changeSlide = 5, slideGap = 'sm', slideSize = '162', drag = false, withControls = true, loop = false }) => {
+const MyCarousel = ({ children, changeSlide = 'auto', slideGap = 'sm', slideSize = '162', drag = false, withControls = true, loop = false }) => {
   const { classes } = useStyles()
 
   return (
