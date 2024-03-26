@@ -1,64 +1,59 @@
 import { Card, Flex, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
-// import Characters from '../../../components/Characters'
+import Characters from '../../../components/Characters'
 import Information from '../../../components/Information'
 import StaffDesktop from '../../../components/Staff'
-import { useEffect, useState, lazy } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Skeleton from 'react-loading-skeleton'
+import { useQuery } from '@tanstack/react-query'
 
-const Characters = lazy(() => import('../../../components/Characters'))
+// const Characters = lazy(() => wait(10000).then(() => import('../../../components/Characters')))
 
 export default function DetailDesktop() {
   const params = useParams()
   const [id, setId] = useState(null)
-  const [dataInformation, setDataInformation] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
   const [activeTab, setActiveTab] = useState('details')
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        if (dataInformation === null || id != params.id) {
-          const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
-          setDataInformation(data.data)
-          setId(data.data.mal_id)
-          setActiveTab('details')
-        }
-      } catch (error) {
-        console.error(error)
-        setError(true)
-      } finally {
-        setLoading(false)
+  // get details anime
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['details', params.id],
+    queryFn: async () => {
+      const response = await fetch(`https://api.jikan.moe/v4/anime/${params.id}/full`)
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
       }
-    }
+      const { data } = await response.json()
+      setId(data.mal_id)
+      return data
+    },
+    // retry: 10,
+  })
 
-    if (params.id != id) {
-      setDataInformation(null)
-      setLoading(true)
-      setActiveTab('details')
-      getData()
-    }
+  // const { refetch } = useQuery({
+  //   queryKey: ['videos', params.id],
+  //   queryFn: async () => {
+  //     const response = await fetch(`https://api.jikan.moe/v4/anime/${params.id}/videos`)
+  //     if (!response.ok) {
+  //       throw new Error('Network response was not ok')
+  //     }
+  //     const { data } = await response.json()
+  //     setId(data.mal_id)
+  //     return data
+  //   },
+  //   enabled: false,
+  //   // retry: 10,
+  // })
 
-    return () => {
-      setDataInformation(null)
-      setLoading(true)
-      setActiveTab('details')
-    }
-  }, [params.id])
-
-  if (error) {
-    return <p>Something went wrong</p>
-  }
+  if (isError) return <p>Something went wrong</p>
 
   return (
     <>
       <Card shadow='sm' p='lg' radius='md' withBorder>
-        <div className='h1 detail-title'>{loading ? <Skeleton /> : <Text fz={16}>{dataInformation.title}</Text>}</div>
+        <div className='h1 detail-title'>{isLoading ? <Skeleton /> : <Text fz={16}>{data.title}</Text>}</div>
         <div className='detail content-wrapper'>
           <div className='detail content-left'>
-            {loading ? (
+            {isLoading ? (
               <>
                 <Skeleton width={225} height={330} />
                 <div style={{ marginTop: 10 }}>
@@ -70,20 +65,14 @@ export default function DetailDesktop() {
               </>
             ) : (
               <>
-                <Image
-                  imageProps={{ loading: 'lazy' }}
-                  width={225}
-                  src={dataInformation.images.webp.image_url}
-                  alt={dataInformation.title}
-                  withPlaceholder
-                />
+                <Image imageProps={{ loading: 'lazy' }} width={225} src={data.images.webp.image_url} alt={data.title} withPlaceholder />
                 <div style={{ marginTop: 10 }}>
                   <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
                     Alternative Titles
                   </Title>
                   <Spoiler my={10} maxHeight={60} fz={12} showLabel='More titles' hideLabel='Less titles'>
                     <div>
-                      {dataInformation.titles
+                      {data.titles
                         .filter((item) => item.type != 'Default')
                         .map((item, index) => {
                           return (
@@ -102,118 +91,118 @@ export default function DetailDesktop() {
                   </Title>
                   <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
                     <Flex>
-                      {dataInformation.type && (
+                      {data.type && (
                         <>
                           <Text fw={700}>Type:</Text>
-                          <Text ml={5}>{dataInformation.type}</Text>
+                          <Text ml={5}>{data.type}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.episodes && (
+                      {data.episodes && (
                         <>
                           <Text fw={700}>Episodes:</Text>
-                          <Text ml={5}>{dataInformation.episodes}</Text>
+                          <Text ml={5}>{data.episodes}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.status && (
+                      {data.status && (
                         <>
                           <Text fw={700}>Status:</Text>
-                          <Text ml={5}>{dataInformation.status}</Text>
+                          <Text ml={5}>{data.status}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.aired && (
+                      {data.aired && (
                         <>
                           <Text fw={700}>Aired:</Text>
-                          <Text ml={5}>{dataInformation.aired.string}</Text>
+                          <Text ml={5}>{data.aired.string}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.producers.length === 0 ? null : (
+                      {data.producers.length === 0 ? null : (
                         <div>
                           <span style={{ fontWeight: 700 }}>Producers: </span>
-                          {dataInformation.producers.map((item, index) => {
-                            return <span key={index}>{index !== dataInformation.producers.length - 1 ? ' ' + item.name + ', ' : item.name}</span>
+                          {data.producers.map((item, index) => {
+                            return <span key={index}>{index !== data.producers.length - 1 ? ' ' + item.name + ', ' : item.name}</span>
                           })}
                         </div>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.licensors.length === 0 ? null : (
+                      {data.licensors.length === 0 ? null : (
                         <div>
                           <span style={{ fontWeight: 700 }}>Licensors: </span>
-                          {dataInformation.licensors.map((item, index) => {
-                            return <span key={index}>{index !== dataInformation.licensors.length - 1 ? item.name + ', ' : item.name}</span>
+                          {data.licensors.map((item, index) => {
+                            return <span key={index}>{index !== data.licensors.length - 1 ? item.name + ', ' : item.name}</span>
                           })}
                         </div>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.studios.length === 0 ? null : (
+                      {data.studios.length === 0 ? null : (
                         <div>
                           <span style={{ fontWeight: 700 }}>Studios: </span>
-                          {dataInformation.studios.map((item, index) => {
-                            return <span key={index}>{index !== dataInformation.studios.length - 1 ? item.name + ', ' : item.name}</span>
+                          {data.studios.map((item, index) => {
+                            return <span key={index}>{index !== data.studios.length - 1 ? item.name + ', ' : item.name}</span>
                           })}
                         </div>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.source && (
+                      {data.source && (
                         <>
                           <Text fw={700}>Source:</Text>
-                          <Text ml={5}>{dataInformation.source}</Text>
+                          <Text ml={5}>{data.source}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.genres.length === 0 ? null : (
+                      {data.genres.length === 0 ? null : (
                         <div>
                           <span style={{ fontWeight: 700 }}>Genres: </span>
-                          {dataInformation.genres.map((item, index) => {
-                            return <span key={index}>{index !== dataInformation.genres.length - 1 ? item.name + ', ' : item.name}</span>
+                          {data.genres.map((item, index) => {
+                            return <span key={index}>{index !== data.genres.length - 1 ? item.name + ', ' : item.name}</span>
                           })}
                         </div>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.themes.length === 0 ? null : (
+                      {data.themes.length === 0 ? null : (
                         <div>
                           <span style={{ fontWeight: 700 }}>Themes: </span>
-                          {dataInformation.themes.map((item, index) => {
-                            return <span key={index}>{index !== dataInformation.themes.length - 1 ? item.name + ', ' : item.name}</span>
+                          {data.themes.map((item, index) => {
+                            return <span key={index}>{index !== data.themes.length - 1 ? item.name + ', ' : item.name}</span>
                           })}
                         </div>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.demographics.length === 0 ? null : (
+                      {data.demographics.length === 0 ? null : (
                         <div>
                           <span style={{ fontWeight: 700 }}>Demographics: </span>
-                          {dataInformation.demographics.map((item, index) => {
-                            return <span key={index}>{index !== dataInformation.demographics.length - 1 ? item.name + ', ' : item.name}</span>
+                          {data.demographics.map((item, index) => {
+                            return <span key={index}>{index !== data.demographics.length - 1 ? item.name + ', ' : item.name}</span>
                           })}
                         </div>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.duration && (
+                      {data.duration && (
                         <>
                           <Text fw={700}>Duration:</Text>
-                          <Text ml={5}>{dataInformation.duration}</Text>
+                          <Text ml={5}>{data.duration}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.rating && (
+                      {data.rating && (
                         <>
                           <Text fw={700}>Rating:</Text>
-                          <Text ml={5}>{dataInformation.rating}</Text>
+                          <Text ml={5}>{data.rating}</Text>
                         </>
                       )}
                     </Flex>
@@ -225,44 +214,44 @@ export default function DetailDesktop() {
                   </Title>
                   <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
                     <Flex>
-                      {dataInformation.score && (
+                      {data.score && (
                         <>
                           <Text fw={700}>Score : </Text>
                           <Text ml={5}>
-                            {dataInformation.score} (scored by {Number(dataInformation.scored_by).toLocaleString()} users)
+                            {data.score} (scored by {Number(data.scored_by).toLocaleString()} users)
                           </Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.rank && (
+                      {data.rank && (
                         <>
                           <Text fw={700}>Ranked : </Text>
-                          <Text ml={5}>#{dataInformation.rank}</Text>
+                          <Text ml={5}>#{data.rank}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.popularity && (
+                      {data.popularity && (
                         <>
                           <Text fw={700}>Popularity : </Text>
-                          <Text ml={5}>#{dataInformation.popularity}</Text>
+                          <Text ml={5}>#{data.popularity}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.members && (
+                      {data.members && (
                         <>
                           <Text fw={700}>Members : </Text>
-                          <Text ml={5}>{Number(dataInformation.members).toLocaleString()}</Text>
+                          <Text ml={5}>{Number(data.members).toLocaleString()}</Text>
                         </>
                       )}
                     </Flex>
                     <Flex>
-                      {dataInformation.favorites && (
+                      {data.favorites && (
                         <>
                           <Text fw={700}>Favorites : </Text>
-                          <Text ml={5}>{Number(dataInformation.favorites).toLocaleString()}</Text>
+                          <Text ml={5}>{Number(data.favorites).toLocaleString()}</Text>
                         </>
                       )}
                     </Flex>
@@ -279,13 +268,13 @@ export default function DetailDesktop() {
                 <Tabs.Tab value='staff'>Staff</Tabs.Tab>
               </Tabs.List>
               <Tabs.Panel value='details'>
-                <Information data={dataInformation} loading={loading} error={error} />
+                <Information data={data} loading={isLoading} />
               </Tabs.Panel>
               <Tabs.Panel value='characters'>
-                <Characters activeTab={activeTab} id={id} oading={loading} error={error} />
+                <Characters activeTab={activeTab} id={id} />
               </Tabs.Panel>
               <Tabs.Panel value='staff'>
-                <StaffDesktop activeTab={activeTab} id={id} oading={loading} error={error} />
+                <StaffDesktop activeTab={activeTab} id={id} />
               </Tabs.Panel>
             </Tabs>
           </div>
@@ -294,3 +283,9 @@ export default function DetailDesktop() {
     </>
   )
 }
+
+// function wait(time) {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, time)
+//   })
+// }

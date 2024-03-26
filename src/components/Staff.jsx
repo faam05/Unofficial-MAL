@@ -38,9 +38,6 @@ const StaffDesktop = ({ activeTab, id }) => {
     <>
       {!loading && !error ? (
         <>
-          <Text style={{ borderStyle: 'solid', borderWidth: '0 0 1px' }} p={3}>
-            Staff
-          </Text>
           {dataStaff.map((item, index) => {
             return (
               <div key={index} style={{ backgroundColor: index % 2 == 0 ? 'white' : '#f8f8f8' }}>
