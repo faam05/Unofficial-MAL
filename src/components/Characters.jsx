@@ -29,7 +29,7 @@ export default function Characters({ activeTab, id }) {
   }
 
   useEffect(() => {
-    if (activeTab == 'characters') {
+    if (activeTab === 'characters') {
       getData()
     }
   }, [params.id, activeTab])
@@ -38,9 +38,12 @@ export default function Characters({ activeTab, id }) {
     <>
       {!loading && !error ? (
         <>
-          <Text style={{ borderStyle: 'solid', borderWidth: '0 0 1px' }} p={3}>
-            Characters
-          </Text>
+          <div style={{ borderStyle: 'solid', borderWidth: '0 0 1px' }}>
+            <div style={{ display: 'flex' }}>
+              <span>Characters</span>
+              <span style={{ marginLeft: 'auto' }}>Voice Actors</span>
+            </div>
+          </div>
           {dataCharacters.map((item, index) => {
             return (
               <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
