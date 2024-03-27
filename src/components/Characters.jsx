@@ -1,42 +1,47 @@
 import { Card, Flex, Image, SimpleGrid, Text } from '@mantine/core'
-import axios from 'axios'
 import { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { useParams } from 'react-router-dom'
+import { useMobileDevice } from '../hooks'
+import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '../utils'
 
-export default function Characters({ activeTab, id }) {
-  const params = useParams()
+export default function Characters({ activeTab }) {
+  const mobile = useMobileDevice()
+  const { id } = useParams()
 
-  const [dataCharacters, setDataCharacters] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  // const getData = async () => {
+  //   if (params.id != id) {
+  //     setLoading(true)
+  //   }
+  //   try {
+  //     if (dataCharacters.length == 0 || id != params.id) {
+  //       const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
+  //       setDataCharacters(data.data)
+  //       setLoading(false)
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //     setError(true)
+  //     setLoading(false)
+  //   }
+  // }
 
-  const getData = async () => {
-    if (params.id != id) {
-      setLoading(true)
-    }
-    try {
-      if (dataCharacters.length == 0 || id != params.id) {
-        const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/characters`)
-        setDataCharacters(data.data)
-        setLoading(false)
-      }
-    } catch (error) {
-      console.error(error)
-      setError(true)
-      setLoading(false)
-    }
-  }
+  // useEffect(() => {
+  //   if (activeTab === 'characters') {
+  //     getData()
+  //   }
+  // }, [params.id, activeTab])
 
-  useEffect(() => {
-    if (activeTab === 'characters') {
-      getData()
-    }
-  }, [params.id, activeTab])
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['characters', id],
+    queryFn: async () => fetcher(`https://api.jikan.moe/v4/anime/${id}/characters`),
+    // retry: 10,
+  })
 
   return (
     <>
-      {!loading && !error ? (
+      {!isLoading && !isError ? (
         <>
           <div style={{ borderStyle: 'solid', borderWidth: '0 0 1px' }}>
             <div style={{ display: 'flex' }}>
@@ -44,7 +49,7 @@ export default function Characters({ activeTab, id }) {
               <span style={{ marginLeft: 'auto' }}>Voice Actors</span>
             </div>
           </div>
-          {dataCharacters.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
                 <Flex>
@@ -81,7 +86,7 @@ export default function Characters({ activeTab, id }) {
             )
           })}
         </>
-      ) : error ? (
+      ) : isError ? (
         <Card shadow='sm' p={20} radius={10} mt={10} style={{ textAlign: 'center' }}>
           <Text fz={20}>Something went wrong</Text>
         </Card>

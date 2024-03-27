@@ -6,6 +6,7 @@ import Skeleton from 'react-loading-skeleton'
 import { NavLink, useParams } from 'react-router-dom'
 import MyCarousel from './Carousel'
 import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '../utils'
 
 export default function Information({ data, loading }) {
   const { id } = useParams()
@@ -17,11 +18,7 @@ export default function Information({ data, loading }) {
   const queryVideos = useQuery({
     queryKey: ['videos', id],
     queryFn: async () => {
-      const response = await fetch(`https://api.jikan.moe/v4/anime/${id}/videos`)
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const { data } = await response.json()
+      const data = await fetcher(`https://api.jikan.moe/v4/anime/${id}/videos`)
       setDataOpening(data.music_videos.filter((item) => item.title.toLowerCase().includes('op')))
       setDataEnding(data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')))
       return data
@@ -32,14 +29,7 @@ export default function Information({ data, loading }) {
   // get recommendation
   const queryRecommendation = useQuery({
     queryKey: ['recommedation', id],
-    queryFn: async () => {
-      const response = await fetch(`https://api.jikan.moe/v4/anime/${id}/recommendations`)
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const { data } = await response.json()
-      return data
-    },
+    queryFn: async () => fetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`),
     // retry: 10,
   })
 

@@ -45,8 +45,7 @@
   }
   .content-wrapper {
     width: 100%;
-    /* display: flex; */
-    table-layout: auto;
+    display: flex;
     padding: 0;
   }
 
@@ -61,6 +60,7 @@
   }
 
   .content-right {
+    flex: 1;
     max-width: 244px;
     position: relative;
     width: calc(100% - 140px - 8px);
