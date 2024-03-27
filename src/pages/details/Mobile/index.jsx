@@ -1,54 +1,27 @@
-import { Anchor, Badge, Group, List, Spoiler, Text, Accordion, Flex } from '@mantine/core'
-import { useEffect, useState } from 'react'
-import InformationModal from './InformationModal'
+import { Suspense, lazy, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
-import CharactersMobile from './Characters'
+import { Anchor, Badge, Group, List, Spoiler, Text, Accordion } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
-import StaffMobile from './Staff'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+
+import InformationModal from './InformationModal'
+import CharactersMobile from './Characters'
+// import StaffMobile from './Staff'
 import RecommendationM from './Recommendation'
 import CarouselLoading from '../../../components/loading/CarouselLoading'
-import { useQuery } from '@tanstack/react-query'
+
+const StaffMobile = lazy(() => import('./Staff'))
 
 export default function DetailMobile() {
-  const params = useParams()
-
-  const [id, setId] = useState(null)
+  const { id } = useParams()
 
   const [opened, setOpened] = useState(false)
   const [accordionValue, setAccordionValue] = useState('characters')
 
-  const [dataInformation, setDataInformation] = useState(null)
-
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-
-  // const getData = async () => {
-  //   try {
-  //     if (dataInformation === null || id != params.id) {
-  //       const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
-  //       setDataInformation(data.data)
-  //       setId(data.data.mal_id)
-  //       setLoading(false)
-  //     }
-  //   } catch (error) {
-  //     console.error(error)
-  //     setError(true)
-  //     setLoading(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (params.id != id) {
-  //     setLoading(true)
-  //     setAccordionValue('characters')
-  //     getData()
-  //   }
-  // }, [params.id])
-
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['details', params.id],
-    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${params.id}/full`),
+    queryKey: ['details', id],
+    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/full`),
     // retry: 10,
   })
 
@@ -164,7 +137,9 @@ export default function DetailMobile() {
           <Accordion.Item value='staff'>
             <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Staff'}</Accordion.Control>
             <Accordion.Panel>
-              <StaffMobile accordionValue={accordionValue} id={id} loaded={!isLoading} />
+              <Suspense>
+                <StaffMobile />
+              </Suspense>
             </Accordion.Panel>
           </Accordion.Item>
 
@@ -176,7 +151,7 @@ export default function DetailMobile() {
                   <Skeleton height={126} width={90} />
                 </CarouselLoading>
               ) : (
-                <RecommendationM accordionValue={accordionValue} id={id} loaded={!isLoading} />
+                <RecommendationM accordionValue={accordionValue} id={data.mal_id} loaded={!isLoading} />
               )}
             </Accordion.Panel>
           </Accordion.Item>

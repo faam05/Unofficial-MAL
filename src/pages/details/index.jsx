@@ -10,6 +10,7 @@ import { Card, Flex, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
 import { Suspense, lazy, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '../../utils'
 
@@ -31,7 +32,13 @@ function Detail() {
     // retry: 10,
   })
 
-  if (isError) return <p>Something went wrong</p>
+  if (isError) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Text>Something went wrong</Text>
+      </div>
+    )
+  }
 
   // mobile
   // const [id, setId] = useState(null)
