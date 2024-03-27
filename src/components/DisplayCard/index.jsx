@@ -1,8 +1,8 @@
-import { Badge, Card, Center, Flex, Image, Rating, SimpleGrid, Spoiler, Text } from '@mantine/core'
+import { ActionIcon, Badge, Card, Center, Flex, Image, Rating, SimpleGrid, Spoiler, Text } from '@mantine/core'
 import { IconBrandYoutube } from '@tabler/icons'
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { useMobileDevice } from '../../hooks'
+import { Link, NavLink } from 'react-router-dom'
+import { useMobileDevice } from '../../hooks/useMobileDevice'
 
 const DisplayCard = ({ data }) => {
   const matches = useMobileDevice()
@@ -66,9 +66,9 @@ const DisplayCard = ({ data }) => {
                     {item.type} {item.episodes ? `(${item.episodes} episodes)` : `( ${item.status} )`}
                   </Text>
                   {item.trailer.url ? (
-                    <a target={'_blank'} style={{ marginLeft: !matches ? 10 : 0 }} href={item.trailer.url}>
+                    <ActionIcon variant='transparent' color='red' component='a' href={item.trailer.url}>
                       <IconBrandYoutube />
-                    </a>
+                    </ActionIcon>
                   ) : null}
                 </Flex>
                 <SimpleGrid cols={2} mt={10}>

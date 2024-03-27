@@ -1,7 +1,7 @@
 import Layout from '../../components/layouts'
 import '../../styles/detail.css'
 import DetailMobile from './Mobile'
-import { useMobileDevice } from '../../hooks'
+import { useMobileDevice } from '../../hooks/useMobileDevice'
 // desktop
 import { Card, Flex, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
 // import Characters from '../../components/Characters'

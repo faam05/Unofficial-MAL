@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom'
-import { useMobileDevice } from '../hooks'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { Flex, Image, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
+import { useMobileDevice } from '../hooks/useMobileDevice'
 
 import Layout from '../components/layouts'
 import MyCarousel from '../components/Carousel'
