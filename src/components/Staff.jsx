@@ -1,44 +1,23 @@
 import { Flex, Image, SimpleGrid, Text } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
 import { NavLink, useParams } from 'react-router-dom'
-import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '../utils'
 
-const StaffDesktop = ({ activeTab, id }) => {
-  const params = useParams()
+const Staff = () => {
+  const { id } = useParams()
 
-  const [dataStaff, setDataStaff] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
-
-  const getData = async () => {
-    if (params.id != id) {
-      setLoading(true)
-    }
-    try {
-      if (dataStaff.length == 0 || id != params.id) {
-        const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/staff`)
-        setDataStaff(data.data)
-        setLoading(false)
-      }
-    } catch (error) {
-      console.error(error)
-      setError(true)
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    if (activeTab == 'staff') {
-      getData()
-    }
-  }, [params.id, activeTab])
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['staff', id],
+    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/staff`),
+    // retry: 10,
+  })
 
   return (
     <>
-      {!loading && !error ? (
+      {!isLoading && !isError ? (
         <>
-          {dataStaff.map((item, index) => {
+          {data.map((item, index) => {
             return (
               <div key={index} style={{ backgroundColor: index % 2 == 0 ? 'white' : '#f8f8f8' }}>
                 <Flex p='5px 0' maw='max-content'>
@@ -92,4 +71,4 @@ const StaffDesktop = ({ activeTab, id }) => {
   )
 }
 
-export default StaffDesktop
+export default Staff

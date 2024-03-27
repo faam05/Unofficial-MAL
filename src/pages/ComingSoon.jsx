@@ -2,11 +2,11 @@ import { Text } from '@mantine/core'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Layout from '../../components/layouts'
-import CardLoading from '../../components/loading/CardLoading'
-import DisplayCard from '../../components/DisplayCard'
+import Layout from '../components/layouts'
+import CardLoading from '../components/loading/CardLoading'
+import DisplayCard from '../components/DisplayCard'
 import Skeleton from 'react-loading-skeleton'
-import { useFirstLetter } from '../../hooks'
+import { useFirstLetter } from '../hooks'
 
 export default function ComingSoon() {
   const params = useParams()

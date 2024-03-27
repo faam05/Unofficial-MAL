@@ -6,6 +6,7 @@ import { Carousel } from '@mantine/carousel'
 import MyCarousel from '../../../components/Carousel'
 import CarouselLoading from '../../../components/loading/CarouselLoading'
 import Skeleton from 'react-loading-skeleton'
+import { useQuery } from '@tanstack/react-query'
 
 const StaffMobile = ({ accordionValue, id, loaded }) => {
   const params = useParams()
@@ -14,25 +15,31 @@ const StaffMobile = ({ accordionValue, id, loaded }) => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const getData = async () => {
-    try {
-      if (dataStaff.length == 0 || id != params.id) {
-        const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/staff`)
-        setDataStaff(data.data)
-        setLoading(false)
-      }
-    } catch (error) {
-      console.error(error)
-      setError(true)
-      setLoading(false)
-    }
-  }
+  // const getData = async () => {
+  //   try {
+  //     if (dataStaff.length == 0 || id != params.id) {
+  //       const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/staff`)
+  //       setDataStaff(data.data)
+  //       setLoading(false)
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //     setError(true)
+  //     setLoading(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    if (loaded && accordionValue == 'staff' && params.id == id) {
-      getData()
-    }
-  }, [params.id, loaded, accordionValue])
+  // useEffect(() => {
+  //   if (loaded && accordionValue == 'staff' && params.id == id) {
+  //     getData()
+  //   }
+  // }, [params.id, loaded, accordionValue])
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['staff', params.id],
+    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${params.id}/staff`),
+    // retry: 10,
+  })
 
   return (
     <>
