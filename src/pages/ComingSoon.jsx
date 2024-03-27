@@ -1,36 +1,26 @@
 import { Text } from '@mantine/core'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import Layout from '../components/layouts'
 import CardLoading from '../components/loading/CardLoading'
 import DisplayCard from '../components/DisplayCard'
 import Skeleton from 'react-loading-skeleton'
-import { useFirstLetter } from '../hooks'
+import { useFirstLetter } from '../hooks/useFirstLetter'
+import { useQuery } from '@tanstack/react-query'
 
 export default function ComingSoon() {
-  const params = useParams()
-  const [data, setData] = useState(null)
-
-  useEffect(() => {
-    const getData = async () => {
-      setData(null)
-      try {
-        const { data } = await axios(`https://api.jikan.moe/v4/seasons/upcoming`)
-        setData(data.data)
-        // console.log(data.data[0].season)
-        console.log(data.data[0].season.charAt(0).toUpperCase() + data.data[0].season.slice(1))
-      } catch (error) {
-        console.error('error', error)
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['comingSoon'],
+    queryFn: async () => {
+      const response = await fetch('https://api.jikan.moe/v4/seasons/upcoming')
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
       }
-    }
-    getData()
+      const { data } = await response.json()
+      return data
+    },
+    // retry: 10,
+  })
 
-    return () => setData(null)
-  }, [params])
-
-  // const matches = useMediaQuery('(min-width: 720px)')
-  //   const matches = useMobileDevice()
+  if (isError) return <Text>Something went wrong</Text>
 
   return (
     <Layout>
@@ -41,9 +31,9 @@ export default function ComingSoon() {
         ta='center'
         fz='xl'
         fw={700}>
-        {data ? `${useFirstLetter(data[0].season)} Anime` : <Skeleton />}
+        {!isLoading ? `${useFirstLetter(data[0].season)}` : <Skeleton />}
       </Text>
-      {data ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
+      {!isLoading ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
     </Layout>
   )
 }

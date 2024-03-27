@@ -16,12 +16,9 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
-        <Route path='/'>
-          {/* <Route index element={<LazyHome />} /> */}
-          {routes.map((route, index) => {
-            return <Route key={index} path={route.path} element={<Suspense>{route.component}</Suspense>} />
-          })}
-        </Route>
+        {routes.map((route, index) => {
+          return <Route key={index} path={route.path} element={<Suspense>{route.component}</Suspense>} />
+        })}
       </Routes>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

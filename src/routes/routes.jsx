@@ -9,13 +9,13 @@ const LazyNotFound = lazy(() => import('../components/layouts/404'))
 
 const routes = [
   {
-    path: '',
+    path: '/',
     component: <LazyHome />,
   },
-  { path: 'coming-soon', component: <LazyComingSoon /> },
-  { path: 'about', component: <LazyAbout /> },
-  { path: 'search/:value', component: <LazySearch /> },
-  { path: 'detail/:id', component: <LazyDetail /> },
+  { path: '/coming-soon', component: <LazyComingSoon /> },
+  { path: '/about', component: <LazyAbout /> },
+  { path: '/search/:value', component: <LazySearch /> },
+  { path: '/detail/:id', component: <LazyDetail /> },
   { path: '*', component: <LazyNotFound /> },
 ]
 

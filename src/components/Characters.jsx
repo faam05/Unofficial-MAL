@@ -2,7 +2,7 @@ import { Card, Flex, Image, SimpleGrid, Text } from '@mantine/core'
 import { useState, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import { useParams } from 'react-router-dom'
-import { useMobileDevice } from '../hooks'
+import { useMobileDevice } from '../hooks/useMobileDevice'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '../utils'
 

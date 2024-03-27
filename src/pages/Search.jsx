@@ -1,28 +1,27 @@
 import { Text } from '@mantine/core'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Layout from '../components/layouts'
 import CardLoading from '../components/loading/CardLoading'
 import DisplayCard from '../components/DisplayCard'
+import { useQuery } from '@tanstack/react-query'
 
 export default function Search() {
   const params = useParams()
-  const [data, setData] = useState(null)
 
-  const getData = async () => {
-    setData(null)
-    const { data } = await axios(`https://api.jikan.moe/v4/anime?q=${params.value}`)
-    setData(data.data)
-  }
-  useEffect(() => {
-    getData()
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['search', params.value],
+    queryFn: async () => {
+      const response = await fetch(`https://api.jikan.moe/v4/anime?q=${params.value}`)
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      const { data } = await response.json()
+      return data
+    },
+    // retry: 10,
+  })
 
-    return () => setData(null)
-  }, [params])
-
-  // const matches = useMediaQuery('(min-width: 720px)')
-  // const matches = useMobileDevice()
+  if (isError) return <Text>Something went wrong</Text>
 
   return (
     <Layout>
@@ -35,7 +34,7 @@ export default function Search() {
         fw={700}>
         Result
       </Text>
-      {data ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
+      {!isLoading ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
     </Layout>
   )
 }

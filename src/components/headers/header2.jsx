@@ -4,7 +4,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { IconSearch } from '@tabler/icons'
 import CSearch from '../CSearch'
 import { useDisclosure } from '@mantine/hooks'
-import { useMobileDevice } from '../../hooks'
+import { useMobileDevice } from '../../hooks/useMobileDevice'
 
 // Mobile
 const HEADER_HEIGHT = 56

@@ -1,15 +1,15 @@
 import { Badge, Card, Center, Flex, Rating, SimpleGrid, Text } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
-import { useMobileDevice } from '../../hooks'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { useMobileDevice } from '../../hooks/useMobileDevice'
 
 const CardLoading = () => {
-  // const matches = useMediaQuery('(min-width: 720px)')
   const matches = useMobileDevice()
   return (
     <SimpleGrid cols={matches ? 1 : 2} style={{ marginTop: '10px' }}>
       {Array(10)
         .fill()
-        .map((item, index) => {
+        .map((_, index) => {
           return (
             <Card key={index} shadow='sm' radius='md'>
               <SimpleGrid cols={2}>
@@ -61,11 +61,6 @@ const CardLoading = () => {
         })}
     </SimpleGrid>
   )
-  // if (!matches) {
-
-  // } else {
-  //   return <div>a</div>
-  // }
 }
 
 export default CardLoading
