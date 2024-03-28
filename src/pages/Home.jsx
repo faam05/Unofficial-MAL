@@ -154,7 +154,7 @@ export default function Home() {
                         <Text
                           style={{
                             width: '100%',
-                            fontSize: '11px',
+                            fontSize: '12px',
                             fontWeight: 400,
                             padding: '15px 5px 5px',
                             bottom: 0,
@@ -211,7 +211,7 @@ export default function Home() {
                         <Text
                           style={{
                             width: '100%',
-                            fontSize: '11px',
+                            fontSize: '12px',
                             fontWeight: 400,
                             padding: '15px 5px 5px',
                             bottom: 0,
@@ -280,7 +280,7 @@ export default function Home() {
                         <Text
                           style={{
                             width: '100%',
-                            fontSize: '11px',
+                            fontSize: '12px',
                             fontWeight: 400,
                             padding: '15px 5px 5px',
                             bottom: 0,
