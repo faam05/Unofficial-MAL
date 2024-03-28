@@ -2,7 +2,7 @@ import React, { lazy } from 'react'
 
 const LazySearch = lazy(() => import('../pages/Search'))
 const LazyHome = lazy(() => import('../pages/Home'))
-const LazyDetail = lazy(() => import('../pages/details'))
+const LazyDetail = lazy(() => import('../pages/Detail'))
 const LazyAbout = lazy(() => import('../pages/About'))
 const LazyComingSoon = lazy(() => import('../pages/ComingSoon'))
 const LazyNotFound = lazy(() => import('../components/layouts/404'))

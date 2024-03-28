@@ -1,8 +1,9 @@
 import { Carousel } from '@mantine/carousel'
 import React from 'react'
 import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
-const DesktopLoading = () => {
+const HomeLoading = () => {
   return (
     <Carousel.Slide
       style={{
@@ -17,4 +18,4 @@ const DesktopLoading = () => {
   )
 }
 
-export default DesktopLoading
+export default HomeLoading

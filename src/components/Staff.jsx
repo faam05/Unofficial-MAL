@@ -1,11 +1,19 @@
-import { Flex, Image, SimpleGrid, Text } from '@mantine/core'
-import Skeleton from 'react-loading-skeleton'
+import { Flex, Image, Text } from '@mantine/core'
+import { Carousel } from '@mantine/carousel'
 import { NavLink, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '../utils'
+import { useMobileDevice } from '../hooks/useMobileDevice'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
+import MyCarousel from './Carousel'
+import StaffLoading from './loading/Staff'
+import CarouselLoading from './loading/CarouselLoading'
 
 const Staff = () => {
   const { id } = useParams()
+  const mobile = useMobileDevice()
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['staff', id],
@@ -13,59 +21,80 @@ const Staff = () => {
     // retry: 10,
   })
 
+  if (isError) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Text>Something went wrong when fetching List Staff</Text>
+      </div>
+    )
+  }
+
   return (
     <>
-      {!isLoading && !isError ? (
-        <>
-          {data.map((item, index) => {
+      {isLoading ? (
+        mobile ? (
+          <CarouselLoading carouselStyle={{ display: 'flex', flexDirection: 'column', maxWidth: '90px', marginRight: 1 }}>
+            <Skeleton width={90} height={126} />
+            <Skeleton width={30} />
+            <Skeleton width={80} />
+          </CarouselLoading>
+        ) : (
+          Array(10)
+            .fill()
+            .map((_, index) => <StaffLoading key={index} bg={index % 2 == 0 ? 'white' : '#f8f8f8'} />)
+        )
+      ) : mobile ? (
+        <MyCarousel drag slideGap='1px' withControls={false} slideSize='fit-contain' changeSlide='auto'>
+          {data?.map((item, index) => {
             return (
-              <div key={index} style={{ backgroundColor: index % 2 == 0 ? 'white' : '#f8f8f8' }}>
-                <Flex p='5px 0' maw='max-content'>
-                  <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
-                    <Image imageProps={{ loading: 'lazy' }} width={42} height={62} src={item.person.images.jpg.image_url} />
-                  </NavLink>
-                  <div style={{ padding: '0 4px' }}>
-                    <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
-                      <Text fz={12}>{item.person.name}</Text>
-                    </NavLink>
-                    <div style={{ padding: '3px 0' }}>
-                      {item.positions.map((items, index) => (
-                        <small key={index} style={{ fontSize: 'x-small' }}>
-                          {items}
-                          {item.positions.length != index + 1 ? ', ' : ''}
-                        </small>
-                      ))}
-                    </div>
-                  </div>
-                </Flex>
-              </div>
+              <Carousel.Slide
+                key={index}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  maxWidth: '90px',
+                  marginRight: 1,
+                }}>
+                <NavLink to={item.person.url}>
+                  <Image imageProps={{ loading: 'lazy' }} height={126} width={90} src={item.person.images.jpg.image_url} withPlaceholder />
+                </NavLink>
+                <Text fz={10} truncate>
+                  {item.positions ? item.positions.join(', ') : ''}
+                </Text>
+                <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
+                  <Text fz={10} truncate>
+                    {item.person.name}
+                  </Text>
+                </NavLink>
+              </Carousel.Slide>
             )
           })}
-        </>
+        </MyCarousel>
       ) : (
-        Array(10)
-          .fill()
-          .map((item, index) => {
-            return (
-              <SimpleGrid cols={1} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
-                <div>
-                  <Flex>
-                    <Skeleton height={62} width={42} />
-                    <div style={{ padding: '0 4px' }}>
-                      <Text fz={12}>
-                        <Skeleton width={100} />
-                      </Text>
-                      <div style={{ padding: '3px 0' }}>
-                        <small style={{ fontSize: 'x-small' }}>
-                          <Skeleton width={60} />
-                        </small>
-                      </div>
-                    </div>
-                  </Flex>
+        data.map((item, index) => {
+          return (
+            <div key={index} style={{ backgroundColor: index % 2 == 0 ? 'white' : '#f8f8f8' }}>
+              <Flex p='5px 0' maw='max-content'>
+                <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
+                  <Image imageProps={{ loading: 'lazy' }} width={42} height={62} src={item.person.images.jpg.image_url} />
+                </NavLink>
+                <div style={{ padding: '0 4px' }}>
+                  <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
+                    <Text fz={12}>{item.person.name}</Text>
+                  </NavLink>
+                  <div style={{ padding: '3px 0' }}>
+                    {item.positions.map((items, index) => (
+                      <small key={index} style={{ fontSize: 'x-small' }}>
+                        {items}
+                        {item.positions.length != index + 1 ? ', ' : ''}
+                      </small>
+                    ))}
+                  </div>
                 </div>
-              </SimpleGrid>
-            )
-          })
+              </Flex>
+            </div>
+          )
+        })
       )}
     </>
   )

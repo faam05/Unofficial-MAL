@@ -50,7 +50,7 @@ export default function InformationModal({ opened, close, data }) {
               <Text fz={14}>Episodes</Text>
             </td>
             <td className='modal-main'>
-              <Text fz={14}>{data.episodes}</Text>
+              <Text fz={14}>{data.episodes ?? 'N/A'}</Text>
             </td>
           </tr>
           <tr>

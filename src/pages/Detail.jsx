@@ -1,22 +1,19 @@
-import Layout from '../../components/layouts'
-import '../../styles/detail.css'
-import DetailMobile from './Mobile'
-import { useMobileDevice } from '../../hooks/useMobileDevice'
-// desktop
-import { Card, Flex, Image, Spoiler, Tabs, Text, Title } from '@mantine/core'
-// import Characters from '../../components/Characters'
-// import Information from '../../components/Information'
-// import Staff from '../../components/Staff'
-import { Suspense, lazy, useState } from 'react'
+import { Suspense, lazy, useState, useEffect } from 'react'
+import { Card, Flex, Image, Spoiler, Tabs, Text, Title, Anchor, Badge, Group, List, Accordion } from '@mantine/core'
 import { useParams } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { useMobileDevice } from '../hooks/useMobileDevice'
+import { fetcher } from '../utils'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { useQuery } from '@tanstack/react-query'
-import { fetcher } from '../../utils'
-
-const Information = lazy(() => import('../../components/Information'))
-const Characters = lazy(() => import('../../components/Characters'))
-const Staff = lazy(() => import('../../components/Staff'))
+import '../styles/detail.css'
+import Layout from '../components/layouts'
+const Information = lazy(() => import('../components/Information'))
+const Characters = lazy(() => import('../components/Characters'))
+const Staff = lazy(() => import('../components/Staff'))
+const InformationModal = lazy(() => import('../components/InformationModal'))
+const Recommendation = lazy(() => import('../components/Recommendation'))
+import CarouselLoading from '../components/loading/CarouselLoading'
 
 function Detail() {
   const { id } = useParams()
@@ -24,6 +21,19 @@ function Detail() {
 
   // Desktop
   const [activeTab, setActiveTab] = useState('details')
+
+  // mobile
+  const [nowId, setNowId] = useState(id)
+  const [opened, setOpened] = useState(false)
+  const [accordionValue, setAccordionValue] = useState('characters')
+
+  useEffect(() => {
+    if (nowId !== id) {
+      window.scrollTo(0, 0)
+      setNowId(id)
+      setAccordionValue('characters')
+    }
+  }, [id])
 
   // get details anime
   const { data, isLoading, isError } = useQuery({
@@ -35,50 +45,153 @@ function Detail() {
   if (isError) {
     return (
       <div style={{ textAlign: 'center' }}>
-        <Text>Something went wrong</Text>
+        <Text>Something went wrong when fetching Details Anime</Text>
       </div>
     )
   }
-
-  // mobile
-  // const [id, setId] = useState(null)
-
-  // const [opened, setOpened] = useState(false)
-  // const [accordionValue, setAccordionValue] = useState('characters')
-
-  // const [dataInformation, setDataInformation] = useState(null)
-
-  // const [loading, setLoading] = useState(true)
-  // const [error, setError] = useState(false)
-
-  // const getData = async () => {
-  //   try {
-  //     if (dataInformation === null || id != params.id) {
-  //       const { data } = await axios(`https://api.jikan.moe/v4/anime/${params.id}/full`)
-  //       setDataInformation(data.data)
-  //       setId(data.data.mal_id)
-  //       setLoading(false)
-  //     }
-  //   } catch (error) {
-  //     console.error(error)
-  //     setError(true)
-  //     setLoading(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (params.id != id) {
-  //     setLoading(true)
-  //     setAccordionValue('characters')
-  //     getData()
-  //   }
-  // }, [params.id])
 
   return (
     <Layout>
       {mobile ? (
         <>
-          <DetailMobile />
+          <div className='top'>
+            <div className='h1 detail-title'>
+              <Text fz={16}>{isLoading ? <Skeleton /> : data.title}</Text>
+            </div>
+            <div className='content-wrapper'>
+              {isLoading ? (
+                <Skeleton height={200} width={140} />
+              ) : (
+                <div className='content-left' style={{ backgroundImage: `url('${data.images.webp.image_url}')` }} />
+              )}
+              <div className='content-right'>
+                <List>
+                  <List.Item>
+                    <Badge size='xs' style={{ marginRight: 10 }}>
+                      {isLoading ? <Skeleton width={20} /> : Number(data.score)}
+                    </Badge>
+                    {isLoading ? (
+                      <Skeleton width={100} />
+                    ) : (
+                      <span style={{ fontSize: '0.7rem', color: '#7a7a7a' }}>({Number(data.scored_by).toLocaleString()} users)</span>
+                    )}
+                  </List.Item>
+                  <List.Item>{isLoading ? <Skeleton width={100} /> : <Text fz={12}>Ranked #{data.rank}</Text>}</List.Item>
+                  <List.Item>{isLoading ? <Skeleton width={50} /> : <Text fz={12}>{data.type}</Text>}</List.Item>
+                  <List.Item style={{ lineHeight: isLoading ? '1.25rem' : '1rem' }}>
+                    {isLoading ? (
+                      <>
+                        <Skeleton width={50} />
+                        <Skeleton width={150} />
+                      </>
+                    ) : (
+                      <>
+                        <Text fw={500} style={{ fontSize: '0.7rem', marginRight: 10 }}>
+                          Aired
+                        </Text>
+                        <Text fz={11} style={{ margin: 0 }}>
+                          {data.aired.string}
+                        </Text>
+                      </>
+                    )}
+                  </List.Item>
+                  <List.Item style={{ lineHeight: isLoading ? '1.25rem' : '1rem' }}>
+                    {isLoading ? (
+                      <>
+                        <Skeleton width={50} />
+                        <Skeleton width={75} />
+                      </>
+                    ) : (
+                      <>
+                        <Text fw={500} style={{ fontSize: '0.7rem', marginRight: 10 }}>
+                          Studios
+                        </Text>
+                        <Text fz={12} style={{ margin: 0 }}>
+                          {data.studios.map((studio, index) => (
+                            <Text key={index}>{studio.name}</Text>
+                          ))}
+                        </Text>
+                      </>
+                    )}
+                  </List.Item>
+                  <List.Item style={{ marginTop: 10 }}>
+                    {isLoading ? (
+                      <Skeleton width={100} />
+                    ) : (
+                      <>
+                        <InformationModal opened={opened} close={() => setOpened(false)} data={data} />
+                        <Group position='center'>
+                          <Anchor onClick={() => setOpened(true)}>
+                            <Text fz={12}>More Information</Text>
+                          </Anchor>
+                        </Group>
+                      </>
+                    )}
+                  </List.Item>
+                </List>
+              </div>
+            </div>
+          </div>
+          <div className='content-main' style={{ fontSize: '100%', padding: '0 10px 10px 10px' }}>
+            <h2 style={{ fontSize: '14px' }}>{isLoading ? <Skeleton width={70} /> : 'Synopsis'}</h2>
+            {isLoading ? (
+              <Skeleton height={120} />
+            ) : (
+              <>
+                <Spoiler maxHeight={120} showLabel='Show more' hideLabel='Hide' mt={5} fz='xs'>
+                  {data.synopsis}
+                </Spoiler>
+              </>
+            )}
+          </div>
+          <div style={{ margin: '10px 0' }}>
+            <Accordion value={accordionValue} chevronPosition='left' onChange={(e) => setAccordionValue(e)}>
+              <Accordion.Item value='characters'>
+                <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Characters & Voice Actors'}</Accordion.Control>
+                <Accordion.Panel>
+                  {isLoading ? (
+                    <CarouselLoading>
+                      <Skeleton height={126} width={90} />
+                    </CarouselLoading>
+                  ) : (
+                    <Suspense>
+                      <Characters />
+                    </Suspense>
+                  )}
+                </Accordion.Panel>
+              </Accordion.Item>
+
+              <Accordion.Item value='staff'>
+                <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Staff'}</Accordion.Control>
+                <Accordion.Panel>
+                  {isLoading ? (
+                    <CarouselLoading>
+                      <Skeleton height={126} width={90} />
+                    </CarouselLoading>
+                  ) : (
+                    <Suspense>
+                      <Staff />
+                    </Suspense>
+                  )}
+                </Accordion.Panel>
+              </Accordion.Item>
+
+              <Accordion.Item value='recomendations'>
+                <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Recomendations'}</Accordion.Control>
+                <Accordion.Panel>
+                  {isLoading ? (
+                    <CarouselLoading>
+                      <Skeleton height={126} width={90} />
+                    </CarouselLoading>
+                  ) : (
+                    <Suspense>
+                      <Recommendation accordionValue={accordionValue} id={data.mal_id} loaded={!isLoading} />
+                    </Suspense>
+                  )}
+                </Accordion.Panel>
+              </Accordion.Item>
+            </Accordion>
+          </div>
         </>
       ) : (
         <>
