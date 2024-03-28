@@ -1,12 +1,14 @@
-import { Carousel } from '@mantine/carousel'
+import { useState } from 'react'
 import { Badge, Card, Flex, Image, SimpleGrid, Text, Title } from '@mantine/core'
-import axios from 'axios'
-import React, { useState } from 'react'
-import Skeleton from 'react-loading-skeleton'
+import { Carousel } from '@mantine/carousel'
 import { NavLink, useParams } from 'react-router-dom'
-import MyCarousel from './Carousel'
 import { useQuery } from '@tanstack/react-query'
 import { fetcher } from '../utils'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
+import MyCarousel from './Carousel'
+import Recommendation from './Recommendation'
 
 export default function Information({ data, loading }) {
   const { id } = useParams()
@@ -33,19 +35,19 @@ export default function Information({ data, loading }) {
     // retry: 10,
   })
 
-  const testData = async () => {
-    try {
-      if (data) {
-        const { data } = await axios(`http://localhost:3000/anime`)
-        // console.log('data', data)
-        // setDataOpening(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('op')))
-        // setDataEnding(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')))
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
+  // const testData = async () => {
+  //   try {
+  //     if (data) {
+  //       const { data } = await axios(`http://localhost:3000/anime`)
+  //       // console.log('data', data)
+  //       // setDataOpening(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('op')))
+  //       // setDataEnding(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')))
+  //     }
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  // }
+  let test = true
   return (
     <>
       <Card bg={'#f8f8f8'}>
@@ -272,85 +274,7 @@ export default function Information({ data, loading }) {
           {queryRecommendation.isLoading ? <Skeleton /> : 'Recommendations'}
         </h2>
         <div>
-          <MyCarousel slideGap='xs'>
-            {queryRecommendation.isLoading ? (
-              Array(10)
-                .fill()
-                .map((item, index) => (
-                  <Carousel.Slide
-                    key={index}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'column',
-                      marginTop: '5px',
-                    }}>
-                    <div>
-                      <Skeleton height={220} width={140} />
-                    </div>
-                  </Carousel.Slide>
-                ))
-            ) : queryRecommendation.data.length === 0 ? (
-              <Text fz={12}>Recommendation not update yet</Text>
-            ) : (
-              queryRecommendation.data.map((item, index) => {
-                return (
-                  <Carousel.Slide
-                    key={index}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      flexDirection: 'column',
-                      marginTop: '5px',
-                    }}>
-                    <NavLink
-                      to={`/detail/${item.entry.mal_id}`}
-                      style={{
-                        position: 'relative',
-                      }}>
-                      <Image
-                        imageProps={{ loading: 'lazy' }}
-                        height={220}
-                        width={140}
-                        src={item.entry.images.webp.image_url}
-                        withPlaceholder
-                        alt={item.entry?.title?.replace(/[ , -]/g, '_')}
-                        style={{ position: 'relative' }}
-                      />
-                      <Text
-                        color='white'
-                        fz={14}
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 0,
-                          fontWeight: 600,
-                          padding: '0px 5px',
-                          background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                        }}>
-                        {item.votes != null || item.votes != 0 ? <span>{item.votes} users</span> : 'N / A'}
-                      </Text>
-                      <Text
-                        style={{
-                          width: '100%',
-                          fontSize: '11px',
-                          fontWeight: 400,
-                          padding: '15px 5px 5px',
-                          bottom: 0,
-                          position: 'absolute',
-                          color: '#fff',
-                          background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                        }}>
-                        {item.entry.title}
-                      </Text>
-                    </NavLink>
-                  </Carousel.Slide>
-                )
-              })
-            )}
-          </MyCarousel>
+          <Recommendation />
         </div>
       </div>
     </>

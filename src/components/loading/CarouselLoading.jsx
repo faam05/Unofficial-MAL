@@ -2,12 +2,12 @@ import React from 'react'
 import { Carousel } from '@mantine/carousel'
 import MyCarousel from '../Carousel'
 
-const CarouselLoading = ({ carouselStyle, children, gap = '1px' }) => {
+const CarouselLoading = ({ carouselStyle, children, gap = '1px', drag, withControls, slideSize }) => {
   return (
-    <MyCarousel drag slideGap={gap} withControls={false} slideSize='fit-contain'>
+    <MyCarousel drag={drag} slideGap={gap} withControls={withControls} slideSize={slideSize} changeSlide='auto'>
       {Array(10)
         .fill()
-        .map((item, index) => {
+        .map((_, index) => {
           return (
             <Carousel.Slide key={index} style={carouselStyle}>
               {children}

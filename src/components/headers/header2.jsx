@@ -83,6 +83,7 @@ export default function CustomHeader2() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          padding: mobile && 0,
         }}>
         <NavLink to='/' style={{ textDecoration: 'none' }}>
           MAL

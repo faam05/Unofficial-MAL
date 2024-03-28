@@ -1,15 +1,15 @@
-import { NavLink } from 'react-router-dom'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
 import { Flex, Image, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { NavLink } from 'react-router-dom'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 
 import Layout from '../components/layouts'
 import MyCarousel from '../components/Carousel'
 // const MyCarousel = lazy(() => import('../../components/Carousel'))
-import DesktopLoading from '../components/loading/DesktopLoading'
+import HomeLoading from '../components/loading/Home'
 
 export default function Home() {
   const mobile = useMobileDevice()
@@ -132,7 +132,7 @@ export default function Home() {
             {queryNow.isLoading
               ? Array(10)
                   .fill()
-                  .map((_, index) => <DesktopLoading key={index} />)
+                  .map((_, index) => <HomeLoading key={index} />)
               : queryNow.data.map((item, index) => {
                   return (
                     <Carousel.Slide
@@ -150,14 +150,7 @@ export default function Home() {
                         style={{
                           position: 'relative',
                         }}>
-                        <Image
-                          imageProps={{ loading: 'eager' }}
-                          height={220}
-                          width={160}
-                          src={item.images.webp.image_url}
-                          withPlaceholder
-                          alt={item.title.replace(/[ , -]/g, '_')}
-                        />
+                        <Image height={220} width={160} src={item.images.webp.image_url} withPlaceholder alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
                           style={{
                             width: '100%',
@@ -195,7 +188,7 @@ export default function Home() {
             {querySchedule.isLoading
               ? Array(10)
                   .fill()
-                  .map((_, index) => <DesktopLoading key={index} />)
+                  .map((_, index) => <HomeLoading key={index} />)
               : querySchedule.data.map((item, index) => {
                   // console.log(`${item.mal_id}-${item.title.replace(/ /g, '')}`)
                   return (
@@ -214,14 +207,7 @@ export default function Home() {
                         style={{
                           position: 'relative',
                         }}>
-                        <Image
-                          imageProps={{ loading: 'eager' }}
-                          height={220}
-                          width={160}
-                          src={item.images.webp.image_url}
-                          withPlaceholder
-                          alt={item.title.replace(/[ , -]/g, '_')}
-                        />
+                        <Image height={220} width={160} src={item.images.webp.image_url} withPlaceholder alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
                           style={{
                             width: '100%',
@@ -259,7 +245,7 @@ export default function Home() {
             {queryTop.isLoading
               ? Array(10)
                   .fill()
-                  .map((_, index) => <DesktopLoading key={index} />)
+                  .map((_, index) => <HomeLoading key={index} />)
               : queryTop.data.map((item, index) => {
                   return (
                     <Carousel.Slide
@@ -277,14 +263,7 @@ export default function Home() {
                         style={{
                           position: 'relative',
                         }}>
-                        <Image
-                          imageProps={{ loading: 'eager' }}
-                          height={220}
-                          width={160}
-                          src={item.images.webp.image_url}
-                          withPlaceholder
-                          alt={item.title.replace(/[ , -]/g, '_')}
-                        />
+                        <Image height={220} width={160} src={item.images.webp.image_url} withPlaceholder alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
                           color='white'
                           fz={14}
