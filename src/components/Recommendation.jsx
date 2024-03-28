@@ -1,11 +1,9 @@
 import { NavLink, useParams } from 'react-router-dom'
 import { Carousel } from '@mantine/carousel'
 import { Image, Text } from '@mantine/core'
-import { useQuery } from '@tanstack/react-query'
-import { fetcher } from '../utils'
+import { useQueryClient } from '@tanstack/react-query'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
 import MyCarousel from './Carousel'
 import CarouselLoading from './loading/CarouselLoading'
 import { useMobileDevice } from '../hooks/useMobileDevice'
@@ -14,13 +12,10 @@ const Recommendation = () => {
   const { id } = useParams()
   const mobile = useMobileDevice()
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['recommendations', id],
-    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`),
-    // retry: 10,
-  })
+  const queryClient = useQueryClient()
+  const { data, status, error } = queryClient.getQueryState(['recommendations', id])
 
-  if (isError) {
+  if (error) {
     return (
       <div style={{ textAlign: 'center' }}>
         <Text>Something went wrong when fetching List Recommendation</Text>
@@ -30,7 +25,7 @@ const Recommendation = () => {
 
   return (
     <>
-      {isLoading ? (
+      {status === 'pending' ? (
         <CarouselLoading
           gap={mobile ? '1px' : 'xs'}
           drag={mobile && true}
