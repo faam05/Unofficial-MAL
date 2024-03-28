@@ -1,14 +1,14 @@
 import { ActionIcon, Badge, Card, Center, Flex, Image, Rating, SimpleGrid, Spoiler, Text } from '@mantine/core'
 import { IconBrandYoutube } from '@tabler/icons'
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useMobileDevice } from '../../hooks/useMobileDevice'
 
 const DisplayCard = ({ data }) => {
   const matches = useMobileDevice()
 
   return (
-    <SimpleGrid cols={matches ? 1 : 2} style={{ marginTop: '10px' }}>
+    <SimpleGrid cols={matches ? (window.innerWidth < 768 ? 1 : 2) : 2} style={{ marginTop: '10px' }}>
       {data.map((item, index) => {
         return (
           <Card key={index} shadow='sm' radius='md'>
@@ -61,9 +61,9 @@ const DisplayCard = ({ data }) => {
                     {item.title}
                   </NavLink>
                 </Text>
-                <Flex mt={!matches ? 10 : 5}>
-                  <Text fz={!matches ? 'md' : 11}>
-                    {item.type} {item.episodes ? `(${item.episodes} episodes)` : `( ${item.status} )`}
+                <Flex mt={!matches ? 10 : 5} style={{ alignItems: 'center', justifyContent: 'space-evenly' }}>
+                  <Text fz={!matches ? 'md' : 12}>
+                    {item.type} {item.episodes ? `(${item.episodes} episodes)` : `(${item.status})`}
                   </Text>
                   {item.trailer.url ? (
                     <ActionIcon variant='transparent' color='red' component='a' href={item.trailer.url}>
