@@ -6,7 +6,7 @@ import { useMobileDevice } from '../../hooks/useMobileDevice'
 const CardLoading = () => {
   const matches = useMobileDevice()
   return (
-    <SimpleGrid cols={matches ? 1 : 2} style={{ marginTop: '10px' }}>
+    <SimpleGrid cols={matches ? (window.innerWidth < 768 ? 1 : 2) : 2} style={{ marginTop: '10px' }}>
       {Array(10)
         .fill()
         .map((_, index) => {
