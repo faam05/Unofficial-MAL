@@ -42,6 +42,13 @@ function Detail() {
     // retry: 10,
   })
 
+  // get recommendations anime
+  useQuery({
+    queryKey: ['recommendations', id],
+    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`),
+    // retry: 10,
+  })
+
   if (isError) {
     return (
       <div style={{ textAlign: 'center' }}>
@@ -185,7 +192,7 @@ function Detail() {
                     </CarouselLoading>
                   ) : (
                     <Suspense>
-                      <Recommendation accordionValue={accordionValue} id={data.mal_id} loaded={!isLoading} />
+                      <Recommendation />
                     </Suspense>
                   )}
                 </Accordion.Panel>

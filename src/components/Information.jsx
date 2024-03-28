@@ -1,23 +1,16 @@
-import { useState } from 'react'
 import { Badge, Card, Flex, Image, SimpleGrid, Text, Title } from '@mantine/core'
-import { Carousel } from '@mantine/carousel'
-import { NavLink, useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useParams } from 'react-router-dom'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { fetcher } from '../utils'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
-import MyCarousel from './Carousel'
 import Recommendation from './Recommendation'
 
 export default function Information({ data, loading }) {
   const { id } = useParams()
 
-  const [dataOpening, setDataOpening] = useState([])
-  const [dataEnding, setDataEnding] = useState([])
-
   // get videos
-  const queryVideos = useQuery({
+  const { isLoading, isError } = useQuery({
     queryKey: ['videos', id],
     queryFn: async () => {
       const data = await fetcher(`https://api.jikan.moe/v4/anime/${id}/videos`)
@@ -29,25 +22,26 @@ export default function Information({ data, loading }) {
   })
 
   // get recommendation
-  const queryRecommendation = useQuery({
-    queryKey: ['recommedation', id],
-    queryFn: async () => fetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`),
-    // retry: 10,
-  })
+  const queryClient = useQueryClient()
+  const queryRecommendation = queryClient.getQueryState(['recommendations', id])
+  const queryVideo = queryClient.getQueryState(['videos', id])
 
-  // const testData = async () => {
-  //   try {
-  //     if (data) {
-  //       const { data } = await axios(`http://localhost:3000/anime`)
-  //       // console.log('data', data)
-  //       // setDataOpening(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('op')))
-  //       // setDataEnding(data.data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')))
-  //     }
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
-  let test = true
+  if (isError) {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Text>Something went wrong when fetching List Videos</Text>
+      </div>
+    )
+  }
+
+  if (queryRecommendation.status === 'error') {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <Text>Something went wrong when fetching List Recommendation</Text>
+      </div>
+    )
+  }
+
   return (
     <>
       <Card bg={'#f8f8f8'}>
@@ -173,10 +167,10 @@ export default function Information({ data, loading }) {
               color: 'black',
               fontWeight: 700,
             }}>
-            {queryVideos.isLoading ? <Skeleton /> : 'Opening Theme'}
+            {isLoading ? <Skeleton /> : 'Opening Theme'}
           </h2>
           <div>
-            {queryVideos.isLoading ? (
+            {isLoading ? (
               Array(3)
                 .fill()
                 .map((item, index) => (
@@ -188,24 +182,26 @@ export default function Information({ data, loading }) {
                     </div>
                   </Flex>
                 ))
-            ) : dataOpening.length === 0 ? (
+            ) : data.music_videos.filter((item) => item.title.toLowerCase().includes('op')).length === 0 ? (
               <Text fz={12}>Opening not update yet</Text>
             ) : (
-              dataOpening.map((item, index) => (
-                <Flex key={index} mb={10}>
-                  <Image
-                    imageProps={{ loading: 'lazy' }}
-                    width={100}
-                    height={55}
-                    src={item.video.images.image_url}
-                    alt={item.title?.replace(/[ , -]/g, '_')}
-                  />
-                  <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                    <Text fz={12}>{item.title}</Text>
-                    <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
-                  </div>
-                </Flex>
-              ))
+              data.music_videos
+                .filter((item) => item.title.toLowerCase().includes('op'))
+                .map((item, index) => (
+                  <Flex key={index} mb={10}>
+                    <Image
+                      imageProps={{ loading: 'lazy' }}
+                      width={100}
+                      height={55}
+                      src={item.video.images.image_url}
+                      alt={item.title?.replace(/[ , -]/g, '_')}
+                    />
+                    <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                      <Text fz={12}>{item.title}</Text>
+                      <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
+                    </div>
+                  </Flex>
+                ))
             )}
           </div>
         </div>
@@ -220,10 +216,10 @@ export default function Information({ data, loading }) {
               color: 'black',
               fontWeight: 700,
             }}>
-            {queryVideos.isLoading ? <Skeleton /> : 'Ending Theme'}
+            {isLoading ? <Skeleton /> : 'Ending Theme'}
           </h2>
           <div>
-            {queryVideos.isLoading ? (
+            {isLoading ? (
               Array(3)
                 .fill()
                 .map((item, index) => (
@@ -235,26 +231,28 @@ export default function Information({ data, loading }) {
                     </div>
                   </Flex>
                 ))
-            ) : dataEnding.length === 0 ? (
+            ) : data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')).length === 0 ? (
               <Text fz={12}>Ending not update yet</Text>
             ) : (
-              dataEnding.map((item, index) => (
-                <Flex key={index} mb={10}>
-                  <Image
-                    imageProps={{ loading: 'lazy' }}
-                    width={100}
-                    height={55}
-                    src={item.video.images.image_url}
-                    alt={item.meta?.title?.replace(/[ , -]/g, '_')}
-                  />
-                  <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                    <Text fz={12}>{item.title}</Text>
-                    <Text fz={10}>
-                      {item.meta.title} by {item.meta.author}
-                    </Text>
-                  </div>
-                </Flex>
-              ))
+              data.music_videos
+                .filter((item) => item.title.toLowerCase().includes('ed'))
+                .map((item, index) => (
+                  <Flex key={index} mb={10}>
+                    <Image
+                      imageProps={{ loading: 'lazy' }}
+                      width={100}
+                      height={55}
+                      src={item.video.images.image_url}
+                      alt={item.meta?.title?.replace(/[ , -]/g, '_')}
+                    />
+                    <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                      <Text fz={12}>{item.title}</Text>
+                      <Text fz={10}>
+                        {item.meta.title} by {item.meta.author}
+                      </Text>
+                    </div>
+                  </Flex>
+                ))
             )}
           </div>
         </div>
@@ -271,7 +269,7 @@ export default function Information({ data, loading }) {
             color: 'black',
             fontWeight: 700,
           }}>
-          {queryRecommendation.isLoading ? <Skeleton /> : 'Recommendations'}
+          {queryRecommendation.status === 'pending' ? <Skeleton /> : 'Recommendations'}
         </h2>
         <div>
           <Recommendation />
