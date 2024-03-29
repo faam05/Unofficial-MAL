@@ -17,7 +17,7 @@ export default function Characters() {
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['characters', id],
-    queryFn: async () => fetcher(`https://api.jikan.moe/v4/anime/${id}/characters`),
+    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/characters`),
     // retry: 10,
   })
 
@@ -35,10 +35,12 @@ export default function Characters() {
         {isLoading ? (
           <Skeleton />
         ) : (
-          <div style={{ display: 'flex' }}>
-            <span>Characters</span>
-            <span style={{ marginLeft: 'auto' }}>Voice Actors</span>
-          </div>
+          !mobile && (
+            <div style={{ display: 'flex' }}>
+              <span>Characters</span>
+              <span style={{ marginLeft: 'auto' }}>Voice Actors</span>
+            </div>
+          )
         )}
       </div>
       {isLoading ? (
