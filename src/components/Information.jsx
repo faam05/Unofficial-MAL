@@ -10,37 +10,15 @@ export default function Information({ data, loading }) {
   const { id } = useParams()
 
   // get videos
-  const { isLoading, isError } = useQuery({
+  const queryVideos = useQuery({
     queryKey: ['videos', id],
-    queryFn: async () => {
-      const data = await fetcher(`https://api.jikan.moe/v4/anime/${id}/videos`)
-      setDataOpening(data.music_videos.filter((item) => item.title.toLowerCase().includes('op')))
-      setDataEnding(data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')))
-      return data
-    },
+    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/videos`),
     // retry: 10,
   })
 
   // get recommendation
   const queryClient = useQueryClient()
   const queryRecommendation = queryClient.getQueryState(['recommendations', id])
-  const queryVideo = queryClient.getQueryState(['videos', id])
-
-  if (isError) {
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <Text>Something went wrong when fetching List Videos</Text>
-      </div>
-    )
-  }
-
-  if (queryRecommendation.status === 'error') {
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <Text>Something went wrong when fetching List Recommendation</Text>
-      </div>
-    )
-  }
 
   return (
     <>
@@ -155,126 +133,138 @@ export default function Information({ data, loading }) {
       </div>
 
       {/* Videos */}
-      <SimpleGrid cols={2} mt={10}>
-        {/* Opening */}
-        <div>
-          <h2
-            style={{
-              fontSize: 14,
-              borderColor: '#bebebe',
-              borderStyle: 'solid',
-              borderWidth: '0 0 1px',
-              color: 'black',
-              fontWeight: 700,
-            }}>
-            {isLoading ? <Skeleton /> : 'Opening Theme'}
-          </h2>
-          <div>
-            {isLoading ? (
-              Array(3)
-                .fill()
-                .map((item, index) => (
-                  <Flex key={index} mb={10}>
-                    <Skeleton height={55} width={100} />
-                    <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                      <Skeleton height={12} width={100} />
-                      <Skeleton height={10} width={100} />
-                    </div>
-                  </Flex>
-                ))
-            ) : data.music_videos.filter((item) => item.title.toLowerCase().includes('op')).length === 0 ? (
-              <Text fz={12}>Opening not update yet</Text>
-            ) : (
-              data.music_videos
-                .filter((item) => item.title.toLowerCase().includes('op'))
-                .map((item, index) => (
-                  <Flex key={index} mb={10}>
-                    <Image
-                      imageProps={{ loading: 'lazy' }}
-                      width={100}
-                      height={55}
-                      src={item.video.images.image_url}
-                      alt={item.title?.replace(/[ , -]/g, '_')}
-                    />
-                    <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                      <Text fz={12}>{item.title}</Text>
-                      <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
-                    </div>
-                  </Flex>
-                ))
-            )}
-          </div>
+      {queryVideos.isError ? (
+        <div style={{ textAlign: 'center' }}>
+          <Text>Something went wrong when fetching List Videos</Text>
         </div>
-        {/* Ending */}
-        <div>
-          <h2
-            style={{
-              fontSize: 14,
-              borderColor: '#bebebe',
-              borderStyle: 'solid',
-              borderWidth: '0 0 1px',
-              color: 'black',
-              fontWeight: 700,
-            }}>
-            {isLoading ? <Skeleton /> : 'Ending Theme'}
-          </h2>
+      ) : (
+        <SimpleGrid cols={2} mt={10}>
+          {/* Opening */}
           <div>
-            {isLoading ? (
-              Array(3)
-                .fill()
-                .map((item, index) => (
-                  <Flex key={index} mb={10}>
-                    <Skeleton height={55} width={100} />
-                    <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                      <Skeleton height={12} width={100} />
-                      <Skeleton height={10} width={100} />
-                    </div>
-                  </Flex>
-                ))
-            ) : data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')).length === 0 ? (
-              <Text fz={12}>Ending not update yet</Text>
-            ) : (
-              data.music_videos
-                .filter((item) => item.title.toLowerCase().includes('ed'))
-                .map((item, index) => (
-                  <Flex key={index} mb={10}>
-                    <Image
-                      imageProps={{ loading: 'lazy' }}
-                      width={100}
-                      height={55}
-                      src={item.video.images.image_url}
-                      alt={item.meta?.title?.replace(/[ , -]/g, '_')}
-                    />
-                    <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
-                      <Text fz={12}>{item.title}</Text>
-                      <Text fz={10}>
-                        {item.meta.title} by {item.meta.author}
-                      </Text>
-                    </div>
-                  </Flex>
-                ))
-            )}
+            <h2
+              style={{
+                fontSize: 14,
+                borderColor: '#bebebe',
+                borderStyle: 'solid',
+                borderWidth: '0 0 1px',
+                color: 'black',
+                fontWeight: 700,
+              }}>
+              {queryVideos.isLoading ? <Skeleton /> : 'Opening Theme'}
+            </h2>
+            <div>
+              {queryVideos.isLoading ? (
+                Array(3)
+                  .fill()
+                  .map((item, index) => (
+                    <Flex key={index} mb={10}>
+                      <Skeleton height={55} width={100} />
+                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                        <Skeleton height={12} width={100} />
+                        <Skeleton height={10} width={100} />
+                      </div>
+                    </Flex>
+                  ))
+              ) : queryVideos.data.music_videos.filter((item) => item.title.toLowerCase().includes('op')).length === 0 ? (
+                <Text fz={12}>Opening not update yet</Text>
+              ) : (
+                queryVideos.data.music_videos
+                  .filter((item) => item.title.toLowerCase().includes('op'))
+                  .map((item, index) => (
+                    <Flex key={index} mb={10}>
+                      <Image
+                        imageProps={{ loading: 'lazy' }}
+                        width={100}
+                        height={55}
+                        src={item.video.images.image_url}
+                        alt={item.title?.replace(/[ , -]/g, '_')}
+                      />
+                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                        <Text fz={12}>{item.title}</Text>
+                        <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
+                      </div>
+                    </Flex>
+                  ))
+              )}
+            </div>
           </div>
-        </div>
-      </SimpleGrid>
+          {/* Ending */}
+          <div>
+            <h2
+              style={{
+                fontSize: 14,
+                borderColor: '#bebebe',
+                borderStyle: 'solid',
+                borderWidth: '0 0 1px',
+                color: 'black',
+                fontWeight: 700,
+              }}>
+              {queryVideos.isLoading ? <Skeleton /> : 'Ending Theme'}
+            </h2>
+            <div>
+              {queryVideos.isLoading ? (
+                Array(3)
+                  .fill()
+                  .map((item, index) => (
+                    <Flex key={index} mb={10}>
+                      <Skeleton height={55} width={100} />
+                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                        <Skeleton height={12} width={100} />
+                        <Skeleton height={10} width={100} />
+                      </div>
+                    </Flex>
+                  ))
+              ) : queryVideos.data.music_videos.filter((item) => item.title.toLowerCase().includes('ed')).length === 0 ? (
+                <Text fz={12}>Ending not update yet</Text>
+              ) : (
+                queryVideos.data.music_videos
+                  .filter((item) => item.title.toLowerCase().includes('ed'))
+                  .map((item, index) => (
+                    <Flex key={index} mb={10}>
+                      <Image
+                        imageProps={{ loading: 'lazy' }}
+                        width={100}
+                        height={55}
+                        src={item.video.images.image_url}
+                        alt={item.meta?.title?.replace(/[ , -]/g, '_')}
+                      />
+                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                        <Text fz={12}>{item.title}</Text>
+                        <Text fz={10}>
+                          {item.meta.title} by {item.meta.author}
+                        </Text>
+                      </div>
+                    </Flex>
+                  ))
+              )}
+            </div>
+          </div>
+        </SimpleGrid>
+      )}
 
       {/* recommendation */}
-      <div>
-        <h2
-          style={{
-            fontSize: 14,
-            borderColor: '#bebebe',
-            borderStyle: 'solid',
-            borderWidth: '0 0 1px',
-            color: 'black',
-            fontWeight: 700,
-          }}>
-          {queryRecommendation.status === 'pending' ? <Skeleton /> : 'Recommendations'}
-        </h2>
-        <div>
-          <Recommendation />
+      {queryRecommendation.status === 'error' ? (
+        <div style={{ textAlign: 'center' }}>
+          <Text>Something went wrong when fetching List Recommendation</Text>
         </div>
-      </div>
+      ) : (
+        <div>
+          <h2
+            style={{
+              fontSize: 14,
+              borderColor: '#bebebe',
+              borderStyle: 'solid',
+              borderWidth: '0 0 1px',
+              color: 'black',
+              fontWeight: 700,
+            }}>
+            {queryRecommendation.status === 'pending' ? <Skeleton /> : 'Recommendations'}
+          </h2>
+          <div>
+            <Recommendation />
+          </div>
+        </div>
+      )}
     </>
   )
 }
