@@ -4,10 +4,10 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { useMobileDevice } from '../../hooks/useMobileDevice'
 
 const CardLoading = () => {
-  const matches = useMobileDevice()
+  const mobile = useMobileDevice()
   return (
     <>
-      <SimpleGrid cols={matches ? (window.innerWidth < 768 ? 1 : 2) : 2} style={{ marginTop: '10px' }}>
+      <SimpleGrid cols={mobile ? (window.innerWidth > 549 ? 2 : 1) : window.innerWidth < 1024 ? 2 : 3} style={{ marginTop: '10px' }}>
         {Array(10)
           .fill()
           .map((_, index) => {
@@ -18,7 +18,7 @@ const CardLoading = () => {
                     <Center>
                       <Flex direction={'column'}>
                         <Skeleton
-                          height={!matches ? 250 : 150}
+                          height={!mobile ? 250 : 150}
                           style={{
                             marginRight: 10,
                           }}
@@ -27,13 +27,13 @@ const CardLoading = () => {
                           <Skeleton />
                         </Text>
                         <Flex justify={'space-evenly'}>
-                          <Rating size={!matches ? 'md' : 'xs'} value={0} readOnly />
-                          <Badge size={!matches ? 'md' : 'xs'}>
+                          <Rating size={!mobile ? 'md' : 'xs'} value={0} readOnly />
+                          <Badge size={!mobile ? 'md' : 'xs'}>
                             <Skeleton />
                           </Badge>
                         </Flex>
                         <Center>
-                          <Badge m='10px 1px' variant='light' color='gray' size={!matches ? 'md' : 'xs'}>
+                          <Badge m='10px 1px' variant='light' color='gray' size={!mobile ? 'md' : 'xs'}>
                             <Skeleton width={50} />
                           </Badge>
                         </Center>
@@ -41,7 +41,7 @@ const CardLoading = () => {
                     </Center>
                   </div>
                   <div>
-                    <Text mt={!matches ? 10 : 0} fz={!matches ? 'md' : 'sm'}>
+                    <Text mt={!mobile ? 10 : 0} fz={!mobile ? 'md' : 'sm'}>
                       <Skeleton />
                     </Text>
                     <Skeleton />
@@ -49,7 +49,7 @@ const CardLoading = () => {
                       {Array(4)
                         .fill()
                         .map((_, index) => (
-                          <Badge key={index} size={!matches ? 'md' : 'sm'} variant='light' color='gray'>
+                          <Badge key={index} size={!mobile ? 'md' : 'sm'} variant='light' color='gray'>
                             <Skeleton width={60} />
                           </Badge>
                         ))}
