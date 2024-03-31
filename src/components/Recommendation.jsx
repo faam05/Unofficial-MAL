@@ -8,7 +8,7 @@ import MyCarousel from './Carousel'
 import CarouselLoading from './loading/CarouselLoading'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 
-const Recommendation = () => {
+const Recommendation = ({ loading }) => {
   const { id } = useParams()
   const mobile = useMobileDevice()
 
@@ -25,7 +25,7 @@ const Recommendation = () => {
 
   return (
     <>
-      {status === 'pending' ? (
+      {status === 'pending' || loading ? (
         <CarouselLoading
           gap={mobile ? '1px' : 'xs'}
           drag={mobile && true}
@@ -48,7 +48,7 @@ const Recommendation = () => {
         </CarouselLoading>
       ) : (
         <MyCarousel
-          drag={mobile && true}
+          drag={mobile ? true : false}
           slideGap={mobile ? '1px' : 'xs'}
           withControls={mobile ? false : true}
           slideSize={mobile && 'fit-contain'}
@@ -73,16 +73,15 @@ const Recommendation = () => {
                       position: 'relative',
                     }}>
                     <Image
-                      imageProps={{ loading: 'lazy' }}
-                      height={mobile ? 126 : 220}
-                      width={mobile ? 90 : 140}
+                      h={mobile ? 126 : 220}
+                      w={mobile ? 90 : 140}
                       src={mobile ? item.entry.images.webp.image_url : item.entry.images.webp.image_url}
-                      withPlaceholder
                       alt={item.entry?.title?.replace(/[ , -]/g, '_')}
                       style={{ position: 'relative' }}
                     />
                     <Text
-                      color='white'
+                      c='white'
+                      lineClamp={2}
                       fz={mobile ? 8 : 14}
                       style={{
                         position: 'absolute',
@@ -96,6 +95,7 @@ const Recommendation = () => {
                     </Text>
                     <Text
                       fz={mobile ? 10 : 11}
+                      lineClamp={2}
                       style={{
                         width: '100%',
                         fontWeight: 400,

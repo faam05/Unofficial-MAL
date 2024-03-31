@@ -1,5 +1,4 @@
 import { Text } from '@mantine/core'
-import Layout from '../components/layouts'
 import CardLoading from '../components/loading/CardLoading'
 import DisplayCard from '../components/DisplayCard'
 import Skeleton from 'react-loading-skeleton'
@@ -23,17 +22,17 @@ export default function ComingSoon() {
   if (isError) return <Text>Something went wrong</Text>
 
   return (
-    <Layout>
+    <>
       <Text
         variant='gradient'
         gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
         sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
         ta='center'
-        fz='xl'
+        size='xl'
         fw={700}>
         {!isLoading ? `${useFirstLetter(data[0].season)}` : <Skeleton />}
       </Text>
       {!isLoading ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
-    </Layout>
+    </>
   )
 }

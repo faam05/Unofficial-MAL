@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { createStyles, Header, Container, Group, Burger, Paper, Transition, Text, Autocomplete, Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import { IconSearch } from '@tabler/icons'
+import { IconSearch } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
 
 const HEADER_HEIGHT = 56

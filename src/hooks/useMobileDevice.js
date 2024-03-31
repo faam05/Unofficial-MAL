@@ -13,5 +13,5 @@ export const useMobileDevice = () => {
     }
   }, [])
 
-  return isMobile <= 769
+  return isMobile < 768
 }

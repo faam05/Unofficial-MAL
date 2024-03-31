@@ -1,7 +1,7 @@
-import { Burger, Button, Container, Group, Header, Modal, Paper, Text, Transition, createStyles, useMantineTheme } from '@mantine/core'
+import { Burger, Button, Container, Group, AppShell, Modal, Paper, Text, Transition, useMantineTheme } from '@mantine/core'
 import { useState } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import { IconSearch } from '@tabler/icons'
+import { IconSearch } from '@tabler/icons-react'
 import CSearch from '../CSearch'
 import { useDisclosure } from '@mantine/hooks'
 import { useMobileDevice } from '../../hooks/useMobileDevice'
@@ -14,51 +14,51 @@ const links = [
   { link: '/coming-soon', label: 'Coming Soon' },
 ]
 
-const useStyles = createStyles((theme) => ({
-  dropdown: {
-    position: 'absolute',
-    top: HEADER_HEIGHT,
-    left: 0,
-    right: 0,
-    zIndex: 0,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-    borderTopWidth: 0,
-    overflow: 'hidden',
+// const useStyles = createStyles((theme) => ({
+//   dropdown: {
+//     position: 'absolute',
+//     top: HEADER_HEIGHT,
+//     left: 0,
+//     right: 0,
+//     zIndex: 0,
+//     borderTopRightRadius: 0,
+//     borderTopLeftRadius: 0,
+//     borderTopWidth: 0,
+//     overflow: 'hidden',
 
-    [theme.fn.largerThan('sm')]: {
-      display: 'none',
-    },
-  },
+//     [theme.fn.largerThan('sm')]: {
+//       display: 'none',
+//     },
+//   },
 
-  link: {
-    display: 'block',
-    lineHeight: 1,
-    padding: '8px 30px',
-    borderRadius: theme.radius.xs,
-    textDecoration: 'none',
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
-    fontSize: theme.fontSizes.sm,
-    fontWeight: 700,
+//   link: {
+//     display: 'block',
+//     lineHeight: 1,
+//     padding: '8px 30px',
+//     borderRadius: theme.radius.xs,
+//     textDecoration: 'none',
+//     color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.colors.gray[7],
+//     fontSize: theme.fontSizes.sm,
+//     fontWeight: 700,
 
-    '&:hover': {
-      backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-    },
-  },
-}))
+//     '&:hover': {
+//       backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+//     },
+//   },
+// }))
 
 export default function CustomHeader2() {
   const mobile = useMobileDevice()
 
   // Mobile
   const theme = useMantineTheme()
-  const { classes, cx } = useStyles()
+  // const { classes, cx } = useStyles()
   const location = useLocation()
 
   const items = links.map((link) => (
     <NavLink
       key={link.label}
-      className={cx(classes.link)}
+      // className={cx(classes.link)}
       style={{ textDecoration: 'none', backgroundColor: location.pathname == link.link ? theme.colors.gray[2] : 'transparent' }}
       onClick={(event) => {
         event.preventDefault()
@@ -72,11 +72,11 @@ export default function CustomHeader2() {
   const navigate = useNavigate()
 
   //   Modal
-  const [opened, { toggle, close }] = useDisclosure(false)
+  const [opened, { toggle }] = useDisclosure()
   const [openedModal, setOpenedModal] = useState(false)
 
   return (
-    <Header height={{ base: 70, md: 70 }} p='md'>
+    <AppShell.Header height={{ base: 70, md: 70 }} p='md'>
       <Container
         size={1060}
         style={{
@@ -108,10 +108,10 @@ export default function CustomHeader2() {
                 }}
               />
             </Modal>
-            <Burger opened={opened} onClick={toggle} size='sm' color={theme.colors.gray[6]} />
+            <Burger opened={opened} onClick={toggle} hiddenFrom='sm' size='sm' />
             <Transition transition='pop-top-right' duration={200} mounted={opened}>
               {(styles) => (
-                <Paper className={classes.dropdown} withBorder style={{ ...styles, display: 'block' }}>
+                <Paper withBorder style={{ ...styles, display: 'block' }}>
                   {items}
                 </Paper>
               )}
@@ -120,7 +120,7 @@ export default function CustomHeader2() {
         ) : (
           <>
             <Group spacing={5}>
-              <Button
+              {/* <Button
                 variant={location.pathname !== '/' ? 'subtle' : 'filled'}
                 style={{
                   marginRight: 10,
@@ -137,11 +137,11 @@ export default function CustomHeader2() {
                   width: 300,
                   maxHeight: 350,
                 }}
-              />
+              /> */}
             </Group>
           </>
         )}
       </Container>
-    </Header>
+    </AppShell.Header>
   )
 }
