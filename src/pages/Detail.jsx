@@ -7,13 +7,12 @@ import { fetcher } from '../utils'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import '../styles/detail.css'
-import Layout from '../components/layouts'
+
 const Information = lazy(() => import('../components/Information'))
-const Characters = lazy(() => import('../components/Characters'))
-const Staff = lazy(() => import('../components/Staff'))
-const InformationModal = lazy(() => import('../components/InformationModal'))
-const Recommendation = lazy(() => import('../components/Recommendation'))
-import CarouselLoading from '../components/loading/CarouselLoading'
+import Characters from '../components/Characters'
+import InformationModal from '../components/InformationModal'
+import Staff from '../components/Staff'
+import Recommendation from '../components/Recommendation'
 
 function Detail() {
   const { id } = useParams()
@@ -28,6 +27,7 @@ function Detail() {
   const [accordionValue, setAccordionValue] = useState('characters')
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     if (nowId !== id) {
       window.scrollTo(0, 0)
       setNowId(id)
@@ -58,7 +58,7 @@ function Detail() {
   }
 
   return (
-    <Layout>
+    <>
       {mobile ? (
         <>
           <div className='top'>
@@ -113,11 +113,11 @@ function Detail() {
                         <Text fw={500} style={{ fontSize: '0.7rem', marginRight: 10 }}>
                           Studios
                         </Text>
-                        <Text fz={12} style={{ margin: 0 }}>
-                          {data.studios.map((studio, index) => (
-                            <Text key={index}>{studio.name}</Text>
-                          ))}
-                        </Text>
+                        {data.studios.map((studio, index) => (
+                          <Text key={index} fz={12} style={{ margin: 0 }}>
+                            {studio.name}
+                          </Text>
+                        ))}
                       </>
                     )}
                   </List.Item>
@@ -156,48 +156,106 @@ function Detail() {
               <Accordion.Item value='characters'>
                 <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Characters & Voice Actors'}</Accordion.Control>
                 <Accordion.Panel>
-                  {isLoading ? (
-                    <CarouselLoading>
-                      <Skeleton height={126} width={90} />
-                    </CarouselLoading>
-                  ) : (
-                    <Suspense>
-                      <Characters />
-                    </Suspense>
-                  )}
+                  <Characters loading={isLoading} />
                 </Accordion.Panel>
               </Accordion.Item>
 
               <Accordion.Item value='staff'>
                 <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Staff'}</Accordion.Control>
                 <Accordion.Panel>
-                  {isLoading ? (
+                  <Staff loading={isLoading} />
+                  {/* {staff.isLoading ? (
                     <CarouselLoading>
                       <Skeleton height={126} width={90} />
                     </CarouselLoading>
                   ) : (
-                    <Suspense>
-                      <Staff />
-                    </Suspense>
-                  )}
+                    <MyCarousel drag={true} slideGap='xs' withControls={false} slideSize='fit-contain' loop={false} changeSlide='auto'>
+                      {staff.data?.map((item, index) => {
+                        return (
+                          <Carousel.Slide
+                            key={index}
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              maxWidth: '90px',
+                              marginRight: 1,
+                            }}>
+                            <NavLink to={item.person.url}>
+                              <Image height={126} width={90} src={item.person.images.jpg.image_url} />
+                            </NavLink>
+                            <Text fz={10} truncate>
+                              {item.positions ? item.positions.join(', ') : ''}
+                            </Text>
+                            <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
+                              <Text fz={10} truncate>
+                                {item.person.name}
+                              </Text>
+                            </NavLink>
+                          </Carousel.Slide>
+                        )
+                      })}
+                    </MyCarousel>
+                  )} */}
                 </Accordion.Panel>
               </Accordion.Item>
 
               <Accordion.Item value='recomendations'>
                 <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Recomendations'}</Accordion.Control>
                 <Accordion.Panel>
-                  {isLoading ? (
+                  <Recommendation loading={isLoading} />
+                  {/* {recomen.isLoading ? (
                     <CarouselLoading>
                       <Skeleton height={126} width={90} />
                     </CarouselLoading>
                   ) : (
-                    <Suspense>
-                      <Recommendation />
-                    </Suspense>
-                  )}
+                    <Recommendation />
+                  )} */}
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
+
+            {/* <Characters loading={isLoading} />
+
+            {staff.isLoading ? (
+              <CarouselLoading>
+                <Skeleton height={126} width={90} />
+              </CarouselLoading>
+            ) : (
+              <MyCarousel drag={true} slideGap='xs' withControls={false} slideSize='fit-contain' loop={false} changeSlide='auto'>
+                {staff.data?.map((item, index) => {
+                  return (
+                    <Carousel.Slide
+                      key={index}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        maxWidth: '90px',
+                        marginRight: 1,
+                      }}>
+                      <NavLink to={item.person.url}>
+                        <Image height={126} width={90} src={item.person.images.jpg.image_url} />
+                      </NavLink>
+                      <Text fz={10} truncate>
+                        {item.positions ? item.positions.join(', ') : ''}
+                      </Text>
+                      <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
+                        <Text fz={10} truncate>
+                          {item.person.name}
+                        </Text>
+                      </NavLink>
+                    </Carousel.Slide>
+                  )
+                })}
+              </MyCarousel>
+            )}
+
+            {recomen.isLoading ? (
+              <CarouselLoading>
+                <Skeleton height={126} width={90} />
+              </CarouselLoading>
+            ) : (
+              <Recommendation />
+            )} */}
           </div>
         </>
       ) : (
@@ -218,63 +276,69 @@ function Detail() {
                   </>
                 ) : (
                   <>
-                    <Image imageProps={{ loading: 'lazy' }} width={225} src={data.images.webp.large_image_url} alt={data.title} withPlaceholder />
-                    <div style={{ marginTop: 10 }}>
+                    <Image width={225} src={data.images.webp.large_image_url} alt={data.title} />
+                    <div style={{ marginTop: 10, paddingBottom: 10 }}>
                       <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
                         Alternative Titles
                       </Title>
                       <Spoiler my={10} maxHeight={60} fz={12} showLabel='More titles' hideLabel='Less titles'>
-                        <div>
-                          {data.titles
-                            .filter((item) => item.type != 'Default')
-                            .map((item, index) => {
-                              return (
-                                <div key={index}>
-                                  <span style={{ fontWeight: 700 }}>{item.type + ': '}</span>
-                                  <span>{item.title}</span>
-                                </div>
-                              )
-                            })}
-                        </div>
+                        {data.titles
+                          .filter((item) => item.type != 'Default')
+                          .map((item, index) => {
+                            return (
+                              <div key={index}>
+                                <span style={{ fontWeight: 700 }}>{item.type + ': '}</span>
+                                <span>{item.title}</span>
+                              </div>
+                            )
+                          })}
                       </Spoiler>
                     </div>
                     <div>
                       <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
                         Information
                       </Title>
-                      <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
-                        <Flex>
-                          {data.type && (
-                            <>
-                              <Text fw={700}>Type:</Text>
-                              <Text ml={5}>{data.type}</Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.episodes && (
-                            <>
-                              <Text fw={700}>Episodes:</Text>
-                              <Text ml={5}>{data.episodes}</Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.status && (
-                            <>
-                              <Text fw={700}>Status:</Text>
-                              <Text ml={5}>{data.status}</Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.aired && (
-                            <>
-                              <Text fw={700}>Aired:</Text>
-                              <Text ml={5}>{data.aired.string}</Text>
-                            </>
-                          )}
-                        </Flex>
+                      <div style={{ padding: '3px 0', fontSize: 12, lineHeight: '1.53m' }}>
+                        {data.type && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Type:
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.type}
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.episodes && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Episodes:
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.episodes}
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.status && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Status:
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.status}
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.aired && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Aired:
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.aired.string}
+                            </Text>
+                          </Flex>
+                        )}
                         <Flex>
                           {data.producers.length === 0 ? null : (
                             <div>
@@ -305,14 +369,16 @@ function Detail() {
                             </div>
                           )}
                         </Flex>
-                        <Flex>
-                          {data.source && (
-                            <>
-                              <Text fw={700}>Source:</Text>
-                              <Text ml={5}>{data.source}</Text>
-                            </>
-                          )}
-                        </Flex>
+                        {data.source && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Source:
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.source}
+                            </Text>
+                          </Flex>
+                        )}
                         <Flex>
                           {data.genres.length === 0 ? null : (
                             <div>
@@ -343,22 +409,26 @@ function Detail() {
                             </div>
                           )}
                         </Flex>
-                        <Flex>
-                          {data.duration && (
-                            <>
-                              <Text fw={700}>Duration:</Text>
-                              <Text ml={5}>{data.duration}</Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.rating && (
-                            <>
-                              <Text fw={700}>Rating:</Text>
-                              <Text ml={5}>{data.rating}</Text>
-                            </>
-                          )}
-                        </Flex>
+                        {data.duration && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Duration:
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.duration}
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.rating && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Rating:
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.rating}
+                            </Text>
+                          </Flex>
+                        )}
                       </div>
                     </div>
                     <div>
@@ -366,55 +436,63 @@ function Detail() {
                         Statistics
                       </Title>
                       <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
-                        <Flex>
-                          {data.score && (
-                            <>
-                              <Text fw={700}>Score : </Text>
-                              <Text ml={5}>
-                                {data.score} (scored by {Number(data.scored_by).toLocaleString()} users)
-                              </Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.rank && (
-                            <>
-                              <Text fw={700}>Ranked : </Text>
-                              <Text ml={5}>#{data.rank}</Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.popularity && (
-                            <>
-                              <Text fw={700}>Popularity : </Text>
-                              <Text ml={5}>#{data.popularity}</Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.members && (
-                            <>
-                              <Text fw={700}>Members : </Text>
-                              <Text ml={5}>{Number(data.members).toLocaleString()}</Text>
-                            </>
-                          )}
-                        </Flex>
-                        <Flex>
-                          {data.favorites && (
-                            <>
-                              <Text fw={700}>Favorites : </Text>
-                              <Text ml={5}>{Number(data.favorites).toLocaleString()}</Text>
-                            </>
-                          )}
-                        </Flex>
+                        {data.score && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Score :{' '}
+                            </Text>
+                            <Text inherit ml={5}>
+                              {data.score} (scored by {Number(data.scored_by).toLocaleString()} users)
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.rank && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Ranked :{' '}
+                            </Text>
+                            <Text inherit ml={5}>
+                              #{data.rank}
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.popularity && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Popularity :{' '}
+                            </Text>
+                            <Text inherit ml={5}>
+                              #{data.popularity}
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.members && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Members :{' '}
+                            </Text>
+                            <Text inherit ml={5}>
+                              {Number(data.members).toLocaleString()}
+                            </Text>
+                          </Flex>
+                        )}
+                        {data.favorites && (
+                          <Flex>
+                            <Text inherit fw={700}>
+                              Favorites :{' '}
+                            </Text>
+                            <Text inherit ml={5}>
+                              {Number(data.favorites).toLocaleString()}
+                            </Text>
+                          </Flex>
+                        )}
                       </div>
                     </div>
                   </>
                 )}
               </div>
               <div className='detail content-right' style={{ maxWidth: '400px' }}>
-                <Tabs value={activeTab} onTabChange={setActiveTab} keepMounted={false}>
+                <Tabs value={activeTab} onChange={setActiveTab} keepMounted={false}>
                   <Tabs.List>
                     <Tabs.Tab value='details'>Detail</Tabs.Tab>
                     <Tabs.Tab value='characters'>Characters & Voice Actors</Tabs.Tab>
@@ -441,7 +519,7 @@ function Detail() {
           </Card>
         </>
       )}
-    </Layout>
+    </>
   )
 }
 export default Detail

@@ -5,8 +5,6 @@ import { NavLink } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useMobileDevice } from '../hooks/useMobileDevice'
-
-import Layout from '../components/layouts'
 import MyCarousel from '../components/Carousel'
 // const MyCarousel = lazy(() => import('../../components/Carousel'))
 import HomeLoading from '../components/loading/Home'
@@ -96,7 +94,7 @@ export default function Home() {
   })
 
   return (
-    <Layout>
+    <>
       {queryNow.isError || querySchedule.isError || queryTop.isError ? (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <p>There was an error, please refresh or click Retry Button</p>
@@ -150,8 +148,9 @@ export default function Home() {
                         style={{
                           position: 'relative',
                         }}>
-                        <Image height={220} width={160} src={item.images.webp.image_url} withPlaceholder alt={item.title.replace(/[ , -]/g, '_')} />
+                        <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
+                          lineClamp={2}
                           style={{
                             width: '100%',
                             fontSize: '12px',
@@ -207,7 +206,7 @@ export default function Home() {
                         style={{
                           position: 'relative',
                         }}>
-                        <Image height={220} width={160} src={item.images.webp.image_url} withPlaceholder alt={item.title.replace(/[ , -]/g, '_')} />
+                        <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
                           style={{
                             width: '100%',
@@ -263,7 +262,7 @@ export default function Home() {
                         style={{
                           position: 'relative',
                         }}>
-                        <Image height={220} width={160} src={item.images.webp.image_url} withPlaceholder alt={item.title.replace(/[ , -]/g, '_')} />
+                        <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
                           color='white'
                           fz={14}
@@ -297,6 +296,6 @@ export default function Home() {
           </MyCarousel>
         </>
       )}
-    </Layout>
+    </>
   )
 }

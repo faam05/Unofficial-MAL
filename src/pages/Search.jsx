@@ -1,30 +1,30 @@
-import { Text } from '@mantine/core'
+import { Center, Text } from '@mantine/core'
 import { useParams } from 'react-router-dom'
-import Layout from '../components/layouts'
 import CardLoading from '../components/loading/CardLoading'
 import DisplayCard from '../components/DisplayCard'
 import { useQuery } from '@tanstack/react-query'
+import { fetcher } from '../utils'
 
 export default function Search() {
-  const params = useParams()
+  const { value } = useParams()
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['search', params.value],
-    queryFn: async () => {
-      const response = await fetch(`https://api.jikan.moe/v4/anime?q=${params.value}`)
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-      const { data } = await response.json()
-      return data
-    },
+    queryKey: ['search', value],
+    queryFn: async () =>
+      fetcher(`
+    https://api.jikan.moe/v4/anime?q=${value}`),
     // retry: 10,
   })
 
-  if (isError) return <Text>Something went wrong</Text>
+  if (isError)
+    return (
+      <Center>
+        <Text>Something went wrong when fetching Search</Text>
+      </Center>
+    )
 
   return (
-    <Layout>
+    <>
       <Text
         variant='gradient'
         gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
@@ -35,6 +35,6 @@ export default function Search() {
         Result
       </Text>
       {!isLoading ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
-    </Layout>
+    </>
   )
 }

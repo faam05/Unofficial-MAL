@@ -40,6 +40,10 @@
   padding-left: 8px;
 }
 
+.mantine-Spoiler-control {
+  font-size: unset;
+}
+
 @media screen and (max-width: 800px) {
   ol,
   ul {
