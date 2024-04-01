@@ -4,7 +4,7 @@ import classes from './MobileNavbar.module.css'
 import { useMobileDevice } from '../../../hooks/useMobileDevice'
 import Footers from '../../footers'
 import CSearch from '../../Search'
-import { IconSearch } from '@tabler/icons-react'
+import { IconHome, IconNews, IconSearch } from '@tabler/icons-react'
 import { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
@@ -15,8 +15,8 @@ export function Layout({ children }) {
   const [openedModal, setOpenedModal] = useState(false)
 
   const navbarMobile = [
-    { link: '/', label: 'Home' },
-    { link: '/coming-soon', label: 'Coming Soon' },
+    { link: '/', label: 'Home', icon: <IconHome /> },
+    { link: '/coming-soon', label: 'Coming Soon', icon: <IconNews stroke={2} /> },
   ]
 
   return (
@@ -86,12 +86,20 @@ export function Layout({ children }) {
         {/* </Container> */}
       </AppShell.Header>
 
-      <AppShell.Navbar py='md' px={4}>
+      <AppShell.Navbar py='md' px={4} style={{}}>
         {navbarMobile.map((link) => (
-          <UnstyledButton key={link.label} className={classes.control}>
-            <NavLink to={link.link} style={{ textDecoration: 'none' }} onClick={toggle}>
-              {link.label}
-            </NavLink>
+          <UnstyledButton
+            key={link.label}
+            className={classes.control}
+            onClick={() => {
+              navigate(link.link)
+              toggle()
+            }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
+              {link.icon} {link.label}
+            </div>
+            {/* <NavLink to={link.link} style={{ textDecoration: 'none' }} onClick={toggle}>
+            </NavLink> */}
           </UnstyledButton>
         ))}
         {/* <UnstyledButton className={classes.control}>Home</UnstyledButton>
