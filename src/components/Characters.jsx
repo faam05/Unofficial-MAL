@@ -1,12 +1,10 @@
-import { BackgroundImage, Box, Flex, Image, SimpleGrid, Text } from '@mantine/core'
+import { Flex, Image, SimpleGrid, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import { useParams } from 'react-router-dom'
 import { useMobileDevice } from '../hooks/useMobileDevice'
-import { useQuery } from '@tanstack/react-query'
-import { fetcher } from '../utils'
+import useFetcher from '../hooks/useFetcher'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-
 import CharactersLoading from './loading/Characters'
 import CarouselLoading from './loading/CarouselLoading'
 import MyCarousel from './Carousel'
@@ -15,10 +13,7 @@ export default function Characters({ loading }) {
   const mobile = useMobileDevice()
   const { id } = useParams()
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['characters', id],
-    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/characters`),
-  })
+  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/characters`, ['characters', id])
 
   if (isError) {
     return (

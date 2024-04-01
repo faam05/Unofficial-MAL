@@ -1,13 +1,11 @@
 import { Suspense, lazy, useState, useEffect } from 'react'
 import { Card, Flex, Image, Spoiler, Tabs, Text, Title, Anchor, Badge, Group, List, Accordion } from '@mantine/core'
 import { useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
 import { useMobileDevice } from '../hooks/useMobileDevice'
-import { fetcher } from '../utils'
+import useFetcher from '../hooks/useFetcher'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import '../styles/detail.css'
-
 const Information = lazy(() => import('../components/Information'))
 import Characters from '../components/Characters'
 import InformationModal from '../components/InformationModal'
@@ -36,16 +34,8 @@ function Detail() {
   }, [id])
 
   // get details anime
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['details', id],
-    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/full`),
-  })
-
-  // get recommendations anime
-  useQuery({
-    queryKey: ['recommendations', id],
-    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`),
-  })
+  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/full`, ['details', id])
+  useFetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`, ['recommendations', id])
 
   if (isError) {
     return (

@@ -1,7 +1,7 @@
 import { Badge, Card, Flex, Image, SimpleGrid, Text, Title } from '@mantine/core'
 import { useParams } from 'react-router-dom'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { fetcher } from '../utils'
+import { useQueryClient } from '@tanstack/react-query'
+import useFetcher from '../hooks/useFetcher'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import Recommendation from './Recommendation'
@@ -10,10 +10,7 @@ export default function Information({ data, loading }) {
   const { id } = useParams()
 
   // get videos
-  const queryVideos = useQuery({
-    queryKey: ['videos', id],
-    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/videos`),
-  })
+  const queryVideos = useFetcher(`https://api.jikan.moe/v4/anime/${id}/videos`, ['videos', id])
 
   // get recommendation
   const queryClient = useQueryClient()

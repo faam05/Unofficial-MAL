@@ -87,11 +87,18 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
             setResults([])
             setLoading(true)
             setSearchTerm(event.currentTarget.value)
-            setIsOpen(true)
+            if (event.currentTarget.value != '') setIsOpen(true)
+            else setIsOpen(false)
             combobox.updateSelectedOptionIndex()
           }}
-          onClick={() => setIsOpen(true)}
-          onFocus={() => setIsOpen(true)}
+          onClick={() => {
+            if (searchTerm) setIsOpen(true)
+            else setIsOpen(false)
+          }}
+          onFocus={() => {
+            if (searchTerm) setIsOpen(true)
+            else setIsOpen(false)
+          }}
           onBlur={() => setIsOpen(false)}
         />
       </Combobox.Target>
@@ -119,10 +126,6 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                   </Combobox.Option>
                 )
               })
-            ) : !searchTerm ? (
-              <>
-                <Combobox.Empty>Type to search</Combobox.Empty>
-              </>
             ) : (
               <Combobox.Empty>Loading...</Combobox.Empty>
             )}
@@ -135,7 +138,7 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                 mobile ? setOpenedModal(false) : setIsOpen(false)
                 navigate(`/search/${searchTerm}`)
               }}>
-              <Button w='100%'>Get Detailed</Button>
+              <Button w='100%'>Show Details</Button>
             </Combobox.Footer>
           )}
         </Combobox.Options>

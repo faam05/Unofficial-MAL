@@ -8,7 +8,7 @@ const DisplayCard = ({ data }) => {
   const mobile = useMobileDevice()
 
   return (
-    <SimpleGrid cols={mobile ? (window.innerWidth > 549 ? 2 : 1) : window.innerWidth < 1024 ? 2 : 3} style={{ marginTop: '10px' }}>
+    <SimpleGrid cols={mobile ? (window.innerWidth > 579 ? 2 : 1) : 2} style={{ marginTop: '10px' }}>
       {data.map((item, index) => {
         return (
           <Card key={index} shadow='sm' radius='md'>
