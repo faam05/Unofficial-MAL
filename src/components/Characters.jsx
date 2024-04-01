@@ -18,7 +18,6 @@ export default function Characters({ loading }) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['characters', id],
     queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/characters`),
-    // retry: 10,
   })
 
   if (isError) {
@@ -50,7 +49,7 @@ export default function Characters({ loading }) {
                   <Flex>
                     <Image h={108.88} width={70} src={item.character.images.webp.image_url} alt={item.name} />
                     <Text
-                      color='white'
+                      c='white'
                       fz={8}
                       style={{
                         position: 'absolute',
@@ -65,7 +64,7 @@ export default function Characters({ loading }) {
                     <Text
                       fz={8}
                       truncate
-                      color='white'
+                      c='white'
                       style={{
                         width: '100%',
                         top: 78,
@@ -82,7 +81,7 @@ export default function Characters({ loading }) {
                     <Text
                       truncate
                       fz={8}
-                      color='white'
+                      c='white'
                       style={{
                         width: '100%',
                         fontWeight: 400,
@@ -100,33 +99,39 @@ export default function Characters({ loading }) {
           })}
         </MyCarousel>
       ) : (
-        data.map((item, index) => (
-          <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
-            <Flex>
-              <Image height={200} width={120} src={item.character.images.webp.image_url} alt={item.name} />
-              <div style={{ marginLeft: '10px' }}>
-                <Text fz={14}>{item.character.name}</Text>
-                <Text fz={14}>{item.role}</Text>
-                <Text fz={14}>{Number(item.favorites).toLocaleString()} Favorites</Text>
+        <>
+          <Flex style={{ borderStyle: 'solid', borderWidth: '0 0 1px' }} p={3} justify='space-between'>
+            <Text>Characters</Text>
+            <Text>Voice Actors</Text>
+          </Flex>
+          {data.map((item, index) => (
+            <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
+              <Flex>
+                <Image height={200} width={120} src={item.character.images.webp.image_url} alt={item.name} />
+                <div style={{ marginLeft: '10px' }}>
+                  <Text fz={14}>{item.character.name}</Text>
+                  <Text fz={14}>{item.role}</Text>
+                  <Text fz={14}>{Number(item.favorites).toLocaleString()} Favorites</Text>
+                </div>
+              </Flex>
+              <div style={{ marginLeft: 'auto' }}>
+                {item.voice_actors.map((item, index) => {
+                  return (
+                    <Flex key={index} ta='right' ml={'auto'} justify={'right'}>
+                      <div style={{ padding: '0 4px' }}>
+                        <Text fz={12}>{item.person.name}</Text>
+                        <Text fz={12}>{item.language}</Text>
+                      </div>
+                      <a href={item.person.url} target='_blank'>
+                        <Image width={42} height={62} src={item.person.images.jpg.image_url} />
+                      </a>
+                    </Flex>
+                  )
+                })}
               </div>
-            </Flex>
-            <div style={{ marginLeft: 'auto' }}>
-              {item.voice_actors.map((item, index) => {
-                return (
-                  <Flex key={index} ta='right' ml={'auto'} justify={'right'}>
-                    <div style={{ padding: '0 4px' }}>
-                      <Text fz={12}>{item.person.name}</Text>
-                      <Text fz={12}>{item.language}</Text>
-                    </div>
-                    <a href={item.person.url} target='_blank'>
-                      <Image width={42} height={62} src={item.person.images.jpg.image_url} />
-                    </a>
-                  </Flex>
-                )
-              })}
-            </div>
-          </SimpleGrid>
-        ))
+            </SimpleGrid>
+          ))}
+        </>
       )}
     </>
   )

@@ -6,7 +6,6 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import MyCarousel from '../components/Carousel'
-// const MyCarousel = lazy(() => import('../../components/Carousel'))
 import HomeLoading from '../components/loading/Home'
 
 export default function Home() {
@@ -64,7 +63,6 @@ export default function Home() {
       const { data } = await response.json()
       return data
     },
-    // retry: 10,
   })
   const querySchedule = useQuery({
     queryKey: ['scheduleAnime'],
@@ -76,7 +74,6 @@ export default function Home() {
       const { data } = await response.json()
       return data
     },
-    // retry: 10,
   })
   const queryTop = useQuery({
     queryKey: ['topAnime'],
@@ -88,9 +85,6 @@ export default function Home() {
       const { data } = await response.json()
       return data
     },
-    // retry: 10,
-    // retryDelay: 1000,
-    // refetchInterval: 1000,
   })
 
   return (
@@ -189,7 +183,6 @@ export default function Home() {
                   .fill()
                   .map((_, index) => <HomeLoading key={index} />)
               : querySchedule.data.map((item, index) => {
-                  // console.log(`${item.mal_id}-${item.title.replace(/ /g, '')}`)
                   return (
                     <Carousel.Slide
                       key={index}

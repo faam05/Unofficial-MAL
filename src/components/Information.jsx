@@ -13,7 +13,6 @@ export default function Information({ data, loading }) {
   const queryVideos = useQuery({
     queryKey: ['videos', id],
     queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/videos`),
-    // retry: 10,
   })
 
   // get recommendation

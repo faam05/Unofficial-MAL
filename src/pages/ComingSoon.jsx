@@ -16,7 +16,6 @@ export default function ComingSoon() {
       const { data } = await response.json()
       return data
     },
-    // retry: 10,
   })
 
   if (isError) return <Text>Something went wrong</Text>

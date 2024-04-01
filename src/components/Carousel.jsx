@@ -13,10 +13,6 @@ const MyCarousel = ({ children, changeSlide = 'auto', slideGap = 'sm', slideSize
       loop={loop}
       align='start'
       slidesToScroll={changeSlide}
-      // breakpoints={[
-      //   { maxWidth: 'md', slideSize: '50%' },
-      //   { maxWidth: 'sm', slideSize: '10%', slideGap: 'sm' },
-      // ]}
       style={{
         position: 'relative',
       }}>

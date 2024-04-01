@@ -120,7 +120,7 @@ export default function CustomHeader2() {
         ) : (
           <>
             <Group spacing={5}>
-              {/* <Button
+              <Button
                 variant={location.pathname !== '/' ? 'subtle' : 'filled'}
                 style={{
                   marginRight: 10,
@@ -137,7 +137,7 @@ export default function CustomHeader2() {
                   width: 300,
                   maxHeight: 350,
                 }}
-              /> */}
+              />
             </Group>
           </>
         )}
