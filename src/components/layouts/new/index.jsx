@@ -20,7 +20,12 @@ export function Layout({ children }) {
   ]
 
   return (
-    <AppShell header={{ height: 60 }} navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }} padding='xs'>
+    <AppShell
+      header={{ height: 60 }}
+      footer={{ height: 60 }}
+      navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }}
+      padding='xs'
+      style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden' }}>
       <AppShell.Header>
         {/* <Container
           h={'100%'}
@@ -97,7 +102,7 @@ export function Layout({ children }) {
 
       <AppShell.Main>{children}</AppShell.Main>
 
-      <AppShell.Footer height={60} p='md'>
+      <AppShell.Footer p='md'>
         <Footers />
       </AppShell.Footer>
     </AppShell>
