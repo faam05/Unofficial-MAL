@@ -20,21 +20,6 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
       try {
         const response = await axios(`https://api.jikan.moe/v4/anime?q=${searchTerm}`)
         var date = new Date(response.data.data[0].aired.from)
-        // setResults(
-        //   response.data.data.map((item) => ({
-        //     group: item.genres.length > 0 ? item.genres[0].type.charAt(0).toUpperCase() + item.genres[0].type.slice(1) : 'Unknowns',
-        //     value: item.title,
-        //     description: item.year
-        //       ? item.type !== null
-        //         ? `(${item.type}, ${item.year})`
-        //         : `(${item.year})`
-        //       : item.type !== null
-        //       ? `(${item.type}, ${date.getFullYear()})`
-        //       : `${date.getFullYear()}`,
-        //     id: item.mal_id,
-        //     image: item.images.jpg.image_url,
-        //   }))
-        // )
 
         let array = []
         let filteredData = response.data.data.filter((item) => {
@@ -60,7 +45,9 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
           }))
         )
       } catch (error) {
-        console.error('Error during search:', error)
+        if (import.meta.env.DEV) {
+          console.error('Error during search:', error)
+        }
       } finally {
         setLoading(false)
       }

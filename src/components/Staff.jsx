@@ -18,7 +18,6 @@ const Staff = ({ loading }) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['staff', id],
     queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/staff`),
-    // retry: 10,
   })
 
   if (isError) {

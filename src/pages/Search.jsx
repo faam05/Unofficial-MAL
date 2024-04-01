@@ -13,7 +13,6 @@ export default function Search() {
     queryFn: async () =>
       fetcher(`
     https://api.jikan.moe/v4/anime?q=${value}`),
-    // retry: 10,
   })
 
   if (isError)

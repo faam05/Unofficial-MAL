@@ -39,14 +39,12 @@ function Detail() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ['details', id],
     queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/full`),
-    // retry: 10,
   })
 
   // get recommendations anime
   useQuery({
     queryKey: ['recommendations', id],
     queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`),
-    // retry: 10,
   })
 
   if (isError) {

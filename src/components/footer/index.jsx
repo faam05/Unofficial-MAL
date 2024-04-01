@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core'
 
-const Footers = () => {
+const Footer = () => {
   return (
     <Text align='center'>
       <span>
@@ -13,4 +13,4 @@ const Footers = () => {
   )
 }
 
-export default Footers
+export default Footer
