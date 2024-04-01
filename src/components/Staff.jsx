@@ -1,9 +1,8 @@
 import { Flex, Image, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import { NavLink, useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-import { fetcher } from '../utils'
 import { useMobileDevice } from '../hooks/useMobileDevice'
+import useFetcher from '../hooks/useFetcher'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -15,10 +14,7 @@ const Staff = ({ loading }) => {
   const { id } = useParams()
   const mobile = useMobileDevice()
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['staff', id],
-    queryFn: () => fetcher(`https://api.jikan.moe/v4/anime/${id}/staff`),
-  })
+  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/staff`, ['staff', id])
 
   if (isError) {
     return (

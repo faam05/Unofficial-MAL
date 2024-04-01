@@ -2,18 +2,12 @@ import { Center, Text } from '@mantine/core'
 import { useParams } from 'react-router-dom'
 import CardLoading from '../components/loading/CardLoading'
 import DisplayCard from '../components/DisplayCard'
-import { useQuery } from '@tanstack/react-query'
-import { fetcher } from '../utils'
+import useFetcher from '../hooks/useFetcher'
 
 export default function Search() {
   const { value } = useParams()
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['search', value],
-    queryFn: async () =>
-      fetcher(`
-    https://api.jikan.moe/v4/anime?q=${value}`),
-  })
+  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime?q=${value}`, ['search', value])
 
   if (isError)
     return (
