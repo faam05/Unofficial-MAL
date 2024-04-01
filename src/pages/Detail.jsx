@@ -164,38 +164,6 @@ function Detail() {
                 <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Staff'}</Accordion.Control>
                 <Accordion.Panel>
                   <Staff loading={isLoading} />
-                  {/* {staff.isLoading ? (
-                    <CarouselLoading>
-                      <Skeleton height={126} width={90} />
-                    </CarouselLoading>
-                  ) : (
-                    <MyCarousel drag={true} slideGap='xs' withControls={false} slideSize='fit-contain' loop={false} changeSlide='auto'>
-                      {staff.data?.map((item, index) => {
-                        return (
-                          <Carousel.Slide
-                            key={index}
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                              maxWidth: '90px',
-                              marginRight: 1,
-                            }}>
-                            <NavLink to={item.person.url}>
-                              <Image height={126} width={90} src={item.person.images.jpg.image_url} />
-                            </NavLink>
-                            <Text fz={10} truncate>
-                              {item.positions ? item.positions.join(', ') : ''}
-                            </Text>
-                            <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
-                              <Text fz={10} truncate>
-                                {item.person.name}
-                              </Text>
-                            </NavLink>
-                          </Carousel.Slide>
-                        )
-                      })}
-                    </MyCarousel>
-                  )} */}
                 </Accordion.Panel>
               </Accordion.Item>
 
@@ -203,59 +171,9 @@ function Detail() {
                 <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Recomendations'}</Accordion.Control>
                 <Accordion.Panel>
                   <Recommendation loading={isLoading} />
-                  {/* {recomen.isLoading ? (
-                    <CarouselLoading>
-                      <Skeleton height={126} width={90} />
-                    </CarouselLoading>
-                  ) : (
-                    <Recommendation />
-                  )} */}
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
-
-            {/* <Characters loading={isLoading} />
-
-            {staff.isLoading ? (
-              <CarouselLoading>
-                <Skeleton height={126} width={90} />
-              </CarouselLoading>
-            ) : (
-              <MyCarousel drag={true} slideGap='xs' withControls={false} slideSize='fit-contain' loop={false} changeSlide='auto'>
-                {staff.data?.map((item, index) => {
-                  return (
-                    <Carousel.Slide
-                      key={index}
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        maxWidth: '90px',
-                        marginRight: 1,
-                      }}>
-                      <NavLink to={item.person.url}>
-                        <Image height={126} width={90} src={item.person.images.jpg.image_url} />
-                      </NavLink>
-                      <Text fz={10} truncate>
-                        {item.positions ? item.positions.join(', ') : ''}
-                      </Text>
-                      <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
-                        <Text fz={10} truncate>
-                          {item.person.name}
-                        </Text>
-                      </NavLink>
-                    </Carousel.Slide>
-                  )
-                })}
-              </MyCarousel>
-            )}
-
-            {recomen.isLoading ? (
-              <CarouselLoading>
-                <Skeleton height={126} width={90} />
-              </CarouselLoading>
-            ) : (
-              <Recommendation />
-            )} */}
           </div>
         </>
       ) : (
@@ -436,7 +354,7 @@ function Detail() {
                         Statistics
                       </Title>
                       <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
-                        {data.score && (
+                        {data.score && data.score !== 0 ? (
                           <Flex>
                             <Text inherit fw={700}>
                               Score :{' '}
@@ -445,7 +363,7 @@ function Detail() {
                               {data.score} (scored by {Number(data.scored_by).toLocaleString()} users)
                             </Text>
                           </Flex>
-                        )}
+                        ) : null}
                         {data.rank && (
                           <Flex>
                             <Text inherit fw={700}>
@@ -504,14 +422,10 @@ function Detail() {
                     </Suspense>
                   </Tabs.Panel>
                   <Tabs.Panel value='characters'>
-                    <Suspense>
-                      <Characters activeTab={activeTab} />
-                    </Suspense>
+                    <Characters activeTab={activeTab} />
                   </Tabs.Panel>
                   <Tabs.Panel value='staff'>
-                    <Suspense>
-                      <Staff activeTab={activeTab} />
-                    </Suspense>
+                    <Staff activeTab={activeTab} />
                   </Tabs.Panel>
                 </Tabs>
               </div>
