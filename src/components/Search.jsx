@@ -21,16 +21,16 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
         const response = await axios(`https://api.jikan.moe/v4/anime?q=${searchTerm}`)
         var date = new Date(response.data.data[0].aired.from)
 
-        let array = []
-        let filteredData = response.data.data.filter((item) => {
-          if (!array.includes(item.title)) {
-            array.push(item)
-            return true
-          }
-          return false
-        })
+        // let array = []
+        // let filteredData = response.data.data.filter((item) => {
+        //   if (!array.includes(item.title)) {
+        //     array.push(item)
+        //     return true
+        //   }
+        //   return false
+        // })
         setResults(
-          filteredData.map((item) => ({
+          response.data.data.map((item) => ({
             group: item.genres.length > 0 ? item.genres[0].type.charAt(0).toUpperCase() + item.genres[0].type.slice(1) : 'Unknowns',
             value: item.title,
             description: item.year
@@ -113,7 +113,7 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                 return (
                   <Combobox.Option key={index} value={result.id}>
                     <Group justify='space-between' align='center'>
-                      <Image src={result.image} w={60} />
+                      <Image mah={90} src={result.image} w={60} />
                       <div style={{ flex: 1 }}>
                         <Text size='xs' lineClamp={3}>
                           {result.value}
@@ -130,15 +130,18 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
               <Combobox.Empty>Loading...</Combobox.Empty>
             )}
           </ScrollArea.Autosize>
-          {!loading && searchTerm && (
+          {!loading && searchTerm && results.length !== 0 && (
             <Combobox.Footer
+              style={{ padding: 0 }}
               onClick={() => {
                 setResults([])
                 setSearchTerm('')
                 mobile ? setOpenedModal(false) : setIsOpen(false)
                 navigate(`/search/${searchTerm}`)
               }}>
-              <Button w='100%'>Show Details</Button>
+              <Button style={{ borderRadius: 0 }} w='100%'>
+                Show Details
+              </Button>
             </Combobox.Footer>
           )}
         </Combobox.Options>
