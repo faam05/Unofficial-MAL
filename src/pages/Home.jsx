@@ -145,14 +145,17 @@ export default function Home() {
                         <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
                           lineClamp={2}
+                          fz={12}
+                          fw={400}
+                          w='100%'
+                          c='#fff'
                           style={{
-                            width: '100%',
-                            fontSize: '12px',
-                            fontWeight: 400,
-                            padding: '15px 5px 5px',
+                            // whiteSpace: 'nowrap',
+                            padding: '15px 5px 0px',
+                            marginBottom: '5px',
+                            boxShadow: '0 5px 0 #000',
                             bottom: 0,
                             position: 'absolute',
-                            color: '#fff',
                             background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
                           }}>
                           {item.title}
@@ -201,14 +204,17 @@ export default function Home() {
                         }}>
                         <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
+                          lineClamp={2}
+                          c='#fff'
+                          w='100%'
+                          fz={12}
+                          fw={400}
                           style={{
-                            width: '100%',
-                            fontSize: '12px',
-                            fontWeight: 400,
-                            padding: '15px 5px 5px',
+                            padding: '15px 5px 0px',
+                            marginBottom: '5px',
+                            boxShadow: '0 5px 0 #000',
                             bottom: 0,
                             position: 'absolute',
-                            color: '#fff',
                             background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
                           }}>
                           {item.title}
@@ -257,27 +263,30 @@ export default function Home() {
                         }}>
                         <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
                         <Text
-                          color='white'
+                          c='white'
                           fz={14}
+                          fw={600}
                           style={{
                             position: 'absolute',
                             top: 0,
                             right: 0,
-                            fontWeight: 600,
                             padding: '0px 5px',
                             background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
                           }}>
                           # {index + 1}
                         </Text>
                         <Text
+                          lineClamp={2}
+                          c='#fff'
+                          w='100%'
+                          fz={12}
+                          fw={400}
                           style={{
-                            width: '100%',
-                            fontSize: '12px',
-                            fontWeight: 400,
-                            padding: '15px 5px 5px',
+                            padding: '15px 5px 0px',
+                            marginBottom: '5px',
+                            boxShadow: '0 5px 0 #000',
                             bottom: 0,
                             position: 'absolute',
-                            color: '#fff',
                             background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
                           }}>
                           {item.title}
