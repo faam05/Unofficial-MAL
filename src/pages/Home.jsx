@@ -7,12 +7,31 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import MyCarousel from '../components/Carousel'
 import HomeLoading from '../components/loading/Home'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
   const mobile = useMobileDevice()
 
-  // const [userLocation, setUserLocation] = useState(null)
+  useEffect(() => {
+    const test = async () => {
+      try {
+        // return await fetch('http://localhost:4000/anime/gogoanime')
+        const response = await fetch('https://api-anime-nine.vercel.app/anime/gogoanime/')
+        // Check if the response is successful (status code 200-299)
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
 
+        const result = await response.json()
+        console.log('data from api', result)
+      } catch (error) {
+        console.error('Error fetching data:', error.message)
+      }
+    }
+    test()
+  }, [])
+
+  // const [userLocation, setUserLocation] = useState(null)
   // useEffect(() => {
   //   if (navigator.geolocation) {
   //     navigator.geolocation.getCurrentPosition(
