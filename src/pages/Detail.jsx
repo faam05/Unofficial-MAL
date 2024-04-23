@@ -11,6 +11,7 @@ import Characters from '../components/Characters'
 import InformationModal from '../components/InformationModal'
 import Staff from '../components/Staff'
 import Recommendation from '../components/Recommendation'
+import Episodes from '../components/Episodes'
 
 function Detail() {
   const { id } = useParams()
@@ -39,8 +40,8 @@ function Detail() {
 
   if (isError) {
     return (
-      <div style={{ textAlign: 'center' }}>
-        <Text>Something went wrong when fetching Details Anime</Text>
+      <div className='text-center'>
+        <Text ta='center'>Something went wrong when fetching Details Anime</Text>
       </div>
     )
   }
@@ -167,7 +168,15 @@ function Detail() {
       ) : (
         <>
           <Card shadow='sm' p='lg' radius='md' withBorder>
-            <div className='h1 detail-title'>{isLoading ? <Skeleton /> : <Text fz={16}>{data.title}</Text>}</div>
+            <div className='h1 detail-title'>
+              {isLoading ? (
+                <Skeleton />
+              ) : (
+                <Text className='hover:cursor-pointer' fz={16}>
+                  {data.title}
+                </Text>
+              )}
+            </div>
             <div className='detail content-wrapper'>
               <div className='detail content-left'>
                 {isLoading ? (
@@ -182,7 +191,7 @@ function Detail() {
                   </>
                 ) : (
                   <>
-                    <Image width={225} src={data.images.webp.large_image_url} alt={data.title} />
+                    <Image w={225} src={data.images?.webp?.large_image_url} alt={data.title} />
                     <div style={{ marginTop: 10, paddingBottom: 10 }}>
                       <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
                         Alternative Titles
@@ -397,12 +406,13 @@ function Detail() {
                   </>
                 )}
               </div>
-              <div className='detail content-right' style={{ maxWidth: '400px' }}>
+              <div className='detail content-right max-w-[400px]'>
                 <Tabs value={activeTab} onChange={setActiveTab} keepMounted={false}>
                   <Tabs.List>
                     <Tabs.Tab value='details'>Detail</Tabs.Tab>
                     <Tabs.Tab value='characters'>Characters & Voice Actors</Tabs.Tab>
                     <Tabs.Tab value='staff'>Staff</Tabs.Tab>
+                    <Tabs.Tab value='episodes'>Episodes</Tabs.Tab>
                   </Tabs.List>
                   <Tabs.Panel value='details'>
                     <Suspense>
@@ -414,6 +424,9 @@ function Detail() {
                   </Tabs.Panel>
                   <Tabs.Panel value='staff'>
                     <Staff activeTab={activeTab} />
+                  </Tabs.Panel>
+                  <Tabs.Panel value='episodes'>
+                    <Episodes id={data?.title.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-')} activeTab={activeTab} />
                   </Tabs.Panel>
                 </Tabs>
               </div>

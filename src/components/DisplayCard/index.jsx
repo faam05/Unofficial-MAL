@@ -18,7 +18,7 @@ const DisplayCard = ({ data }) => {
                 <Center>
                   <Flex direction={'column'} style={{ width: '100%' }}>
                     <NavLink to={`/detail/${item.mal_id}`}>
-                      <Image height={!mobile ? 250 : 150} fit='contain' mr={10} src={item.images.jpg.image_url} />
+                      <Image h={!mobile ? 250 : 150} fit='contain' mr={10} src={item.images.jpg.image_url} />
                     </NavLink>
                     <Text ta={'center'} fz={'xs'}>
                       {item.aired.string}
