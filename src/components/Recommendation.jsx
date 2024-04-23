@@ -30,7 +30,6 @@ const Recommendation = ({ loading }) => {
           gap={mobile ? '1px' : 'xs'}
           drag={mobile && true}
           withControls={mobile ? false : true}
-          slideSize={mobile && 'fit-contain'}
           carouselStyle={{
             display: !mobile && 'flex',
             justifyContent: !mobile && 'center',
@@ -51,12 +50,7 @@ const Recommendation = ({ loading }) => {
           {data?.length === 0 ? (
             <Text fz={12}>Recommendation not update yet</Text>
           ) : (
-            <MyCarousel
-              drag={mobile ? true : false}
-              slideGap={mobile ? '1px' : 'xs'}
-              withControls={mobile ? false : true}
-              slideSize={mobile ? 'fit-contain' : '150'}
-              changeSlide='auto'>
+            <MyCarousel drag={mobile ? true : false} slideGap={mobile ? '1px' : 'xs'} withControls={mobile ? false : true} changeSlide='auto'>
               {data?.map((item, index) => (
                 <Carousel.Slide key={index} className={!mobile && 'flex justify-center items-center flex-col mt-[5px]'}>
                   <NavLink

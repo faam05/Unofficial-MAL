@@ -137,7 +137,6 @@ export default function Home() {
             drag={mobile ? true : false}
             slideGap={mobile ? 'xs' : 'sm'}
             withControls={mobile ? false : true}
-            slideSize={mobile ? 'fit-contain' : '162'}
             loop={mobile ? false : true}
             changeSlide='auto'>
             {queryNow.isLoading
@@ -165,7 +164,6 @@ export default function Home() {
             drag={mobile ? true : false}
             slideGap={mobile ? 'xs' : 'sm'}
             withControls={mobile ? false : true}
-            slideSize={mobile ? 'fit-contain' : '162'}
             loop={mobile ? false : true}
             changeSlide='auto'>
             {querySchedule.isLoading
@@ -201,7 +199,6 @@ export default function Home() {
             drag={mobile ? true : false}
             slideGap={mobile ? 'xs' : 'sm'}
             withControls={mobile ? false : true}
-            slideSize={mobile ? 'fit-contain' : '162'}
             loop={mobile ? false : true}
             changeSlide='auto'>
             {queryTop.isLoading
