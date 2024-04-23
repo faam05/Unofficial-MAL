@@ -13,24 +13,6 @@ import 'react-loading-skeleton/dist/skeleton.css'
 export default function Home() {
   const mobile = useMobileDevice()
 
-  useEffect(() => {
-    const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime`
-    const test = async () => {
-      try {
-        const response = await fetch(url)
-        // Check if the response is successful (status code 200-299)
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-
-        return await response.json()
-      } catch (error) {
-        console.error('Error fetching data:', error.message)
-      }
-    }
-    test()
-  }, [])
-
   // const [userLocation, setUserLocation] = useState(null)
   // useEffect(() => {
   //   if (navigator.geolocation) {
