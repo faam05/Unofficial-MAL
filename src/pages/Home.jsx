@@ -123,7 +123,7 @@ export default function Home() {
             ) : (
               <>
                 <Text transform='capitalize'>
-                  {getSeason(getDate.getMonth())} {getDate.getFullYear()} anime
+                  {getSeason(getDate.getMonth())} {getDate.getFullYear()} Anime
                 </Text>
                 {!mobile && (
                   <NavLink to='/coming-soon' className='ml-auto flex no-underline hover:underline' id='coming-soon'>
