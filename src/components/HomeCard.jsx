@@ -1,4 +1,3 @@
-import { Carousel } from '@mantine/carousel'
 import { Image, Text } from '@mantine/core'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
