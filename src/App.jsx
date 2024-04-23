@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
-import routes from './routes/routes'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
+import routes from './routes/routes'
 import { Layout } from './components/layouts/new'
 
 const queryClient = new QueryClient({
