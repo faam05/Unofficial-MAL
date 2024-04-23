@@ -30,7 +30,7 @@ const Episodes = ({ id }) => {
                       <Image src={data.image} h={150} alt={id + '_' + data.number} />
                     </Card.Section>
                     <Text size='sm' c='dimmed' my={4}>
-                      Episodes {item.number}
+                      Episode {item.number}
                     </Text>
                     <Button
                       onClick={() => {

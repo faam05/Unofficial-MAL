@@ -35,7 +35,8 @@ function Detail() {
   }, [id])
 
   // get details anime
-  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/full`, ['details', id])
+  let isLoading = true
+  const { data, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/full`, ['details', id])
   useFetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`, ['recommendations', id])
 
   if (isError) {
@@ -166,10 +167,8 @@ function Detail() {
               </Accordion.Item>
 
               <Accordion.Item value='episodes'>
-                <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Episodes'}</Accordion.Control>
-                <Accordion.Panel>
-                  <Episodes id={data?.title.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-')} loading={isLoading} />
-                </Accordion.Panel>
+                <Accordion.Control disabled={isLoading && true}>{isLoading ? <Skeleton width={200} /> : 'Episodes'}</Accordion.Control>
+                <Accordion.Panel>{!isLoading && <Episodes id={data?.title.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-')} />}</Accordion.Panel>
               </Accordion.Item>
             </Accordion>
           </div>
