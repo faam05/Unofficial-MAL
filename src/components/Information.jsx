@@ -20,7 +20,7 @@ export default function Information({ data, loading }) {
     <>
       <Card bg={'#f8f8f8'}>
         <Flex>
-          <div style={{ display: 'block', textAlign: 'center' }}>
+          <div className='block text-center'>
             {loading ? (
               <Skeleton height={20} width={50} count={3} />
             ) : (
@@ -34,36 +34,30 @@ export default function Information({ data, loading }) {
             )}
           </div>
           <div
+            className='ml-[10px] flex flex-col justify-between overflow-hidden border-solid pl-[10px]'
             style={{
-              display: 'flex',
-              marginLeft: 10,
-              paddingLeft: 10,
               borderWidth: '0 0px 0 1px',
-              borderStyle: 'solid',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              overflow: 'hidden',
             }}>
-            <div style={{ display: 'flex', gap: '3px 16px', flexWrap: 'wrap' }}>
-              <div style={{ textAlign: 'center' }}>
+            <div className='flex flex-wrap' style={{ gap: '3px 16px' }}>
+              <div className='text-center'>
                 <Flex>
-                  <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                  <Text c={'dimmed'} mr={5}>
                     Ranked
                   </Text>
-                  <Text fw={700}>{loading ? <Skeleton width={50} /> : data.rank ? '#' + data.rank : 'N/A'}</Text>
+                  <Text fw={700}>{loading ? <Skeleton width={50} /> : data.rank ? `#${data.rank}` : 'N/A'}</Text>
                 </Flex>
               </div>
-              <div style={{ textAlign: 'center' }}>
+              <div className='text-center'>
                 <Flex>
-                  <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                  <Text c={'dimmed'} mr={5}>
                     Popularity
                   </Text>
                   <Text fw={700}>{loading ? <Skeleton width={50} /> : data.popularity ? '#' + data.popularity : 'N/A'}</Text>
                 </Flex>
               </div>
-              <div style={{ textAlign: 'center' }}>
+              <div className='text-center'>
                 <Flex>
-                  <Text c={'dimmed'} style={{ marginRight: 5 }}>
+                  <Text c={'dimmed'} mr={5}>
                     Members
                   </Text>
                   <Text fw={700}>{loading ? <Skeleton width={50} /> : data.members ? Number(data.members).toLocaleString() : 'N/A'}</Text>
@@ -71,10 +65,10 @@ export default function Information({ data, loading }) {
               </div>
             </div>
             <Text style={{ display: loading && 'flex' }} fz={10}>
-              <span style={{ padding: '0px 5px 0 0', borderStyle: 'solid', borderWidth: '0 1px 0 0' }}>
+              <span className='border-solid' style={{ padding: '0px 5px 0 0', borderWidth: '0 1px 0 0' }}>
                 {loading ? <Skeleton width={20} /> : data.season && `${data.season.charAt(0).toUpperCase()}${data.season.slice(1)} ${data.year}`}
               </span>
-              <span style={{ padding: '0px 5px', borderStyle: 'solid', borderWidth: '0 1px 0 0' }}>
+              <span className='border-solid' style={{ padding: '0px 5px', borderWidth: '0 1px 0 0' }}>
                 {loading ? <Skeleton width={20} /> : data.type}
               </span>
               {loading ? (
@@ -82,7 +76,7 @@ export default function Information({ data, loading }) {
               ) : (
                 data.studios.map((item, index) => {
                   return (
-                    <span style={{ paddingLeft: 5 }} key={index}>
+                    <span className='pl-[5px]' key={index}>
                       {item.name}
                     </span>
                   )
@@ -94,43 +88,37 @@ export default function Information({ data, loading }) {
       </Card>
       <div>
         <h2
+          className='border-solid border-[#bebebe] text-sm font-bold text-black'
           style={{
             fontSize: 14,
-            borderColor: '#bebebe',
-            borderStyle: 'solid',
             borderWidth: '0 0 1px',
-            color: 'black',
-            fontWeight: 700,
             padding: '3px 0',
           }}>
           {loading ? <Skeleton /> : 'Synopsis'}
         </h2>
-        <p style={{ lineHeight: '1.5em', margin: 0, padding: 0, fontSize: 12 }}>
+        <p className='m-0 p-0 text-xs' style={{ lineHeight: '1.5em' }}>
           {loading ? <Skeleton height={50} /> : data.synopsis ? data.synopsis : 'No Synopsis given.'}
         </p>
       </div>
 
       <div>
         <h2
+          className='border-solid border-[#bebebe] font-bold text-black'
           style={{
             fontSize: 14,
-            borderColor: '#bebebe',
-            borderStyle: 'solid',
             borderWidth: '0 0 1px',
-            color: 'black',
-            fontWeight: 700,
             padding: '3px 0',
           }}>
           {loading ? <Skeleton /> : 'Background'}
         </h2>
-        <p style={{ lineHeight: '1.5em', margin: 0, padding: 0, fontSize: 12 }}>
+        <p className='m-0 p-0 text-xs' style={{ lineHeight: '1.5em' }}>
           {loading ? <Skeleton height={50} /> : data.background ? data.background : 'No Background given.'}
         </p>
       </div>
 
       {/* Videos */}
       {queryVideos.isError ? (
-        <div style={{ textAlign: 'center' }}>
+        <div className='text-center'>
           <Text>Something went wrong when fetching List Videos</Text>
         </div>
       ) : (
@@ -138,13 +126,9 @@ export default function Information({ data, loading }) {
           {/* Opening */}
           <div>
             <h2
+              className='border-solid border-[#bebebe] text-sm font-bold text-black'
               style={{
-                fontSize: 14,
-                borderColor: '#bebebe',
-                borderStyle: 'solid',
                 borderWidth: '0 0 1px',
-                color: 'black',
-                fontWeight: 700,
               }}>
               {queryVideos.isLoading ? <Skeleton /> : 'Opening Theme'}
             </h2>
@@ -155,7 +139,7 @@ export default function Information({ data, loading }) {
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
                       <Skeleton height={55} width={100} />
-                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                      <div className='ml-auto text-right'>
                         <Skeleton height={12} width={100} />
                         <Skeleton height={10} width={100} />
                       </div>
@@ -169,7 +153,7 @@ export default function Information({ data, loading }) {
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
                       <Image w={100} h={55} src={item.video.images.image_url} alt={item.title?.replace(/[ , -]/g, '_')} />
-                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                      <div className='ml-auto text-right'>
                         <Text fz={12}>{item.title}</Text>
                         <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
                       </div>
@@ -181,13 +165,9 @@ export default function Information({ data, loading }) {
           {/* Ending */}
           <div>
             <h2
+              className='border-solid border-[#bebebe] text-sm font-bold text-black'
               style={{
-                fontSize: 14,
-                borderColor: '#bebebe',
-                borderStyle: 'solid',
                 borderWidth: '0 0 1px',
-                color: 'black',
-                fontWeight: 700,
               }}>
               {queryVideos.isLoading ? <Skeleton /> : 'Ending Theme'}
             </h2>
@@ -198,7 +178,7 @@ export default function Information({ data, loading }) {
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
                       <Skeleton height={55} width={100} />
-                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                      <div className='ml-auto text-right'>
                         <Skeleton height={12} width={100} />
                         <Skeleton height={10} width={100} />
                       </div>
@@ -212,7 +192,7 @@ export default function Information({ data, loading }) {
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
                       <Image w={100} h={55} src={item.video.images.image_url} alt={item.meta?.title?.replace(/[ , -]/g, '_')} />
-                      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+                      <div className='ml-auto text-right'>
                         <Text fz={12}>{item.title}</Text>
                         <Text fz={10}>
                           {item.meta.title} by {item.meta.author}
@@ -228,19 +208,15 @@ export default function Information({ data, loading }) {
 
       {/* recommendation */}
       {queryRecommendation.status === 'error' ? (
-        <div style={{ textAlign: 'center' }}>
+        <div className='text-center'>
           <Text>Something went wrong when fetching List Recommendation</Text>
         </div>
       ) : (
         <div>
           <h2
+            className='border-solid border-[#bebebe] text-sm font-bold text-black'
             style={{
-              fontSize: 14,
-              borderColor: '#bebebe',
-              borderStyle: 'solid',
               borderWidth: '0 0 1px',
-              color: 'black',
-              fontWeight: 700,
             }}>
             {queryRecommendation.status === 'pending' ? <Skeleton /> : 'Recommendations'}
           </h2>

@@ -17,7 +17,7 @@ const Recommendation = ({ loading }) => {
 
   if (error) {
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div className='text-center'>
         <Text>Something went wrong when fetching List Recommendation</Text>
       </div>
     )
@@ -52,12 +52,8 @@ const Recommendation = ({ loading }) => {
           ) : (
             <MyCarousel drag={mobile ? true : false} slideGap={mobile ? '1px' : 'xs'} withControls={mobile ? false : true} changeSlide='auto'>
               {data?.map((item, index) => (
-                <Carousel.Slide key={index} className={!mobile && 'flex justify-center items-center flex-col mt-[5px]'}>
-                  <NavLink
-                    to={`/detail/${item.entry.mal_id}`}
-                    style={{
-                      position: 'relative',
-                    }}>
+                <Carousel.Slide key={index} className={!mobile && 'mt-[5px] flex flex-col items-center justify-center'}>
+                  <NavLink to={`/detail/${item.entry.mal_id}`} className='relative'>
                     <Image
                       h={mobile ? 126 : 220}
                       w={mobile ? 90 : 140}

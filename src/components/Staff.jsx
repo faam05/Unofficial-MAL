@@ -18,7 +18,7 @@ const Staff = ({ loading }) => {
 
   if (isError) {
     return (
-      <div style={{ textAlign: 'center' }}>
+      <div className='text-center'>
         <Text>Something went wrong when fetching List Staff</Text>
       </div>
     )
@@ -42,13 +42,7 @@ const Staff = ({ loading }) => {
         <MyCarousel drag={true} slideGap='1px' withControls={false} slideSize={90} loop={false} changeSlide='auto'>
           {data?.map((item, index) => {
             return (
-              <Carousel.Slide
-                key={index}
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  maxWidth: '90px',
-                }}>
+              <Carousel.Slide key={index} className='flex max-w-[90px] flex-col'>
                 <NavLink to={item.person.url}>
                   <Image h={126} w={90} src={item.person.images.jpg.image_url} />
                 </NavLink>

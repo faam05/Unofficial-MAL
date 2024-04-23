@@ -7,12 +7,12 @@ const CharactersLoading = ({ bg }) => {
     <SimpleGrid cols={2} p={'5px 0'} bg={bg}>
       <Flex>
         <Skeleton height={200} width={120} />
-        <div style={{ marginLeft: '10px' }}>
+        <div className='ml-[10px]'>
           <Skeleton count={2} width={50} />
           <Skeleton width={100} />
         </div>
       </Flex>
-      <div style={{ marginLeft: 'auto' }}>
+      <div className='ml-auto'>
         <Flex ta='right' ml={'auto'} justify={'right'}>
           <div style={{ padding: '0 4px' }}>
             <Skeleton count={2} width={100} />

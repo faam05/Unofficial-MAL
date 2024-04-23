@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <Text align='center'>
       <span>
-        Made with <span style={{ color: '#e25555' }}>&hearts;</span> by{' '}
+        Made with <span className='text-[#e25555]'>&hearts;</span> by{' '}
         <a target='_blank' href='https://github.com/faam05' style={{ textDecoration: 'none' }}>
           faam05
         </a>

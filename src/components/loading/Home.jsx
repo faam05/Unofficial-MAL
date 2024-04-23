@@ -5,14 +5,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const HomeLoading = () => {
   return (
-    <Carousel.Slide
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        marginTop: '5px',
-      }}>
+    <Carousel.Slide className='mt-[5px] flex flex-col items-center justify-center'>
       <Skeleton height={220} width={160} />
     </Carousel.Slide>
   )

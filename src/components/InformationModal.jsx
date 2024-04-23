@@ -7,7 +7,7 @@ export default function InformationModal({ opened, close, data }) {
       <table>
         <tbody>
           <tr>
-            <td style={{ width: '10px', padding: 0 }} className='ar modal-title'>
+            <td className='ar modal-title w-[10px] p-0'>
               <Text fz={14}>
                 Alternative
                 <br />
@@ -41,8 +41,10 @@ export default function InformationModal({ opened, close, data }) {
             <td className='ar modal-title'>
               <Text fz={14}>Source</Text>
             </td>
-            <td className='modal-main' style={{ fontWeight: 700 }}>
-              <Text fz={14}>{data.source}</Text>
+            <td className='modal-main font-bold'>
+              <Text fz={14} fw={700}>
+                {data.source}
+              </Text>
             </td>
           </tr>
           <tr>
@@ -50,7 +52,9 @@ export default function InformationModal({ opened, close, data }) {
               <Text fz={14}>Episodes</Text>
             </td>
             <td className='modal-main'>
-              <Text fz={14}>{data.episodes ?? 'N/A'}</Text>
+              <Text fz={14} fw={700}>
+                {data.episodes ?? 'N/A'}
+              </Text>
             </td>
           </tr>
           <tr>
@@ -58,7 +62,9 @@ export default function InformationModal({ opened, close, data }) {
               <Text fz={14}>Status</Text>
             </td>
             <td className='modal-main'>
-              <Text fz={14}>{data.status}</Text>
+              <Text fz={14} fw={700}>
+                {data.status}
+              </Text>
             </td>
           </tr>
           <tr>
@@ -66,7 +72,9 @@ export default function InformationModal({ opened, close, data }) {
               <Text fz={14}>Aired</Text>
             </td>
             <td className='modal-main'>
-              <Text fz={14}>{data.aired.string}</Text>
+              <Text fz={14} fw={700}>
+                {data.aired.string}
+              </Text>
             </td>
           </tr>
           <tr>
@@ -76,7 +84,7 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Producers</Text>
                 </td>
                 <td className='modal-main'>
-                  <Text fz={14} mr={1}>
+                  <Text fz={14} mr={1} fw={700}>
                     {data.producers.map((item, index) => {
                       return (
                         <span key={index}>
@@ -97,7 +105,7 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Licensors</Text>
                 </td>
                 <td className='modal-main'>
-                  <Text fz={14} mr={1}>
+                  <Text fz={14} mr={1} fw={700}>
                     {data.licensors.map((item, index) => {
                       return (
                         <span key={index}>
@@ -118,7 +126,7 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Studio</Text>
                 </td>
                 <td className='modal-main'>
-                  <Text fz={14} mr={1}>
+                  <Text fz={14} mr={1} fw={700}>
                     {data.studios.map((item, index) => {
                       return (
                         <span key={index}>
@@ -139,7 +147,7 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Genres</Text>
                 </td>
                 <td className='modal-main'>
-                  <Text fz={14}>
+                  <Text fz={14} fw={700}>
                     {data.genres.map((item, index) => {
                       return (
                         <span key={index}>
@@ -160,7 +168,7 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Theme</Text>
                 </td>
                 <td className='modal-main'>
-                  <Text fz={14} mr={1}>
+                  <Text fz={14} mr={1} fw={700}>
                     {data.themes.map((item, index) => {
                       return (
                         <span key={index}>
@@ -181,7 +189,7 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Demographic</Text>
                 </td>
                 <td className='modal-main'>
-                  <Text fz={14} mr={1}>
+                  <Text fz={14} mr={1} fw={700}>
                     {data.demographics.map((item, index) => {
                       return (
                         <span key={index}>
@@ -202,7 +210,9 @@ export default function InformationModal({ opened, close, data }) {
                   <Text fz={14}>Duration</Text>
                 </td>
                 <td className='modal-main'>
-                  <Text fz={14}>{data.duration}</Text>
+                  <Text fz={14} fw={700}>
+                    {data.duration}
+                  </Text>
                 </td>
               </>
             )}
@@ -212,7 +222,9 @@ export default function InformationModal({ opened, close, data }) {
               <Text fz={14}>Rating</Text>
             </td>
             <td className='modal-main'>
-              <Text fz={14}>{data.rating}</Text>
+              <Text fz={14} fw={700}>
+                {data.rating}
+              </Text>
             </td>
           </tr>
         </tbody>

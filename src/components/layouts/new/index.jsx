@@ -25,19 +25,19 @@ export function Layout({ children }) {
       footer={{ height: 35 }}
       navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }}
       padding='xs'
-      style={{ minHeight: '100vh', width: '100%', overflowX: 'hidden' }}>
+      className='min-h-screen w-full overflow-x-hidden'>
       <AppShell.Header>
         <Container h={'100%'} size={!mobile && 1060}>
           <Group h='100%'>
-            <Group justify='space-between' style={{ flex: 1 }}>
+            <Group justify='space-between' className='flex-1'>
               <NavLink to='/' style={{ textDecoration: 'none' }}>
                 MAL
               </NavLink>
               <Group ml='xl' gap={0} visibleFrom='sm'>
                 <Button
                   variant={location.pathname !== '/' ? 'subtle' : 'filled'}
+                  className='mr-[10px]'
                   style={{
-                    marginRight: 10,
                     background: location.pathname === '/' ? '#0000FF' : 'transparent',
                   }}
                   onClick={() => navigate('/')}>
@@ -82,7 +82,7 @@ export function Layout({ children }) {
               navigate(link.link)
               toggle()
             }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'end' }}>
+            <div className='flex items-center justify-end'>
               {link.icon} {link.label}
             </div>
           </UnstyledButton>
@@ -95,7 +95,7 @@ export function Layout({ children }) {
         </Container>
       </AppShell.Main>
 
-      <AppShell.Footer p='xs' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <AppShell.Footer p='xs' className='flex items-center justify-center'>
         <Footer />
       </AppShell.Footer>
     </AppShell>

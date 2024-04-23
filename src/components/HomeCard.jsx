@@ -4,14 +4,9 @@ import { NavLink } from 'react-router-dom'
 
 const HomeCard = ({ index, item, isRank }) => {
   return (
-    <NavLink
-      aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`}
-      to={`/detail/${item.mal_id}`}
-      style={{
-        position: 'relative',
-      }}>
+    <NavLink aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`} to={`/detail/${item.mal_id}`} className='relative'>
       <Image
-        className='hover:ease-in-out transition-all transform'
+        className='transform transition-all hover:ease-in-out'
         h={220}
         w={160}
         src={item.images.webp.image_url}
@@ -22,13 +17,11 @@ const HomeCard = ({ index, item, isRank }) => {
           c='white'
           fz={14}
           fw={600}
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            padding: '0px 5px',
-            background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-          }}>
+          pos='absolute'
+          top={0}
+          right={0}
+          p='0px 5px'
+          bg='linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)'>
           # {index + 1}
         </Text>
       )}
@@ -38,14 +31,14 @@ const HomeCard = ({ index, item, isRank }) => {
         fw={400}
         w='100%'
         c='#fff'
+        p='15px 5px 0px'
+        mb='5px'
+        bottom={0}
+        pos='absolute'
+        bg='linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)'
         style={{
           // whiteSpace: 'nowrap',
-          padding: '15px 5px 0px',
-          marginBottom: '5px',
           boxShadow: '0 5px 0 #000',
-          bottom: 0,
-          position: 'absolute',
-          background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
         }}>
         {item.title}
       </Text>

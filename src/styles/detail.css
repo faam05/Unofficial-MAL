@@ -59,7 +59,7 @@
     background-position: center top;
     background-repeat: no-repeat;
     background-size: cover;
-    height: 200px;
+    /* height: 200px; */
     overflow: hidden;
     position: relative;
     width: 140px;

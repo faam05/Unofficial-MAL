@@ -109,15 +109,15 @@ export default function Home() {
   return (
     <>
       {queryNow.isError || querySchedule.isError || queryTop.isError ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <div className='flex flex-col items-center'>
           <p>There was an error, please refresh or click Retry Button</p>
           <button onClick={() => queryClient.invalidateQueries('nowAnime')}>Retry</button>
         </div>
       ) : (
         <>
-          <Flex style={{ borderColor: '#bebebe', borderStyle: 'solid', borderWidth: '0 0 1px' }}>
+          <Flex className='border-solid border-[#bebebe]' style={{ borderWidth: '0 0 1px' }}>
             {queryNow.isLoading ? (
-              <div style={{ flex: 1 }}>
+              <div className='flex-1'>
                 <Skeleton />
               </div>
             ) : (
@@ -126,8 +126,23 @@ export default function Home() {
                   {getSeason(getDate.getMonth())} {getDate.getFullYear()} anime
                 </Text>
                 {!mobile && (
-                  <NavLink to='/coming-soon' style={{ marginLeft: 'auto', textDecoration: 'none' }} id='coming-soon'>
-                    Coming Soon
+                  <NavLink to='/coming-soon' className='ml-auto flex no-underline hover:underline' id='coming-soon'>
+                    <span>Coming Soon</span>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      width='24'
+                      height='24'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeWidth='2'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      className='icon icon-tabler icons-tabler-outline icon-tabler-chevrons-right motion-safe:animate-bounce hover:motion-safe:animate-pulse'>
+                      <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+                      <path d='M7 7l5 5l-5 5' />
+                      <path d='M13 7l5 5l-5 5' />
+                    </svg>
                   </NavLink>
                 )}
               </>
@@ -145,17 +160,16 @@ export default function Home() {
                   .map((_, index) => <HomeLoading key={index} />)
               : queryNow.data.map((item, index) => {
                   return (
-                    <Carousel.Slide key={index} className='flex justify-center items-center flex-col mt-[5px]'>
+                    <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
                       <HomeCard item={item} />
                     </Carousel.Slide>
                   )
                 })}
           </MyCarousel>
           <Text
+            mt={15}
+            className='border-solid border-[#bebebe]'
             style={{
-              marginTop: '15px',
-              borderColor: '#bebebe',
-              borderStyle: 'solid',
               borderWidth: '0 0 1px',
             }}>
             {querySchedule.isLoading ? <Skeleton /> : 'Today Airing'}
@@ -172,25 +186,16 @@ export default function Home() {
                   .map((_, index) => <HomeLoading key={index} />)
               : querySchedule.data.map((item, index) => {
                   return (
-                    <Carousel.Slide
-                      key={index}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        marginTop: '5px',
-                      }}>
+                    <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
                       <HomeCard item={item} />
                     </Carousel.Slide>
                   )
                 })}
           </MyCarousel>
           <Text
+            mt={15}
+            className='border-solid border-[#bebebe]'
             style={{
-              marginTop: '15px',
-              borderColor: '#bebebe',
-              borderStyle: 'solid',
               borderWidth: '0 0 1px',
             }}>
             {queryTop.isLoading ? <Skeleton /> : 'Top 25 Anime'}
@@ -207,15 +212,7 @@ export default function Home() {
                   .map((_, index) => <HomeLoading key={index} />)
               : queryTop.data.map((item, index) => {
                   return (
-                    <Carousel.Slide
-                      key={index}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        marginTop: '5px',
-                      }}>
+                    <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
                       <HomeCard item={item} isRank index={index} />
                     </Carousel.Slide>
                   )
