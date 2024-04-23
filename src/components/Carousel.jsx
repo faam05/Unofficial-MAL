@@ -13,9 +13,7 @@ const MyCarousel = ({ children, changeSlide = 'auto', slideGap = 'sm', slideSize
       loop={loop}
       align='start'
       slidesToScroll={changeSlide}
-      style={{
-        position: 'relative',
-      }}>
+      className='relative'>
       {children}
     </Carousel>
   )

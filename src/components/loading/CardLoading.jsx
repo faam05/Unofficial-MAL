@@ -7,14 +7,14 @@ const CardLoading = () => {
   const mobile = useMobileDevice()
   return (
     <>
-      <SimpleGrid cols={mobile ? (window.innerWidth > 579 ? 2 : 1) : 2} style={{ marginTop: '10px' }}>
+      <SimpleGrid cols={mobile ? (window.innerWidth > 579 ? 2 : 1) : 2} className='mt-[10px]'>
         {Array(10)
           .fill()
           .map((_, index) => {
             return (
               <Card key={index} shadow='sm' radius='md'>
                 <SimpleGrid cols={2}>
-                  <div style={{ width: '100%' }}>
+                  <div className='w-full'>
                     <Center>
                       <Flex direction={'column'}>
                         <Skeleton
@@ -54,7 +54,7 @@ const CardLoading = () => {
                           </Badge>
                         ))}
                     </SimpleGrid>
-                    <Skeleton height={120} style={{ marginTop: 10 }} />
+                    <Skeleton height={120} className='mt-[10px]' />
                   </div>
                 </SimpleGrid>
               </Card>

@@ -38,11 +38,11 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                 ? `(${item.type}, ${item.year})`
                 : `(${item.year})`
               : item.type !== null
-              ? `(${item.type}, ${date.getFullYear()})`
-              : `${date.getFullYear()}`,
+                ? `(${item.type}, ${date.getFullYear()})`
+                : `${date.getFullYear()}`,
             id: item.mal_id,
             image: item.images.jpg.image_url,
-          }))
+          })),
         )
       } catch (error) {
         if (import.meta.env.DEV) {
@@ -114,7 +114,7 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                   <Combobox.Option key={index} value={result.id}>
                     <Group justify='space-between' align='center'>
                       <Image mah={90} src={result.image} w={60} />
-                      <div style={{ flex: 1 }}>
+                      <div className='flex-1'>
                         <Text size='xs' lineClamp={3}>
                           {result.value}
                         </Text>
@@ -132,14 +132,14 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
           </ScrollArea.Autosize>
           {!loading && searchTerm && results.length !== 0 && (
             <Combobox.Footer
-              style={{ padding: 0 }}
+              className='p-0'
               onClick={() => {
                 setResults([])
                 setSearchTerm('')
                 mobile ? setOpenedModal(false) : setIsOpen(false)
                 navigate(`/search/${searchTerm}`)
               }}>
-              <Button style={{ borderRadius: 0 }} w='100%'>
+              <Button className='rounded-[0]' w='100%'>
                 Show Details
               </Button>
             </Combobox.Footer>

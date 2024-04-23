@@ -8,7 +8,7 @@ const DisplayCard = ({ data }) => {
   const mobile = useMobileDevice()
 
   return (
-    <SimpleGrid cols={mobile ? (window.innerWidth > 579 ? 2 : 1) : 2} style={{ marginTop: '10px' }}>
+    <SimpleGrid className='mt-[10px]' cols={mobile ? (window.innerWidth > 579 ? 2 : 1) : 2}>
       {data.map((item, index) => {
         return (
           <Card key={index} shadow='sm' radius='md'>
@@ -16,7 +16,7 @@ const DisplayCard = ({ data }) => {
               {/* Left content */}
               <div>
                 <Center>
-                  <Flex direction={'column'} style={{ width: '100%' }}>
+                  <Flex className='w-full' direction={'column'}>
                     <NavLink to={`/detail/${item.mal_id}`}>
                       <Image h={!mobile ? 250 : 150} fit='contain' mr={10} src={item.images.jpg.image_url} />
                     </NavLink>
@@ -31,14 +31,14 @@ const DisplayCard = ({ data }) => {
                       {item.studios.length > 0
                         ? item.studios.map((studio, index) => {
                             return (
-                              <Badge key={index} variant='light' color='gray' size={!mobile ? 'md' : 'xs'} style={{ maxWidth: 'calc(100% - 0px)' }}>
+                              <Badge key={index} className='max-w-[calc(100%-0px)]' variant='light' color='gray' size={!mobile ? 'md' : 'xs'}>
                                 {studio.name}
                               </Badge>
                             )
                           })
                         : item.producers.map((item, index) => {
                             return (
-                              <Badge key={index} variant='light' color='gray' style={{ maxWidth: 'calc(100% - 0px)' }}>
+                              <Badge key={index} className='max-w-[calc(100%-0px)]' variant='light' color='gray'>
                                 {item.name}
                               </Badge>
                             )
@@ -56,7 +56,7 @@ const DisplayCard = ({ data }) => {
                     </NavLink>
                   </Text>
                 </Center>
-                <Flex mt={!mobile ? 10 : 5} style={{ alignItems: 'center', justifyContent: 'space-evenly' }}>
+                <Flex className='items-center justify-evenly' mt={!mobile ? 10 : 5}>
                   <Text fz={!mobile ? 'md' : 12} truncate='end' inherit>
                     {item.type} {item.episodes ? `( ${item.episodes} episodes )` : `(${item.status})`}
                   </Text>

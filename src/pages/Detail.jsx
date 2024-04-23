@@ -63,13 +63,15 @@ function Detail() {
               <div className='content-right'>
                 <List>
                   <List.Item>
-                    <Badge size='xs' style={{ marginRight: 10 }}>
+                    <Badge size='xs' className='mr-[10px]'>
                       {isLoading ? <Skeleton width={20} /> : Number(data.score)}
                     </Badge>
                     {isLoading ? (
                       <Skeleton width={100} />
                     ) : (
-                      <span style={{ fontSize: '0.7rem', color: '#7a7a7a' }}>({Number(data.scored_by).toLocaleString()} users)</span>
+                      <span className='text-[#7a7a7a]' style={{ fontSize: '0.7rem' }}>
+                        ({Number(data.scored_by).toLocaleString()} users)
+                      </span>
                     )}
                   </List.Item>
                   <List.Item>{isLoading ? <Skeleton width={100} /> : <Text fz={12}>Ranked #{data.rank}</Text>}</List.Item>
@@ -82,10 +84,10 @@ function Detail() {
                       </>
                     ) : (
                       <>
-                        <Text fw={500} style={{ fontSize: '0.7rem', marginRight: 10 }}>
+                        <Text mr={10} fw={500} style={{ fontSize: '0.7rem' }}>
                           Aired
                         </Text>
-                        <Text fz={11} style={{ margin: 0 }}>
+                        <Text fz={11} m={0}>
                           {data.aired.string}
                         </Text>
                       </>
@@ -99,11 +101,11 @@ function Detail() {
                       </>
                     ) : (
                       <>
-                        <Text fw={500} style={{ fontSize: '0.7rem', marginRight: 10 }}>
+                        <Text mr={10} fw={500} style={{ fontSize: '0.7rem' }}>
                           Studios
                         </Text>
                         {data.studios.map((studio, index) => (
-                          <Text key={index} fz={12} style={{ margin: 0 }}>
+                          <Text m={0} key={index} fz={12}>
                             {studio.name}
                           </Text>
                         ))}
@@ -182,8 +184,8 @@ function Detail() {
                 {isLoading ? (
                   <>
                     <Skeleton width={225} height={330} />
-                    <div style={{ marginTop: 10 }}>
-                      <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
+                    <div className='mt-[10px]'>
+                      <Title order={5} fz={12} className='border-solid border-[#bebebe]' style={{ borderWidth: '0 0 1px' }} p='3px 0'>
                         <Skeleton width={100} />
                       </Title>
                       <Skeleton height={60} />
@@ -192,8 +194,8 @@ function Detail() {
                 ) : (
                   <>
                     <Image w={225} src={data.images?.webp?.large_image_url} alt={data.title} />
-                    <div style={{ marginTop: 10, paddingBottom: 10 }}>
-                      <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
+                    <div className='mt-[10px] pb-[10px]'>
+                      <Title order={5} fz={12} className='border-solid border-[#bebebe]' style={{ borderWidth: '0 0 1px' }} p='3px 0'>
                         Alternative Titles
                       </Title>
                       <Spoiler my={10} maxHeight={60} fz={12} showLabel='More titles' hideLabel='Less titles'>
@@ -202,7 +204,7 @@ function Detail() {
                           .map((item, index) => {
                             return (
                               <div key={index}>
-                                <span style={{ fontWeight: 700 }}>{item.type + ': '}</span>
+                                <span className='font-bold'>{item.type + ': '}</span>
                                 <span>{item.title}</span>
                               </div>
                             )
@@ -210,7 +212,7 @@ function Detail() {
                       </Spoiler>
                     </div>
                     <div>
-                      <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
+                      <Title order={5} fz={12} className='border-solid border-[#bebebe]' style={{ borderWidth: '0 0 1px' }} p='3px 0'>
                         Information
                       </Title>
                       <div style={{ padding: '3px 0', fontSize: 12, lineHeight: '1.53m' }}>
@@ -257,7 +259,7 @@ function Detail() {
                         <Flex>
                           {data.producers.length === 0 ? null : (
                             <div>
-                              <span style={{ fontWeight: 700 }}>Producers: </span>
+                              <span className='font-bold'>Producers: </span>
                               {data.producers.map((item, index) => {
                                 return <span key={index}>{index !== data.producers.length - 1 ? ' ' + item.name + ', ' : item.name}</span>
                               })}
@@ -267,7 +269,7 @@ function Detail() {
                         <Flex>
                           {data.licensors.length === 0 ? null : (
                             <div>
-                              <span style={{ fontWeight: 700 }}>Licensors: </span>
+                              <span className='font-bold'>Licensors: </span>
                               {data.licensors.map((item, index) => {
                                 return <span key={index}>{index !== data.licensors.length - 1 ? item.name + ', ' : item.name}</span>
                               })}
@@ -277,7 +279,7 @@ function Detail() {
                         <Flex>
                           {data.studios.length === 0 ? null : (
                             <div>
-                              <span style={{ fontWeight: 700 }}>Studios: </span>
+                              <span className='font-bold'>Studios: </span>
                               {data.studios.map((item, index) => {
                                 return <span key={index}>{index !== data.studios.length - 1 ? item.name + ', ' : item.name}</span>
                               })}
@@ -297,7 +299,7 @@ function Detail() {
                         <Flex>
                           {data.genres.length === 0 ? null : (
                             <div>
-                              <span style={{ fontWeight: 700 }}>Genres: </span>
+                              <span className='font-bold'>Genres: </span>
                               {data.genres.map((item, index) => {
                                 return <span key={index}>{index !== data.genres.length - 1 ? item.name + ', ' : item.name}</span>
                               })}
@@ -307,7 +309,7 @@ function Detail() {
                         <Flex>
                           {data.themes.length === 0 ? null : (
                             <div>
-                              <span style={{ fontWeight: 700 }}>Themes: </span>
+                              <span className='font-bold'>Themes: </span>
                               {data.themes.map((item, index) => {
                                 return <span key={index}>{index !== data.themes.length - 1 ? item.name + ', ' : item.name}</span>
                               })}
@@ -317,7 +319,7 @@ function Detail() {
                         <Flex>
                           {data.demographics.length === 0 ? null : (
                             <div>
-                              <span style={{ fontWeight: 700 }}>Demographics: </span>
+                              <span className='font-bold'>Demographics: </span>
                               {data.demographics.map((item, index) => {
                                 return <span key={index}>{index !== data.demographics.length - 1 ? item.name + ', ' : item.name}</span>
                               })}
@@ -347,7 +349,7 @@ function Detail() {
                       </div>
                     </div>
                     <div>
-                      <Title order={5} fz={12} style={{ borderStyle: 'solid', borderColor: '#bebebe', borderWidth: '0 0 1px' }} p='3px 0'>
+                      <Title order={5} fz={12} className='border-solid border-[#bebebe]' style={{ borderWidth: '0 0 1px' }} p='3px 0'>
                         Statistics
                       </Title>
                       <div style={{ padding: '3px 0', fontSize: 11, lineHeight: '1.53m' }}>
