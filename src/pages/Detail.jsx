@@ -112,7 +112,7 @@ function Detail() {
                       </>
                     )}
                   </List.Item>
-                  <List.Item style={{ marginTop: 10 }}>
+                  <List.Item className='mb-3'>
                     {isLoading ? (
                       <Skeleton width={100} />
                     ) : (
@@ -142,7 +142,7 @@ function Detail() {
               </>
             )}
           </div>
-          <div style={{ margin: '10px 0' }}>
+          <div className='my-[10px]'>
             <Accordion value={accordionValue} chevronPosition='left' onChange={(e) => setAccordionValue(e)}>
               <Accordion.Item value='characters'>
                 <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Characters & Voice Actors'}</Accordion.Control>
@@ -162,6 +162,13 @@ function Detail() {
                 <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Recomendations'}</Accordion.Control>
                 <Accordion.Panel>
                   <Recommendation loading={isLoading} />
+                </Accordion.Panel>
+              </Accordion.Item>
+
+              <Accordion.Item value='episodes'>
+                <Accordion.Control>{isLoading ? <Skeleton width={200} /> : 'Episodes'}</Accordion.Control>
+                <Accordion.Panel>
+                  <Episodes id={data?.title.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-')} loading={isLoading} />
                 </Accordion.Panel>
               </Accordion.Item>
             </Accordion>
