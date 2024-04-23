@@ -35,8 +35,7 @@ function Detail() {
   }, [id])
 
   // get details anime
-  let isLoading = true
-  const { data, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/full`, ['details', id])
+  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/full`, ['details', id])
   useFetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`, ['recommendations', id])
 
   if (isError) {
