@@ -50,7 +50,7 @@ const Staff = ({ loading }) => {
                   maxWidth: '90px',
                 }}>
                 <NavLink to={item.person.url}>
-                  <Image height={126} width={90} src={item.person.images.jpg.image_url} />
+                  <Image h={126} w={90} src={item.person.images.jpg.image_url} />
                 </NavLink>
                 <Text fz={10} truncate>
                   {item.positions ? item.positions.join(', ') : ''}
@@ -70,7 +70,7 @@ const Staff = ({ loading }) => {
             <div key={index} style={{ backgroundColor: index % 2 == 0 ? 'white' : '#f8f8f8' }}>
               <Flex p='5px 0' maw='max-content'>
                 <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
-                  <Image width={42} height={62} src={item.person.images.jpg.image_url} />
+                  <Image w={42} h={62} src={item.person.images.jpg.image_url} />
                 </NavLink>
                 <div style={{ padding: '0 4px' }}>
                   <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>

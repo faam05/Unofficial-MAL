@@ -168,7 +168,7 @@ export default function Information({ data, loading }) {
                   .filter((item) => item.title.toLowerCase().includes('op'))
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
-                      <Image width={100} height={55} src={item.video.images.image_url} alt={item.title?.replace(/[ , -]/g, '_')} />
+                      <Image w={100} h={55} src={item.video.images.image_url} alt={item.title?.replace(/[ , -]/g, '_')} />
                       <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
                         <Text fz={12}>{item.title}</Text>
                         <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
@@ -211,7 +211,7 @@ export default function Information({ data, loading }) {
                   .filter((item) => item.title.toLowerCase().includes('ed'))
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
-                      <Image width={100} height={55} src={item.video.images.image_url} alt={item.meta?.title?.replace(/[ , -]/g, '_')} />
+                      <Image w={100} h={55} src={item.video.images.image_url} alt={item.meta?.title?.replace(/[ , -]/g, '_')} />
                       <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
                         <Text fz={12}>{item.title}</Text>
                         <Text fz={10}>

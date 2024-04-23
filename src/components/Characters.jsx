@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import useFetcher from '../hooks/useFetcher'
 import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import MyCarousel from './Carousel'
 import CharactersLoading from './loading/Characters'
 import CarouselLoading from './loading/CarouselLoading'
-import MyCarousel from './Carousel'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Characters({ loading }) {
   const mobile = useMobileDevice()
@@ -42,7 +42,7 @@ export default function Characters({ loading }) {
               return (
                 <Carousel.Slide key={index}>
                   <Flex>
-                    <Image h={108.88} width={70} src={item.character.images.webp.image_url} alt={item.name} />
+                    <Image h={108.88} w={70} src={item.character.images.webp.image_url} alt={item.name} />
                     <Text
                       c='white'
                       fz={8}
@@ -102,7 +102,7 @@ export default function Characters({ loading }) {
           {data.map((item, index) => (
             <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
               <Flex>
-                <Image height={200} width={120} src={item.character.images.webp.image_url} alt={item.name} />
+                <Image h={100} w={120} src={item.character.images.webp.image_url} alt={item.name} />
                 <div style={{ marginLeft: '10px' }}>
                   <Text fz={14}>{item.character.name}</Text>
                   <Text fz={14}>{item.role}</Text>
@@ -118,7 +118,7 @@ export default function Characters({ loading }) {
                         <Text fz={12}>{item.language}</Text>
                       </div>
                       <a href={item.person.url} target='_blank'>
-                        <Image width={42} height={62} src={item.person.images.jpg.image_url} />
+                        <Image w={42} h={62} src={item.person.images.jpg.image_url} />
                       </a>
                     </Flex>
                   )

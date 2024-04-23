@@ -1,29 +1,29 @@
-import { Flex, Image, Text } from '@mantine/core'
+import React, { useEffect } from 'react'
+import { Flex, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { NavLink } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import MyCarousel from '../components/Carousel'
+import HomeCard from '../components/HomeCard'
 import HomeLoading from '../components/loading/Home'
-import { useEffect, useState } from 'react'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Home() {
   const mobile = useMobileDevice()
 
   useEffect(() => {
+    const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime`
     const test = async () => {
       try {
-        // return await fetch('http://localhost:4000/anime/gogoanime')
-        const response = await fetch('https://api-anime-nine.vercel.app/anime/gogoanime/')
+        const response = await fetch(url)
         // Check if the response is successful (status code 200-299)
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
 
-        const result = await response.json()
-        console.log('data from api', result)
+        return await response.json()
       } catch (error) {
         console.error('Error fetching data:', error.message)
       }
@@ -146,40 +146,8 @@ export default function Home() {
                   .map((_, index) => <HomeLoading key={index} />)
               : queryNow.data.map((item, index) => {
                   return (
-                    <Carousel.Slide
-                      key={index}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        marginTop: '5px',
-                      }}>
-                      <NavLink
-                        aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`}
-                        to={`/detail/${item.mal_id}`}
-                        style={{
-                          position: 'relative',
-                        }}>
-                        <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
-                        <Text
-                          lineClamp={2}
-                          fz={12}
-                          fw={400}
-                          w='100%'
-                          c='#fff'
-                          style={{
-                            // whiteSpace: 'nowrap',
-                            padding: '15px 5px 0px',
-                            marginBottom: '5px',
-                            boxShadow: '0 5px 0 #000',
-                            bottom: 0,
-                            position: 'absolute',
-                            background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                          }}>
-                          {item.title}
-                        </Text>
-                      </NavLink>
+                    <Carousel.Slide key={index} className='flex justify-center items-center flex-col mt-[5px]'>
+                      <HomeCard item={item} />
                     </Carousel.Slide>
                   )
                 })}
@@ -215,30 +183,7 @@ export default function Home() {
                         flexDirection: 'column',
                         marginTop: '5px',
                       }}>
-                      <NavLink
-                        aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`}
-                        to={`/detail/${item.mal_id}`}
-                        style={{
-                          position: 'relative',
-                        }}>
-                        <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
-                        <Text
-                          lineClamp={2}
-                          c='#fff'
-                          w='100%'
-                          fz={12}
-                          fw={400}
-                          style={{
-                            padding: '15px 5px 0px',
-                            marginBottom: '5px',
-                            boxShadow: '0 5px 0 #000',
-                            bottom: 0,
-                            position: 'absolute',
-                            background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                          }}>
-                          {item.title}
-                        </Text>
-                      </NavLink>
+                      <HomeCard item={item} />
                     </Carousel.Slide>
                   )
                 })}
@@ -274,43 +219,7 @@ export default function Home() {
                         flexDirection: 'column',
                         marginTop: '5px',
                       }}>
-                      <NavLink
-                        aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`}
-                        to={`/detail/${item.mal_id}`}
-                        style={{
-                          position: 'relative',
-                        }}>
-                        <Image h={220} w={160} src={item.images.webp.image_url} alt={item.title.replace(/[ , -]/g, '_')} />
-                        <Text
-                          c='white'
-                          fz={14}
-                          fw={600}
-                          style={{
-                            position: 'absolute',
-                            top: 0,
-                            right: 0,
-                            padding: '0px 5px',
-                            background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                          }}>
-                          # {index + 1}
-                        </Text>
-                        <Text
-                          lineClamp={2}
-                          c='#fff'
-                          w='100%'
-                          fz={12}
-                          fw={400}
-                          style={{
-                            padding: '15px 5px 0px',
-                            marginBottom: '5px',
-                            boxShadow: '0 5px 0 #000',
-                            bottom: 0,
-                            position: 'absolute',
-                            background: `linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)`,
-                          }}>
-                          {item.title}
-                        </Text>
-                      </NavLink>
+                      <HomeCard item={item} isRank index={index} />
                     </Carousel.Slide>
                   )
                 })}
