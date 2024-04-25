@@ -1,7 +1,7 @@
 {
   "name": "mal-app",
   "private": true,
-  "version": "4.0.0",
+  "version": "4.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -25,6 +25,7 @@
     "match-sorter": "^6.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-lazy-load-image-component": "^1.6.0",
     "react-loading-skeleton": "^3.4.0",
     "react-router-dom": "^6.22.3",
     "video.js": "^8.10.0"
