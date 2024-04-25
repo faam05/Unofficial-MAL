@@ -1,16 +1,19 @@
-import { Image, Text } from '@mantine/core'
+import { Text } from '@mantine/core'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
 const HomeCard = ({ index, item, isRank }) => {
   return (
     <NavLink aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`} to={`/detail/${item.mal_id}`} className='relative'>
-      <Image
-        className='transform transition-all hover:ease-in-out'
-        h={220}
-        w={160}
+      <LazyLoadImage
         src={item.images.webp.image_url}
+        placeholderSrc={item.images.webp.small_image_url}
+        width={160}
+        height={220}
         alt={item.title.replace(/[ , -]/g, '_')}
+        effect='blur'
       />
       {isRank && (
         <Text
