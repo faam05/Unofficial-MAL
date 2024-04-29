@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Flex, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -58,9 +58,7 @@ export default function Home() {
     queryKey: ['nowAnime'],
     queryFn: async () => {
       const response = await fetch('https://api.jikan.moe/v4/seasons/now')
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
+      if (!response.ok) throw new Error('Network response was not ok')
       const { data } = await response.json()
       return data
     },
@@ -69,9 +67,7 @@ export default function Home() {
     queryKey: ['scheduleAnime'],
     queryFn: async () => {
       const response = await fetch(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
+      if (!response.ok) throw new Error('Network response was not ok')
       const { data } = await response.json()
       return data
     },
@@ -80,9 +76,7 @@ export default function Home() {
     queryKey: ['topAnime'],
     queryFn: async () => {
       const response = await fetch('https://api.jikan.moe/v4/top/anime')
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
+      if (!response.ok) throw new Error('Network response was not ok')
       const { data } = await response.json()
       return data
     },

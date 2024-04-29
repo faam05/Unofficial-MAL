@@ -2,11 +2,11 @@ import React from 'react'
 
 const ErrorMessage = ({ message }) => {
   return (
-    <div className='flex gap-1 text-red-600 font-mono p-2 justify-center'>
+    <div className='flex justify-center gap-1 p-2 font-mono text-red-600'>
       <span>{message}</span>
-      <span class='relative flex h-3 w-3'>
-        <span class='animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75'></span>
-        <span class='relative inline-flex rounded-full h-3 w-3 bg-red-500'></span>
+      <span className='relative flex h-3 w-3'>
+        <span className='absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75'></span>
+        <span className='relative inline-flex h-3 w-3 rounded-full bg-red-500'></span>
       </span>
     </div>
   )
