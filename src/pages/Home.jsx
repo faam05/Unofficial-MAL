@@ -1,4 +1,3 @@
-import React from 'react'
 import { Flex, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -189,7 +188,7 @@ export default function Home() {
               : queryTop.data.map((item, index) => {
                   return (
                     <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
-                      <HomeCard item={item} isRank index={index} />
+                      <HomeCard item={item} topText={`# ${index + 1}`} />
                     </Carousel.Slide>
                   )
                 })}
