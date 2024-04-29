@@ -30,8 +30,8 @@ export function Layout({ children }) {
         <Container h={'100%'} size={!mobile && 1060}>
           <Group h='100%'>
             <Group justify='space-between' className='flex-1'>
-              <NavLink to='/' style={{ textDecoration: 'none' }}>
-                MAL
+              <NavLink to='/' style={{ textDecoration: 'none' }} className='font-bold'>
+                MyAnimeList
               </NavLink>
               <Group ml='xl' gap={0} visibleFrom='sm'>
                 <Button

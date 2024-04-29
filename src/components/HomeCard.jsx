@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
-const HomeCard = ({ index, item, isRank }) => {
+const HomeCard = ({ item, topText }) => {
   return (
     <NavLink aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`} to={`/detail/${item.mal_id}`} className='relative'>
       <LazyLoadImage
@@ -15,7 +15,7 @@ const HomeCard = ({ index, item, isRank }) => {
         alt={item.title.replace(/[ , -]/g, '_')}
         effect='blur'
       />
-      {isRank && (
+      {topText && (
         <Text
           c='white'
           fz={14}
@@ -25,7 +25,7 @@ const HomeCard = ({ index, item, isRank }) => {
           right={0}
           p='0px 5px'
           bg='linear-gradient(0deg, rgba(0,0,0,1) 30%, rgba(255,255,255,0) 100%)'>
-          # {index + 1}
+          {topText}
         </Text>
       )}
       <Text
