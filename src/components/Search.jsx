@@ -1,9 +1,11 @@
-import { Button, Combobox, Group, Image, InputBase, ScrollArea, Text, TextInput, useCombobox } from '@mantine/core'
+import { Button, Combobox, Group, InputBase, ScrollArea, Text, useCombobox } from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
 import axios from 'axios'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useMobileDevice } from '../hooks/useMobileDevice'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
 const CSearch = ({ setOpenedModal, openedModal = null }) => {
   const navigate = useNavigate()
@@ -41,7 +43,8 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                 ? `(${item.type}, ${date.getFullYear()})`
                 : `${date.getFullYear()}`,
             id: item.mal_id,
-            image: item.images.jpg.image_url,
+            image: item.images.webp.image_url,
+            placeholder: item.images.webp.small_image_url,
           })),
         )
       } catch (error) {
@@ -113,7 +116,14 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                 return (
                   <Combobox.Option key={index} value={result.id}>
                     <Group justify='space-between' align='center'>
-                      <Image mah={90} src={result.image} w={60} />
+                      <LazyLoadImage
+                        width={60}
+                        src={result.image}
+                        placeholderSrc={result.placeholder}
+                        alt={result?.value?.replace(/[ , -]/g, '_')}
+                        effect='blur'
+                        className='h-full max-h-[90px]'
+                      />
                       <div className='flex-1'>
                         <Text size='xs' lineClamp={3}>
                           {result.value}

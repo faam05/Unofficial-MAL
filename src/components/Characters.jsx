@@ -1,13 +1,16 @@
-import { Flex, Image, SimpleGrid, Text } from '@mantine/core'
+import { Flex, SimpleGrid, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import Skeleton from 'react-loading-skeleton'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import useFetcher from '../hooks/useFetcher'
-import Skeleton from 'react-loading-skeleton'
 import MyCarousel from './Carousel'
 import CharactersLoading from './loading/Characters'
 import CarouselLoading from './loading/CarouselLoading'
+import ErrorMessage from './ErrorMessage'
 import 'react-loading-skeleton/dist/skeleton.css'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
 export default function Characters({ loading }) {
   const mobile = useMobileDevice()
@@ -15,13 +18,7 @@ export default function Characters({ loading }) {
 
   const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/characters`, ['characters', id])
 
-  if (isError) {
-    return (
-      <div className='text-center'>
-        <Text>Something went wrong when fetching List Characters</Text>
-      </div>
-    )
-  }
+  if (isError) return <ErrorMessage message='Something went wrong when fetching List Characters' />
 
   return (
     <>
@@ -42,7 +39,14 @@ export default function Characters({ loading }) {
               return (
                 <Carousel.Slide key={index}>
                   <Flex>
-                    <Image h={108.88} w={70} src={item.character.images.webp.image_url} alt={item.name} />
+                    <LazyLoadImage
+                      height={108.88}
+                      width={70}
+                      src={item.character.images.webp.image_url}
+                      placeholderSrc={item.character.images?.webp?.small_image_url}
+                      alt={item.name?.replace(/[ , -]/g, '_')}
+                      effect='blur'
+                    />
                     <Text
                       c='white'
                       fz={8}
@@ -68,7 +72,7 @@ export default function Characters({ loading }) {
                     </Text>
                   </Flex>
                   <Flex>
-                    <Image w={70} src={item.voice_actors[0]?.person.images.jpg.image_url} alt={item.name} />
+                    <LazyLoadImage width={70} src={item.voice_actors[0]?.person.images.jpg.image_url} alt={item.name?.replace(/[ , -]/g, '_')} />
                     <Text
                       truncate
                       fz={8}
@@ -96,9 +100,16 @@ export default function Characters({ loading }) {
           {data.map((item, index) => (
             <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
               <Flex>
-                <Image h={100} w={120} src={item.character.images.webp.image_url} alt={item.name} />
+                <LazyLoadImage
+                  width={120}
+                  height={100}
+                  src={item.character.images.webp.image_url}
+                  placeholderSrc={item.character.images?.webp?.small_image_url}
+                  alt={item.name?.replace(/[ , -]/g, '_')}
+                  effect='blur'
+                />
                 <div className='ml-[10px]'>
-                  <Text fz={14}>{item.character.name}</Text>
+                  <Text fz={14}>{item.character?.name}</Text>
                   <Text fz={14}>{item.role}</Text>
                   <Text fz={14}>{Number(item.favorites).toLocaleString()} Favorites</Text>
                 </div>
@@ -111,9 +122,14 @@ export default function Characters({ loading }) {
                         <Text fz={12}>{item.person.name}</Text>
                         <Text fz={12}>{item.language}</Text>
                       </div>
-                      <a href={item.person.url} target='_blank'>
-                        <Image w={42} h={62} src={item.person.images.jpg.image_url} />
-                      </a>
+                      <Link to={item.person.url} target='_blank'>
+                        <LazyLoadImage
+                          height={42}
+                          width={62}
+                          src={item.person.images.jpg.image_url}
+                          alt={item.person?.name?.replace(/[ , -]/g, '_')}
+                        />
+                      </Link>
                     </Flex>
                   )
                 })}

@@ -3,6 +3,7 @@ import { Button, Card, Flex } from '@mantine/core'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { IconPlayerTrackNext, IconPlayerTrackPrev } from '@tabler/icons-react'
 import Skeleton from 'react-loading-skeleton'
+import { useMobileDevice } from '../hooks/useMobileDevice'
 import useFetcher from '../hooks/useFetcher'
 import VideoPlayer from '../components/VideoPlayer'
 import ErrorMessage from '../components/ErrorMessage'
@@ -20,6 +21,7 @@ function titleCase(str) {
 }
 
 const Watch = () => {
+  const mobile = useMobileDevice()
   const playerRef = useRef(null)
   const { id } = useParams()
   const navigate = useNavigate()
@@ -30,13 +32,20 @@ const Watch = () => {
     responsive: true,
     fluid: true,
     preload: 'metadata',
+    playbackRates: [0.5, 1, 1.5, 2, 2.5],
+    userActions: {
+      hotkeys: true,
+    },
+    // controlBar: {
+    //   pictureInPictureToggle: false,
+    // },
   })
 
   const handlePlayerReady = (player) => {
     playerRef.current = player
   }
 
-  const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/watch/${id}`
+  const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/watch/${id}?server=vidstreaming`
   const { data, isLoading, isError } = useFetcher(url, ['watch', id], true)
 
   useEffect(() => {
@@ -75,25 +84,29 @@ const Watch = () => {
         <ErrorMessage message='Error when fetching Data, please try again later' />
       ) : (
         <>
-          <p className='mb-3 capitalize'>Watch {id.replace(/[ , -]/g, ' ')}</p>
+          <p className={`mb-3 capitalize ${mobile && 'text-sm'}`}>Watch {id.replace(/[ , -]/g, ' ')}</p>
           <Card shadow='sm' padding='xs' withBorder>
             <VideoPlayer options={options} onReady={handlePlayerReady} />
             <Flex className='p-2'>
               {current != 1 && current <= episode.data.totalEpisodes && (
                 <Link to={`/watch/${findID}-episode-${Number(current) - 1}`} className='flex items-center'>
                   <IconPlayerTrackPrev color='#B67352' />
-                  <span className='ml-1 text-[#B67352]'>{`${titleCase(`${findID}-episode-${Number(current) - 1}`)}`}</span>
+                  <span className={`ml-1 text-[#B67352] ${mobile && 'text-xs'}`}>
+                    {mobile ? `${titleCase(`episode-${Number(current) - 1}`)}` : `${titleCase(`${findID}-episode-${Number(current) - 1}`)}`}
+                  </span>
                 </Link>
               )}
               {current < episode.data.totalEpisodes && (
                 <Link to={`/watch/${findID}-episode-${Number(current) + 1}`} className='ml-auto flex items-center'>
-                  <span className='mr-1 text-[#B67352]'>{`${titleCase(`${findID}-episode-${Number(current) + 1}`)}`}</span>
+                  <span className={`mr-1 text-[#B67352] ${mobile && 'text-xs'}`}>
+                    {mobile ? `${titleCase(`episode-${Number(current) + 1}`)}` : `${titleCase(`${findID}-episode-${Number(current) + 1}`)}`}
+                  </span>
                   <IconPlayerTrackNext color='#B67352' />
                 </Link>
               )}
             </Flex>
           </Card>
-          <Button color='#5BBCFF' mt={10} onClick={() => navigate(-1)}>
+          <Button color='#5BBCFF' mt={10} onClick={() => navigate(-1)} size={mobile ? 'xs' : 'sm'}>
             Back
           </Button>
         </>
