@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import Skeleton from 'react-loading-skeleton'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import MyCarousel from '../components/Carousel'
-import HomeCard from '../components/HomeCard'
+import CarouselCard from '../components/CarouselCard'
 import HomeLoading from '../components/loading/Home'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -136,7 +136,7 @@ export default function Home() {
               : queryNow.data.map((item, index) => {
                   return (
                     <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
-                      <HomeCard item={item} />
+                      <CarouselCard item={item} />
                     </Carousel.Slide>
                   )
                 })}
@@ -162,7 +162,7 @@ export default function Home() {
               : querySchedule.data.map((item, index) => {
                   return (
                     <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
-                      <HomeCard item={item} />
+                      <CarouselCard item={item} />
                     </Carousel.Slide>
                   )
                 })}
@@ -188,7 +188,7 @@ export default function Home() {
               : queryTop.data.map((item, index) => {
                   return (
                     <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
-                      <HomeCard item={item} topText={`# ${index + 1}`} />
+                      <CarouselCard item={item} topText={`# ${index + 1}`} />
                     </Carousel.Slide>
                   )
                 })}

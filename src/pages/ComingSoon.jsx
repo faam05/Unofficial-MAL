@@ -1,9 +1,9 @@
 import { Text } from '@mantine/core'
-import CardLoading from '../components/loading/CardLoading'
-import DisplayCard from '../components/DisplayCard'
+import { useQuery } from '@tanstack/react-query'
 import Skeleton from 'react-loading-skeleton'
 import { useFirstLetter } from '../hooks/useFirstLetter'
-import { useQuery } from '@tanstack/react-query'
+import CardLoading from '../components/loading/CardLoading'
+import DisplayCard from '../components/DisplayCard'
 
 export default function ComingSoon() {
   const { data, isLoading, isError } = useQuery({
