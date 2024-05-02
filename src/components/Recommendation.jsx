@@ -43,9 +43,9 @@ const Recommendation = ({ loading }) => {
           ) : (
             <MyCarousel drag={mobile ? true : false} slideGap={mobile ? '1px' : 'xs'} withControls={mobile ? false : true}>
               {data?.map((item, index) => (
-                <Carousel.Slide key={index} className={'mt-[5px] flex flex-col items-center justify-center'}>
+                <Carousel.Slide key={index} className='mt-[5px] flex flex-col items-center justify-center'>
                   <CarouselCard
-                    width={mobile ? 90 : 140}
+                    width={mobile ? 90 : 150}
                     height={mobile ? 126 : 220}
                     item={item.entry}
                     topText={item.votes != null || item.votes != 0 ? <span>{item.votes} users</span> : 'N / A'}
