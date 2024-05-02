@@ -1,28 +1,22 @@
-import { Flex, Image, Text } from '@mantine/core'
+import { Flex, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
 import { NavLink, useParams } from 'react-router-dom'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import Skeleton from 'react-loading-skeleton'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import useFetcher from '../hooks/useFetcher'
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
-
 import MyCarousel from './Carousel'
+import ErrorMessage from './ErrorMessage'
 import StaffLoading from './loading/Staff'
 import CarouselLoading from './loading/CarouselLoading'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Staff = ({ loading }) => {
   const { id } = useParams()
   const mobile = useMobileDevice()
-
   const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/staff`, ['staff', id])
 
-  if (isError) {
-    return (
-      <div className='text-center'>
-        <Text>Something went wrong when fetching List Staff</Text>
-      </div>
-    )
-  }
+  if (isError) return <ErrorMessage message='Something went wrong when fetching List Staff' />
 
   return (
     <>
@@ -44,7 +38,11 @@ const Staff = ({ loading }) => {
             return (
               <Carousel.Slide key={index} className='flex max-w-[90px] flex-col'>
                 <NavLink to={item.person.url}>
-                  <Image h={126} w={90} src={item.person.images.jpg.image_url} />
+                  <LazyLoadImage
+                    className='h-[126px] w-[90px]'
+                    src={item.person.images.jpg.image_url}
+                    alt={item.person?.name?.replace(/[ , -]/g, '_')}
+                  />
                 </NavLink>
                 <Text fz={10} truncate>
                   {item.positions ? item.positions.join(', ') : ''}
@@ -63,18 +61,18 @@ const Staff = ({ loading }) => {
           return (
             <div key={index} style={{ backgroundColor: index % 2 == 0 ? 'white' : '#f8f8f8' }}>
               <Flex p='5px 0' maw='max-content'>
-                <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
-                  <Image w={42} h={62} src={item.person.images.jpg.image_url} />
+                <NavLink to={item.person?.url} style={{ textDecoration: 'none' }}>
+                  <LazyLoadImage width={42} height={62} src={item.person?.images?.jpg?.image_url} alt={item.person?.name?.replace(/[ , -]/g, '_')} />
                 </NavLink>
                 <div style={{ padding: '0 4px' }}>
-                  <NavLink to={item.person.url} style={{ textDecoration: 'none' }}>
-                    <Text fz={12}>{item.person.name}</Text>
+                  <NavLink to={item?.person?.url} style={{ textDecoration: 'none' }}>
+                    <Text fz={12}>{item?.person?.name}</Text>
                   </NavLink>
                   <div style={{ padding: '3px 0' }}>
-                    {item.positions.map((items, index) => (
+                    {item.positions?.map((items, index) => (
                       <small key={index} style={{ fontSize: 'x-small' }}>
                         {items}
-                        {item.positions.length != index + 1 ? ', ' : ''}
+                        {item.positions?.length != index + 1 ? ', ' : ''}
                       </small>
                     ))}
                   </div>

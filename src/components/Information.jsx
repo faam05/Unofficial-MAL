@@ -1,10 +1,10 @@
 import { Badge, Card, Flex, Image, SimpleGrid, Text, Title } from '@mantine/core'
 import { useParams } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
-import useFetcher from '../hooks/useFetcher'
 import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import useFetcher from '../hooks/useFetcher'
 import Recommendation from './Recommendation'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Information({ data, loading }) {
   const { id } = useParams()
