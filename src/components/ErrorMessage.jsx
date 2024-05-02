@@ -1,5 +1,3 @@
-import React from 'react'
-
 const ErrorMessage = ({ message }) => {
   return (
     <div className='flex justify-center gap-1 p-2 font-mono text-red-600'>

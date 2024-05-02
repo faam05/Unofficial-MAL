@@ -1,8 +1,9 @@
-import { ActionIcon, Badge, Card, Center, Flex, Image, Rating, SimpleGrid, Spoiler, Text } from '@mantine/core'
-import { IconBrandYoutube } from '@tabler/icons-react'
-import React from 'react'
+import { ActionIcon, Badge, Card, Center, Flex, Rating, SimpleGrid, Spoiler, Text } from '@mantine/core'
 import { NavLink } from 'react-router-dom'
+import { IconBrandYoutube } from '@tabler/icons-react'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useMobileDevice } from '../../hooks/useMobileDevice'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 
 const DisplayCard = ({ data }) => {
   const mobile = useMobileDevice()
@@ -18,7 +19,13 @@ const DisplayCard = ({ data }) => {
                 <Center>
                   <Flex className='w-full' direction={'column'}>
                     <NavLink to={`/detail/${item.mal_id}`}>
-                      <Image h={!mobile ? 250 : 150} fit='contain' mr={10} src={item.images.jpg.image_url} />
+                      <LazyLoadImage
+                        className='mr-[10px] object-contain'
+                        src={item.images.webp.large_image_url}
+                        placeholderSrc={item.images.webp.small_image_url}
+                        alt={item.title.replace(/[ , -]/g, '_')}
+                        effect='blur'
+                      />
                     </NavLink>
                     <Text ta={'center'} fz={'xs'}>
                       {item.aired.string}

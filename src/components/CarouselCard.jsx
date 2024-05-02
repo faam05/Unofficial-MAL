@@ -4,14 +4,14 @@ import { NavLink } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
-const HomeCard = ({ item, topText }) => {
+const CarouselCard = ({ item, topText, width = 160, height = 220 }) => {
   return (
     <NavLink aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`} to={`/detail/${item.mal_id}`} className='relative'>
       <LazyLoadImage
         src={item.images.webp.image_url}
         placeholderSrc={item.images.webp.small_image_url}
-        width={160}
-        height={220}
+        width={width}
+        height={height}
         alt={item.title.replace(/[ , -]/g, '_')}
         effect='blur'
       />
@@ -49,4 +49,4 @@ const HomeCard = ({ item, topText }) => {
   )
 }
 
-export default HomeCard
+export default CarouselCard
