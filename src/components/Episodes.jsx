@@ -1,4 +1,4 @@
-import { Button, Card, SimpleGrid, Text } from '@mantine/core'
+import { Button, Card, ScrollArea, SimpleGrid, Text } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
@@ -37,26 +37,28 @@ const Episodes = ({ id }) => {
       ) : (
         <>
           {data?.episodes?.length > 0 ? (
-            <SimpleGrid cols={mobile ? 1 : 2}>
-              {data?.episodes?.map((item) => (
-                <div key={item.id} className='my-2'>
-                  <Card>
-                    <Card.Section>
-                      <LazyLoadImage width='100%' className='h-[150px] object-cover' src={data.image} alt={id[0] + '_' + item.number} />
-                    </Card.Section>
-                    <Text size='sm' c='dimmed' my={4}>
-                      Episode {item.number}
-                    </Text>
-                    <Button
-                      onClick={() => {
-                        navigate(`/watch/${item.id}`)
-                      }}>
-                      Watch Episode
-                    </Button>
-                  </Card>
-                </div>
-              ))}
-            </SimpleGrid>
+            <ScrollArea h={mobile ? 450 : 900}>
+              <SimpleGrid cols={2} className=' '>
+                {data?.episodes?.map((item) => (
+                  <div key={item.id} className='my-2'>
+                    <Card>
+                      <Card.Section>
+                        <LazyLoadImage width='100%' className='h-[150px] object-cover' src={data.image} alt={id[0] + '_' + item.number} />
+                      </Card.Section>
+                      <Text size='sm' c='dimmed' my={4}>
+                        Episode {item.number}
+                      </Text>
+                      <Button
+                        onClick={() => {
+                          navigate(`/watch/${item.id}`)
+                        }}>
+                        Watch {!mobile && 'Episode'}
+                      </Button>
+                    </Card>
+                  </div>
+                ))}
+              </SimpleGrid>
+            </ScrollArea>
           ) : (
             <ErrorMessage message='Episodes Not Found' />
           )}

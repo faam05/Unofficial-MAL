@@ -2,9 +2,12 @@ import { Text } from '@mantine/core'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { useMobileDevice } from '../hooks/useMobileDevice'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
 const CarouselCard = ({ item, topText, width = 160, height = 220 }) => {
+  const mobile = useMobileDevice()
+
   return (
     <NavLink aria-labelledby={`${item.mal_id}_${item.title.replace(/ /g, '')}`} to={`/detail/${item.mal_id}`} className='relative'>
       <LazyLoadImage
@@ -18,7 +21,7 @@ const CarouselCard = ({ item, topText, width = 160, height = 220 }) => {
       {topText && (
         <Text
           c='white'
-          fz={14}
+          fz={mobile ? 10 : 14}
           fw={600}
           pos='absolute'
           top={0}
@@ -30,7 +33,7 @@ const CarouselCard = ({ item, topText, width = 160, height = 220 }) => {
       )}
       <Text
         lineClamp={2}
-        fz={12}
+        fz={mobile ? 10 : 12}
         fw={400}
         w='100%'
         c='#fff'

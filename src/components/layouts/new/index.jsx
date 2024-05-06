@@ -1,12 +1,13 @@
+import { useState } from 'react'
 import { AppShell, Burger, Button, Container, Group, Modal, Text, UnstyledButton } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import classes from './MobileNavbar.module.css'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { IconHome, IconNews, IconSearch } from '@tabler/icons-react'
+import ScrollButton from '../../ScrollButton'
 import { useMobileDevice } from '../../../hooks/useMobileDevice'
 import Footer from '../../footer'
 import CSearch from '../../Search'
-import { IconHome, IconNews, IconSearch } from '@tabler/icons-react'
-import { useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import classes from './MobileNavbar.module.css'
 
 export function Layout({ children }) {
   const [opened, { toggle }] = useDisclosure()
@@ -92,6 +93,7 @@ export function Layout({ children }) {
       <AppShell.Main>
         <Container h={'100%'} size={!mobile && 1060}>
           {children}
+          <ScrollButton />
         </Container>
       </AppShell.Main>
 
