@@ -13,12 +13,12 @@ const Episodes = ({ id }) => {
   const navigate = useNavigate()
   const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/info`
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['episodes', id[0].toLowerCase()],
+    queryKey: ['episodes', id[0]?.toLowerCase()],
     queryFn: async () =>
-      await fetch(`${url}/${id[0].toLowerCase()}`).then(async (res) => {
+      await fetch(`${url}/${id[0]?.toLowerCase()}`).then(async (res) => {
         if (!res.ok)
-          return await fetch(`${url}/${id[1].toLowerCase()}`).then(async (res) => {
-            if (!res.ok) return await fetch(`${url}/${id[2].toLowerCase()}`).then(async (res) => res.json())
+          return await fetch(`${url}/${id[1]?.toLowerCase()}`).then(async (res) => {
+            if (!res.ok) return await fetch(`${url}/${id[2]?.toLowerCase()}`).then(async (res) => res.json())
             else return res.json()
           })
         else return res.json()

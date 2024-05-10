@@ -34,6 +34,7 @@ function Detail() {
     if (nowId !== id) {
       window.scrollTo(0, 0)
       setNowId(id)
+      setActiveTab('details')
       setAccordionValue('characters')
     }
   }, [id])
