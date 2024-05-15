@@ -38,11 +38,14 @@ const Staff = ({ loading }) => {
             return (
               <Carousel.Slide key={index} className='flex max-w-[90px] flex-col'>
                 <NavLink to={item.person.url}>
-                  <LazyLoadImage
-                    className='h-[126px] w-[90px] object-cover'
-                    src={item.person.images.jpg.image_url}
-                    alt={item.person?.name?.replace(/[ , -]/g, '_')}
-                  />
+                  <div className='w-[90px]'>
+                    <LazyLoadImage
+                      width={90}
+                      className='h-[126px] object-cover'
+                      src={item.person.images.jpg.image_url}
+                      alt={item.person?.name?.replace(/[ , -]/g, '_')}
+                    />
+                  </div>
                 </NavLink>
                 <Text fz={10} truncate>
                   {item.positions ? item.positions.join(', ') : ''}
@@ -62,7 +65,14 @@ const Staff = ({ loading }) => {
             <div key={index} style={{ backgroundColor: index % 2 == 0 ? 'white' : '#f8f8f8' }}>
               <Flex p='5px 0' maw='max-content'>
                 <NavLink to={item.person?.url} style={{ textDecoration: 'none' }}>
-                  <LazyLoadImage width={42} height={62} src={item.person?.images?.jpg?.image_url} alt={item.person?.name?.replace(/[ , -]/g, '_')} />
+                  <div className='w-[42px]'>
+                    <LazyLoadImage
+                      width={42}
+                      src={item.person?.images?.jpg?.image_url}
+                      alt={item.person?.name?.replace(/[ , -]/g, '_')}
+                      className='h-[62px] object-cover'
+                    />
+                  </div>
                 </NavLink>
                 <div style={{ padding: '0 4px' }}>
                   <NavLink to={item?.person?.url} style={{ textDecoration: 'none' }}>
