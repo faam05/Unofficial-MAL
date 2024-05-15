@@ -102,7 +102,7 @@ export default function Characters({ loading }) {
               <Flex>
                 <LazyLoadImage
                   width={120}
-                  height={100}
+                  height={200}
                   src={item.character.images.webp.image_url}
                   placeholderSrc={item.character.images?.webp?.small_image_url}
                   alt={item.name?.replace(/[ , -]/g, '_')}
