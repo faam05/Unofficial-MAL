@@ -38,7 +38,7 @@ export default function Characters({ loading }) {
             if (item.voice_actors[0]) {
               return (
                 <Carousel.Slide key={index}>
-                  <Flex>
+                  <Flex className='relative'>
                     <LazyLoadImage
                       height={108.88}
                       width={70}
@@ -46,6 +46,7 @@ export default function Characters({ loading }) {
                       placeholderSrc={item.character.images?.webp?.small_image_url}
                       alt={item.name?.replace(/[ , -]/g, '_')}
                       effect='blur'
+                      className='relative'
                     />
                     <Text
                       c='white'
@@ -71,7 +72,7 @@ export default function Characters({ loading }) {
                       {item.character.name}
                     </Text>
                   </Flex>
-                  <Flex>
+                  <Flex className='relative'>
                     <LazyLoadImage width={70} src={item.voice_actors[0]?.person.images.jpg.image_url} alt={item.name?.replace(/[ , -]/g, '_')} />
                     <Text
                       truncate
@@ -100,14 +101,17 @@ export default function Characters({ loading }) {
           {data.map((item, index) => (
             <SimpleGrid cols={2} key={index} p={'5px 0'} bg={index % 2 == 0 ? 'white' : '#f8f8f8'}>
               <Flex>
-                <LazyLoadImage
-                  width={120}
-                  height={200}
-                  src={item.character.images.webp.image_url}
-                  placeholderSrc={item.character.images?.webp?.small_image_url}
-                  alt={item.name?.replace(/[ , -]/g, '_')}
-                  effect='blur'
-                />
+                <div className='w-[120px]'>
+                  <LazyLoadImage
+                    width={120}
+                    height={200}
+                    src={item.character.images.webp.image_url}
+                    placeholderSrc={item.character.images?.webp?.small_image_url}
+                    alt={item.name?.replace(/[ , -]/g, '_')}
+                    effect='blur'
+                    className='fixed object-cover'
+                  />
+                </div>
                 <div className='ml-[10px]'>
                   <Text fz={14}>{item.character?.name}</Text>
                   <Text fz={14}>{item.role}</Text>
@@ -128,6 +132,7 @@ export default function Characters({ loading }) {
                           width={62}
                           src={item.person.images.jpg.image_url}
                           alt={item.person?.name?.replace(/[ , -]/g, '_')}
+                          // className='max-h-[42px] max-w-[62px]'
                         />
                       </Link>
                     </Flex>
