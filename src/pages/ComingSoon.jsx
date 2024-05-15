@@ -28,8 +28,9 @@ export default function ComingSoon() {
         sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
         ta='center'
         size='xl'
+        className='capitalize'
         fw={700}>
-        {!isLoading ? `${useFirstLetter(data[0].season)}` : <Skeleton />}
+        {!isLoading ? `coming soon` : <Skeleton />}
       </Text>
       {!isLoading ? data.length > 0 ? <DisplayCard data={data} /> : <p>Tidak ada data</p> : <CardLoading />}
     </>
