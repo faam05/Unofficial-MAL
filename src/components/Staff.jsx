@@ -39,7 +39,7 @@ const Staff = ({ loading }) => {
               <Carousel.Slide key={index} className='flex max-w-[90px] flex-col'>
                 <NavLink to={item.person.url}>
                   <LazyLoadImage
-                    className='h-[126px] w-[90px]'
+                    className='h-[126px] w-[90px] object-cover'
                     src={item.person.images.jpg.image_url}
                     alt={item.person?.name?.replace(/[ , -]/g, '_')}
                   />
