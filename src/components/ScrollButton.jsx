@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ActionIcon } from '@mantine/core'
 import { IconArrowUp } from '@tabler/icons-react'
 
 const ScrollButton = () => {
   const [visible, setVisible] = useState(false)
-
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop
     if (scrolled > 100) {
@@ -23,7 +22,9 @@ const ScrollButton = () => {
     })
   }
 
-  window.addEventListener('scroll', toggleVisible)
+  useEffect(() => {
+    window.addEventListener('scroll', toggleVisible)
+  }, [])
 
   return (
     <ActionIcon
