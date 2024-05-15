@@ -45,12 +45,12 @@ function Detail() {
 
   if (isError) return <ErrorMessage message='Something went wrong when fetching Details Anime' />
 
-  let ids = []
-  if (!isLoading && !isError) {
-    ids.push(data?.title.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-'))
-    if (data?.title_synonyms.length > 0) ids.push(data?.title_synonyms[0].replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-'))
-    if (data?.title_english) ids.push(data?.title_english?.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-'))
-  }
+  // let ids = []
+  // if (!isLoading && !isError) {
+  //   ids.push(data?.title.replace(/[^\w\s\-]/gi, '').replace(/[" "]/g, '-'))
+  //   if (data?.title_synonyms.length > 0) ids.push(data?.title_synonyms[0].replace(/[^\w\s\-]/gi, '').replace(/[" "]/g, '-'))
+  //   if (data?.title_english) ids.push(data?.title_english?.replace(/[^\w\s\-]/gi, '').replace(/[" "]/g, '-'))
+  // }
 
   // useEffect(() => {
   //   if (!isLoading && !isError) {
@@ -184,7 +184,7 @@ function Detail() {
               <Accordion.Item value='episodes'>
                 <Accordion.Control disabled={isLoading}>{isLoading ? <Skeleton width={200} /> : 'Episodes'}</Accordion.Control>
                 {/* <Accordion.Panel>{!isLoading && <Episodes id={data?.title.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-')} />}</Accordion.Panel> */}
-                <Accordion.Panel>{!isLoading && <Episodes id={ids && ids} />}</Accordion.Panel>
+                <Accordion.Panel>{!isLoading && <Episodes datas={data} />}</Accordion.Panel>
               </Accordion.Item>
             </Accordion>
           </div>
@@ -449,14 +449,14 @@ function Detail() {
                   </Suspense>
                 </Tabs.Panel>
                 <Tabs.Panel value='characters'>
-                  <Characters activeTab={activeTab} />
+                  <Characters />
                 </Tabs.Panel>
                 <Tabs.Panel value='staff'>
-                  <Staff activeTab={activeTab} />
+                  <Staff />
                 </Tabs.Panel>
                 <Tabs.Panel value='episodes'>
                   {/* <Episodes id={data?.title?.replace(/[^\w\s]/gi, '').replace(/[" "]/g, '-')} activeTab={activeTab} /> */}
-                  <Episodes id={ids} activeTab={activeTab} />
+                  <Episodes datas={data} />
                 </Tabs.Panel>
               </Tabs>
             </div>
