@@ -123,36 +123,34 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
             {!loading && results.length === 0 && searchTerm ? (
               <Combobox.Empty>Nothing found</Combobox.Empty>
             ) : results.length > 0 && !loading ? (
-              results.map((result, index) => {
-                return (
-                  <Combobox.Group key={index} label={result.type}>
-                    {result.data.map((item) => {
-                      return (
-                        <Combobox.Option value={item.id}>
-                          <Group justify='space-between' align='center'>
-                            <LazyLoadImage
-                              width={60}
-                              src={item.image}
-                              placeholderSrc={item.placeholder}
-                              alt={item?.value?.replace(/[ , -]/g, '_')}
-                              effect='blur'
-                              className='h-full max-h-[90px]'
-                            />
-                            <div className='flex-1'>
-                              <Text size='xs' lineClamp={3}>
-                                {item.value}
-                              </Text>
-                              <Text size='xs' c='dimmed'>
-                                {item.description}
-                              </Text>
-                            </div>
-                          </Group>
-                        </Combobox.Option>
-                      )
-                    })}
-                  </Combobox.Group>
-                )
-              })
+              results.map((result, index) => (
+                <Combobox.Group key={index} label={result.type}>
+                  {result.data.map((item) => {
+                    return (
+                      <Combobox.Option key={item.id} value={item.id}>
+                        <Group justify='space-between' align='center'>
+                          <LazyLoadImage
+                            width={60}
+                            src={item.image}
+                            placeholderSrc={item.placeholder}
+                            alt={item?.value?.replace(/[ , -]/g, '_')}
+                            effect='blur'
+                            className='h-full max-h-[90px]'
+                          />
+                          <div className='flex-1'>
+                            <Text size='xs' lineClamp={3}>
+                              {item.value}
+                            </Text>
+                            <Text size='xs' c='dimmed'>
+                              {item.description}
+                            </Text>
+                          </div>
+                        </Group>
+                      </Combobox.Option>
+                    )
+                  })}
+                </Combobox.Group>
+              ))
             ) : (
               <Combobox.Empty>Loading...</Combobox.Empty>
             )}
