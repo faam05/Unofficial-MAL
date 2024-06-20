@@ -45,7 +45,7 @@ const Watch = () => {
     playerRef.current = player
   }
 
-  const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/watch/${id}?server=vidstreaming`
+  const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/watch/${id}`
   const { data, isLoading, isError } = useFetcher(url, ['watch', id], true)
 
   useEffect(() => {
