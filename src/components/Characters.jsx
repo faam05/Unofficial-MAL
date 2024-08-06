@@ -15,8 +15,9 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 export default function Characters({ loading }) {
   const mobile = useMobileDevice()
   const { id } = useParams()
+  const {VITE_MAIN_URL} = import.meta.env
 
-  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/characters`, ['characters', id])
+  const { data, isLoading, isError } = useFetcher(`${VITE_MAIN_URL}/anime/${id}/characters`, ['characters', id])
 
   if (isError) return <ErrorMessage message='Something went wrong when fetching List Characters' />
 

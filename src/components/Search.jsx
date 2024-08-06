@@ -10,6 +10,7 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 const CSearch = ({ setOpenedModal, openedModal = null }) => {
   const navigate = useNavigate()
   const mobile = useMobileDevice()
+  const { VITE_MAIN_URL } = import.meta.env
 
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState([])
@@ -20,7 +21,7 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
   const search = useCallback(async () => {
     if (searchTerm !== '') {
       try {
-        const response = await axios(`https://api.jikan.moe/v4/anime?q=${searchTerm}`)
+        const response = await axios(`${VITE_MAIN_URL}/anime?q=${searchTerm}`)
         var date = new Date(response.data.data[0].aired.from)
         let results = response.data.data.map((item) => ({
           // group: item.genres.length > 0 ? item.genres[0].type.charAt(0).toUpperCase() + item.genres[0].type.slice(1) : 'Unknowns',

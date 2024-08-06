@@ -6,10 +6,11 @@ import CardLoading from '../components/loading/CardLoading'
 import DisplayCard from '../components/DisplayCard'
 
 export default function ComingSoon() {
+  const { VITE_MAIN_URL } = import.meta.env
   const { data, isLoading, isError } = useQuery({
     queryKey: ['comingSoon'],
     queryFn: async () => {
-      const response = await fetch('https://api.jikan.moe/v4/seasons/upcoming')
+      const response = await fetch(`${VITE_MAIN_URL}/seasons/upcoming`)
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }

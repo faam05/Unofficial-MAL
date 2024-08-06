@@ -8,9 +8,10 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 export default function Information({ data, loading }) {
   const { id } = useParams()
+  const { VITE_MAIN_URL } = import.meta.env
 
   // get videos
-  const queryVideos = useFetcher(`https://api.jikan.moe/v4/anime/${id}/videos`, ['videos', id])
+  const queryVideos = useFetcher(`${VITE_MAIN_URL}/anime/${id}/videos`, ['videos', id])
 
   // get recommendation
   const queryClient = useQueryClient()

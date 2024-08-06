@@ -17,7 +17,9 @@ const Episodes = ({ datas }) => {
   if (datas?.title_synonyms.length > 0) id.push(datas?.title_synonyms[0].replace(/[^\w\s\-]/gi, '').replace(/[" "]/g, '-'))
   if (datas?.title_english) id.push(datas?.title_english?.replace(/[^\w\s\-]/gi, '').replace(/[" "]/g, '-'))
 
-  const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/info`
+  const { VITE_LOCAL_URL, VITE_PUBLIC_URL, DEV } = import.meta.env
+
+  const url = `${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/anime/gogoanime/info`
   const { data, isLoading, isError } = useQuery({
     queryKey: ['episodes', id[0]?.toLowerCase()],
     queryFn: async () =>
