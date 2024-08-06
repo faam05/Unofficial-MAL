@@ -1,15 +1,17 @@
-import { Flex, Text } from '@mantine/core'
 import { Carousel } from '@mantine/carousel'
+import { Flex, Text } from '@mantine/core'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { NavLink } from 'react-router-dom'
+import { useCallback, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import { useMobileDevice } from '../hooks/useMobileDevice'
+import 'react-loading-skeleton/dist/skeleton.css'
+import { NavLink } from 'react-router-dom'
 import MyCarousel from '../components/Carousel'
 import CarouselCard from '../components/CarouselCard'
 import HomeLoading from '../components/loading/Home'
-import 'react-loading-skeleton/dist/skeleton.css'
+import { useMobileDevice } from '../hooks/useMobileDevice'
 
 export default function Home() {
+  const { VITE_MAIN_URL } = import.meta.env
   const mobile = useMobileDevice()
 
   // const [userLocation, setUserLocation] = useState(null)
@@ -35,6 +37,28 @@ export default function Home() {
   //   }
   // }, [])
 
+  const test = useCallback(async () => {
+    try {
+      // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/fitur/MSBO`, {
+      // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/logout`, {
+      //   method: 'POST',
+      //   // headers: {
+      //   //   'Content-Type': 'application/json',
+      //   // },
+      //   // body: JSON.stringify({
+      //   //   accountUsername: 'faam00',
+      //   // }),
+      // })
+      // return await res.json()
+    } catch (error) {
+      return error
+    }
+  }, [])
+
+  useEffect(() => {
+    let data = test()
+  }, [])
+
   const getDate = new Date()
   const date = getDate.toLocaleString('en-EN', { weekday: 'long' })
 
@@ -56,7 +80,7 @@ export default function Home() {
   const queryNow = useQuery({
     queryKey: ['nowAnime'],
     queryFn: async () => {
-      const response = await fetch('https://api.jikan.moe/v4/seasons/now')
+      const response = await fetch(`${VITE_MAIN_URL}/seasons/now`)
       if (!response.ok) throw new Error('Network response was not ok')
       const { data } = await response.json()
       return data
@@ -65,7 +89,7 @@ export default function Home() {
   const querySchedule = useQuery({
     queryKey: ['scheduleAnime'],
     queryFn: async () => {
-      const response = await fetch(`https://api.jikan.moe/v4/schedules?filter=${date.toLowerCase()}`)
+      const response = await fetch(`${VITE_MAIN_URL}/schedules?filter=${date.toLowerCase()}`)
       if (!response.ok) throw new Error('Network response was not ok')
       const { data } = await response.json()
       return data
@@ -74,7 +98,7 @@ export default function Home() {
   const queryTop = useQuery({
     queryKey: ['topAnime'],
     queryFn: async () => {
-      const response = await fetch('https://api.jikan.moe/v4/top/anime')
+      const response = await fetch(`${VITE_MAIN_URL}/top/anime`)
       if (!response.ok) throw new Error('Network response was not ok')
       const { data } = await response.json()
       return data

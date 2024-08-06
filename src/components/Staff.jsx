@@ -13,8 +13,9 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const Staff = ({ loading }) => {
   const { id } = useParams()
+  const { VITE_MAIN_URL } = import.meta.env
   const mobile = useMobileDevice()
-  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/staff`, ['staff', id])
+  const { data, isLoading, isError } = useFetcher(`${VITE_MAIN_URL}/anime/${id}/staff`, ['staff', id])
 
   if (isError) return <ErrorMessage message='Something went wrong when fetching List Staff' />
 

@@ -6,8 +6,9 @@ import useFetcher from '../hooks/useFetcher'
 
 export default function Search() {
   const { value } = useParams()
+  const { VITE_MAIN_URL } = import.meta.env
 
-  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime?q=${value}`, ['search', value])
+  const { data, isLoading, isError } = useFetcher(`${VITE_MAIN_URL}/anime?q=${value}`, ['search', value])
 
   if (isError)
     return (

@@ -19,6 +19,7 @@ const Information = lazy(() => import('../components/Information'))
 
 function Detail() {
   const { id } = useParams()
+  const { VITE_MAIN_URL } = import.meta.env
   const mobile = useMobileDevice()
 
   // Desktop
@@ -40,8 +41,8 @@ function Detail() {
   }, [id])
 
   // get details anime
-  const { data, isLoading, isError } = useFetcher(`https://api.jikan.moe/v4/anime/${id}/full`, ['details', id])
-  useFetcher(`https://api.jikan.moe/v4/anime/${id}/recommendations`, ['recommendations', id])
+  const { data, isLoading, isError } = useFetcher(`${VITE_MAIN_URL}/anime/${id}/full`, ['details', id])
+  useFetcher(`${VITE_MAIN_URL}/anime/${id}/recommendations`, ['recommendations', id])
 
   if (isError) return <ErrorMessage message='Something went wrong when fetching Details Anime' />
 

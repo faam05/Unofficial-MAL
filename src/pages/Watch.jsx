@@ -45,7 +45,9 @@ const Watch = () => {
     playerRef.current = player
   }
 
-  const url = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/watch/${id}`
+  const { VITE_LOCAL_URL, VITE_PUBLIC_URL, DEV } = import.meta.env
+
+  const url = `${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/anime/gogoanime/watch/${id}`
   const { data, isLoading, isError } = useFetcher(url, ['watch', id], true)
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const Watch = () => {
 
   let findID = id.substring(0, id.indexOf('-episode'))
   let current = id.split('-').pop()
-  const urlEpisode = `${import.meta.env.DEV ? import.meta.env.VITE_LOCAL_URL : import.meta.env.VITE_PUBLIC_URL}/anime/gogoanime/info/${findID}`
+  const urlEpisode = `${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/anime/gogoanime/info/${findID}`
   const episode = useFetcher(urlEpisode, ['episodes', findID], true)
 
   return (
