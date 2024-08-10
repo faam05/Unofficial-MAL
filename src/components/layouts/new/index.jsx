@@ -7,7 +7,7 @@ import Footer from '../../footer'
 import ScrollButton from '../../ScrollButton'
 import CSearch from '../../Search'
 
-export function Layout({ type, children }) {
+export function Layout({ type = 'mal', children }) {
   const [opened, setOpened] = useState(false)
   const mobile = useMobileDevice()
   const [openedModal, setOpenedModal] = useState(false)
