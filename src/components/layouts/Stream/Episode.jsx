@@ -1,8 +1,8 @@
 import React from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import Accordion from '../../molecules/Accordion'
 import { NavLink } from 'react-router-dom'
+import Accordion from '../../molecules/Accordion'
 
 const EpisodeLayout = ({ data, isLoading, isError, status }) => {
   return (
@@ -11,7 +11,19 @@ const EpisodeLayout = ({ data, isLoading, isError, status }) => {
         <div className='rounded bg-[#e1e7f5] p-2 md:text-center'>
           <h1 className='md:text-md text-sm font-bold'>{isLoading ? <Skeleton /> : data.data.episode}</h1>
         </div>
-        <div className='mt-2'>{isLoading ? <Skeleton height={400} /> : <iframe src={data.data.stream_url} className='w-full md:h-[400px]' />}</div>
+        <div className='mt-2'>
+          {isLoading ? (
+            <Skeleton height={400} />
+          ) : (
+            <iframe
+              src={data.data.stream_url}
+              className='w-full md:h-[400px]'
+              allowFullScreen
+              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
+              loading='eager'
+            />
+          )}
+        </div>
         <div className='flex justify-between'>
           {isLoading ? (
             <Skeleton width={30} />
