@@ -19,7 +19,6 @@ const Episode = () => {
       </div>
     )
   }
-  console.log(data)
   return <EpisodeLayout data={data} isError={isError} isLoading={isLoading} status={status} />
 }
 

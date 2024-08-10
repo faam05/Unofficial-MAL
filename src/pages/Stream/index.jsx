@@ -19,8 +19,6 @@ const Stream = () => {
       </div>
     )
   }
-
-  console.log(data)
   return <StreamPage data={data} isError={isError} isLoading={isLoading} />
 }
 

@@ -6,7 +6,6 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 import { NavLink } from 'react-router-dom'
 
 const Info = ({ data, isLoading, isError }) => {
-  console.log(data?.data)
   return (
     <div className='rounded bg-[#fafafa] text-xs sm:text-sm md:mx-auto md:w-5/6 md:p-2'>
       <section>

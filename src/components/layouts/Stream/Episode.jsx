@@ -26,7 +26,7 @@ const EpisodeLayout = ({ data, isLoading, isError, status }) => {
             <Skeleton width={30} />
           ) : (
             data.data.has_next_episode && (
-              <NavLink to={`/stream/episode/${data.data.next_episode.slug}`} className='mx-1'>
+              <NavLink to={`/stream/episode/${data.data.next_episode.slug}`} className='mx-1 ml-auto'>
                 Next Eps.
               </NavLink>
             )
