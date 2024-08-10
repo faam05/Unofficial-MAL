@@ -1,7 +1,6 @@
 import { Carousel } from '@mantine/carousel'
 import { Flex, Text } from '@mantine/core'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useCallback, useEffect } from 'react'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { NavLink } from 'react-router-dom'
@@ -37,27 +36,27 @@ export default function Home() {
   //   }
   // }, [])
 
-  const test = useCallback(async () => {
-    try {
-      // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/fitur/MSBO`, {
-      // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/logout`, {
-      //   method: 'POST',
-      //   // headers: {
-      //   //   'Content-Type': 'application/json',
-      //   // },
-      //   // body: JSON.stringify({
-      //   //   accountUsername: 'faam00',
-      //   // }),
-      // })
-      // return await res.json()
-    } catch (error) {
-      return error
-    }
-  }, [])
+  // const test = useCallback(async () => {
+  //   try {
+  //     // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/fitur/MSBO`, {
+  //     // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/logout`, {
+  //     //   method: 'POST',
+  //     //   // headers: {
+  //     //   //   'Content-Type': 'application/json',
+  //     //   // },
+  //     //   // body: JSON.stringify({
+  //     //   //   accountUsername: 'faam00',
+  //     //   // }),
+  //     // })
+  //     // return await res.json()
+  //   } catch (error) {
+  //     return error
+  //   }
+  // }, [])
 
-  useEffect(() => {
-    let data = test()
-  }, [])
+  // useEffect(() => {
+  //   let data = test()
+  // }, [])
 
   const getDate = new Date()
   const date = getDate.toLocaleString('en-EN', { weekday: 'long' })

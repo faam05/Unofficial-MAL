@@ -1,10 +1,22 @@
 @layer tailwind {
-    @tailwind base;
+  @tailwind base;
 }
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Nunito';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url(/assets/fonts/nunito-900.woff2) format('woff2');
+  }
+}
+
 @layer components {
-    * {
-        /* @apply font-sans */
-    }
+  * {
+    /* @apply font-sans */
+  }
 }

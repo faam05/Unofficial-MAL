@@ -1,94 +1,87 @@
+import { AppShell, Burger, Button, Container, Flex, Group, Menu, Modal, rem, Text } from '@mantine/core'
+import { IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
 import { useState } from 'react'
-import { AppShell, Burger, Button, Container, Group, Modal, Text, UnstyledButton } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { IconHome, IconNews, IconSearch } from '@tabler/icons-react'
-import ScrollButton from '../../ScrollButton'
+import { Link, NavLink } from 'react-router-dom'
 import { useMobileDevice } from '../../../hooks/useMobileDevice'
 import Footer from '../../footer'
+import ScrollButton from '../../ScrollButton'
 import CSearch from '../../Search'
-import classes from './MobileNavbar.module.css'
 
-export function Layout({ children }) {
-  const [opened, { toggle }] = useDisclosure()
-  const navigate = useNavigate()
+export function Layout({ type, children }) {
+  const [opened, setOpened] = useState(false)
   const mobile = useMobileDevice()
   const [openedModal, setOpenedModal] = useState(false)
 
-  const navbarMobile = [
-    { link: '/', label: 'Home', icon: <IconHome /> },
-    { link: '/coming-soon', label: 'Coming Soon', icon: <IconNews stroke={2} /> },
-  ]
-
   return (
-    <AppShell
-      header={{ height: 50 }}
-      footer={{ height: 35 }}
-      navbar={{ width: 300, breakpoint: 'sm', collapsed: { desktop: true, mobile: !opened } }}
-      padding='xs'
-      className='min-h-screen w-full overflow-x-hidden'>
+    <AppShell header={{ height: 50 }} footer={{ height: 35 }} padding='xs' className='min-h-screen w-full overflow-x-hidden'>
       <AppShell.Header>
         <Container h={'100%'} size={!mobile && 1060}>
           <Group h='100%'>
             <Group justify='space-between' className='flex-1'>
-              <NavLink to='/' style={{ textDecoration: 'none' }} className='font-bold'>
-                MyAnimeList
+              <NavLink to={type === 'stream' ? '/stream' : '/'} style={{ textDecoration: 'none' }} className='font-nunito text-xl font-bold'>
+                {type == 'stream' ? (
+                  <Flex align='center' gap={2}>
+                    <IconVideo style={{ width: rem(25), height: rem(25) }} className='rotate-180 text-red-500' />
+                    <p>Streaming</p>
+                  </Flex>
+                ) : (
+                  <p>MyAnimeList</p>
+                )}
               </NavLink>
-              <Group ml='xl' gap={0} visibleFrom='sm'>
-                <Button
-                  variant={location.pathname !== '/' ? 'subtle' : 'filled'}
-                  className='mr-[10px]'
-                  style={{
-                    background: location.pathname === '/' ? '#0000FF' : 'transparent',
-                  }}
-                  onClick={() => navigate('/')}>
-                  <Text>Home</Text>
-                </Button>
-                <CSearch />
+              <Group ml='xl' gap={0}>
+                {mobile && (
+                  <>
+                    <Button onClick={() => setOpenedModal(true)} ml={'auto'} className={''}>
+                      <IconSearch />
+                    </Button>
+                    <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(!openedModal)} size='100%'>
+                      <CSearch
+                        buttonStyle={{ padding: 5 }}
+                        setOpenedModal={setOpenedModal}
+                        openedModal={openedModal}
+                        dropdownStyle={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          overflowY: 'auto',
+                          overflowX: 'hidden',
+                          width: '100%',
+                          maxHeight: 350,
+                        }}
+                      />
+                    </Modal>
+                  </>
+                )}
+                <Menu shadow='md' width={200} mr={!mobile && 4}>
+                  <Menu.Target>
+                    {mobile ? <Burger opened={opened} onClick={() => setOpened(!opened)} hiddenFrom='sm' size='sm' /> : <Button>Menu</Button>}
+                  </Menu.Target>
+
+                  <Menu.Dropdown>
+                    <Menu.Label>Main Menu</Menu.Label>
+                    <Link to='/'>
+                      <Menu.Item leftSection={<IconHome style={{ width: rem(14), height: rem(14) }} />}>Home</Menu.Item>
+                    </Link>
+                    <Link to='/coming-soon' className='w-full'>
+                      <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>Coming Soon</Menu.Item>
+                    </Link>
+                    <Menu.Divider />
+
+                    <Menu.Label>{type === 'stream' ? 'Want to see anime details?' : 'Want to streaming video?'}</Menu.Label>
+                    <Link to={type === 'stream' ? '/' : '/stream'}>
+                      <Menu.Item leftSection={<IconVideo style={{ width: rem(14), height: rem(14) }} />}>
+                        Go to {type === 'stream' ? 'Anime' : 'Stream'} Page
+                      </Menu.Item>
+                    </Link>
+                  </Menu.Dropdown>
+                </Menu>
+                <Group visibleFrom='sm'>
+                  <CSearch type={type} />
+                </Group>
               </Group>
             </Group>
-            {mobile && (
-              <>
-                <Button onClick={() => setOpenedModal(true)} ml={'auto'} className={''}>
-                  <IconSearch />
-                </Button>
-                <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(!openedModal)} size='100%'>
-                  <CSearch
-                    buttonStyle={{ padding: 5 }}
-                    setOpenedModal={setOpenedModal}
-                    openedModal={openedModal}
-                    dropdownStyle={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      overflowY: 'auto',
-                      overflowX: 'hidden',
-                      width: '100%',
-                      maxHeight: 350,
-                    }}
-                  />
-                </Modal>
-              </>
-            )}
-            <Burger opened={opened} onClick={toggle} hiddenFrom='sm' size='sm' />
           </Group>
         </Container>
       </AppShell.Header>
-
-      <AppShell.Navbar py='md' px={4} style={{}}>
-        {navbarMobile.map((link) => (
-          <UnstyledButton
-            key={link.label}
-            className={classes.control}
-            onClick={() => {
-              navigate(link.link)
-              toggle()
-            }}>
-            <div className='flex items-center justify-end'>
-              {link.icon} {link.label}
-            </div>
-          </UnstyledButton>
-        ))}
-      </AppShell.Navbar>
 
       <AppShell.Main>
         <Container h={'100%'} size={!mobile && 1060}>
