@@ -4,11 +4,12 @@ import axios from 'axios'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useMobileDevice } from '../hooks/useMobileDevice'
 import { useQuery } from '@tanstack/react-query'
 
 const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
+  const { pathname } = useLocation()
   const navigate = useNavigate()
   const mobile = useMobileDevice()
   const { VITE_MAIN_URL, DEV, VITE_LOCAL_URL, VITE_PUBLIC_URL } = import.meta.env
@@ -103,6 +104,10 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
     const timerId = setTimeout(() => search(), 500) // Delay 500 ms
     return () => clearTimeout(timerId)
   }, [search])
+
+  useEffect(() => {
+    setSearchTerm('')
+  }, [pathname])
 
   const combobox = useCombobox({
     opened: isOpen,
