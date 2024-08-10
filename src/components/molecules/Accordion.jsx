@@ -13,7 +13,7 @@ const Accordion = ({ title, children }) => {
         </svg>
       </div>
       <div className='max-h-0 overflow-hidden bg-white transition-all duration-500 peer-checked:max-h-40'>
-        <div className='border-t p-5'>{children}</div>
+        <div className='grid grid-cols-2 border-t p-5 text-center sm:block sm:text-left'>{children}</div>
       </div>
     </div>
   )

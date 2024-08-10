@@ -46,7 +46,7 @@ const EpisodeLayout = ({ data, isLoading, isError, status }) => {
               data.data.download_urls.mkv.map((res, index) => (
                 <Accordion title={res.resolution} key={index}>
                   {res.urls.map((url, index) => (
-                    <a key={index} href={url.url} target='_blank' className='p-2'>
+                    <a key={index} href={url.url} target='_blank' className='sm:p-2'>
                       {url.provider}
                     </a>
                   ))}

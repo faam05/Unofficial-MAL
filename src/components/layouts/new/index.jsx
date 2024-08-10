@@ -1,7 +1,7 @@
 import { AppShell, Burger, Button, Container, Flex, Group, Menu, Modal, rem, Text } from '@mantine/core'
 import { IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
-import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import { useMobileDevice } from '../../../hooks/useMobileDevice'
 import Footer from '../../footer'
 import ScrollButton from '../../ScrollButton'
@@ -36,6 +36,7 @@ export function Layout({ type, children }) {
                     </Button>
                     <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(!openedModal)} size='100%'>
                       <CSearch
+                        type={type}
                         buttonStyle={{ padding: 5 }}
                         setOpenedModal={setOpenedModal}
                         openedModal={openedModal}
@@ -51,19 +52,21 @@ export function Layout({ type, children }) {
                     </Modal>
                   </>
                 )}
-                <Menu shadow='md' width={200} mr={!mobile && 4}>
+                <Menu shadow='md' width={200} mr={!mobile && 4} onChange={setOpened}>
                   <Menu.Target>
                     {mobile ? <Burger opened={opened} onClick={() => setOpened(!opened)} hiddenFrom='sm' size='sm' /> : <Button>Menu</Button>}
                   </Menu.Target>
 
                   <Menu.Dropdown>
                     <Menu.Label>Main Menu</Menu.Label>
-                    <Link to='/'>
+                    <Link to={type === 'mal' ? '/' : '/stream'}>
                       <Menu.Item leftSection={<IconHome style={{ width: rem(14), height: rem(14) }} />}>Home</Menu.Item>
                     </Link>
-                    <Link to='/coming-soon' className='w-full'>
-                      <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>Coming Soon</Menu.Item>
-                    </Link>
+                    {type === 'mal' && (
+                      <Link to='/coming-soon' className='w-full'>
+                        <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>Coming Soon</Menu.Item>
+                      </Link>
+                    )}
                     <Menu.Divider />
 
                     <Menu.Label>{type === 'stream' ? 'Want to see anime details?' : 'Want to streaming video?'}</Menu.Label>
