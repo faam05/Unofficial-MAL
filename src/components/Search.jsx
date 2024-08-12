@@ -1,12 +1,12 @@
 import { Button, Combobox, Group, InputBase, ScrollArea, Text, useCombobox } from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useMobileDevice } from '../hooks/useMobileDevice'
-import { useQuery } from '@tanstack/react-query'
 
 const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
   const { pathname } = useLocation()
@@ -20,6 +20,10 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
   const [isOpen, setIsOpen] = useState(openedModal ?? false)
   const searchRef = useRef(null)
 
+  useEffect(() => {
+    setSearchTerm('')
+  }, [pathname])
+
   const {
     data: dataMAL,
     status: statusMAL,
@@ -29,6 +33,7 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
     queryFn: async () => await axios(`${VITE_MAIN_URL}/anime?q=${searchTerm}`),
     enabled: false,
   })
+
   const {
     data: dataSearch,
     status: statusSearch,
@@ -105,10 +110,6 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
     return () => clearTimeout(timerId)
   }, [search])
 
-  useEffect(() => {
-    setSearchTerm('')
-  }, [pathname])
-
   const combobox = useCombobox({
     opened: isOpen,
     onDropdownClose: () => combobox.resetSelectedOption(),
@@ -158,10 +159,10 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
             {!loading && results.length === 0 && searchTerm && statusSearch === 'success' && statusMAL === 'success' ? (
               <Combobox.Empty>Nothing found</Combobox.Empty>
             ) : results.length > 0 && !loading ? (
-              results.map((result, index) =>
+              results?.map((result, index) =>
                 type === 'mal' ? (
                   <Combobox.Group key={index} label={result.type}>
-                    {result.data.map((item) => {
+                    {result?.data?.map((item) => {
                       return (
                         <Combobox.Option key={item.id} value={item.id}>
                           <Group justify='space-between' align='center'>
