@@ -15,17 +15,17 @@ const Info = ({ data, isLoading, isError }) => {
         <div className='md:flex md:justify-between'>
           <div className='mx-auto mt-2 w-fit'>
             {isLoading ? (
-              <Skeleton height={280} width={200} />
+              <Skeleton height={220} width={160} />
             ) : (
               // <LazyLoadImage src={data?.data.poster} effect='blur' width={200} height={280} className='size-full object-cover' />
-              <LazyLoadImage src={data?.data.poster} effect='blur' className='size-full object-cover md:h-[220px] md:w-[160px]' />
+              <LazyLoadImage src={data?.data.poster} effect='blur' className='h-[220px] w-[160px] object-cover' />
             )}
           </div>
           <div className='flex-1 p-2 text-black'>
             <h2>
               <b className='inline-block sm:w-32'>Title</b>
               <span>: </span>
-              <span className='inline-flex'>{isLoading ? <Skeleton width={200} className='ml-2' /> : data.data.title || 'N/A'}</span>
+              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : data.data.title || 'N/A'}</span>
             </h2>
             <h2>
               <b className='inline-block sm:w-32'>Judul Synonim</b>
@@ -88,7 +88,7 @@ const Info = ({ data, isLoading, isError }) => {
         {data?.data.synopsis && <p className='border-t-2 border-[#1c439b] p-2'>{data.data.synopsis}</p>}
       </section>
 
-      <section className=''>
+      <section>
         <div className='mt-3 bg-[#e1e7f5] p-2 font-semibold'>
           <h1>{isLoading ? <Skeleton /> : `${data.data.title} Episode List`}</h1>
         </div>

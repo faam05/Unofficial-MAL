@@ -13,11 +13,11 @@ const EpisodeLayout = ({ data, isLoading, isError, status }) => {
         </div>
         <div className='mt-2'>
           {isLoading ? (
-            <Skeleton height={400} />
+            <Skeleton className='h-[200px] md:h-[400px]' />
           ) : (
             <iframe
               src={data.data.stream_url}
-              className='w-full md:h-[400px]'
+              className='h-[200px] w-full md:h-[400px]'
               allowFullScreen
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
               loading='eager'
