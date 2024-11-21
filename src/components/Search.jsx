@@ -156,8 +156,8 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
       <Combobox.Dropdown>
         <Combobox.Options>
           <ScrollArea.Autosize type='scroll' mah={300}>
-            {!loading && results.length === 0 && searchTerm && statusSearch === 'success' && statusMAL === 'success' ? (
-              <Combobox.Empty>Nothing found</Combobox.Empty>
+            {!loading && results.length === 0 && searchTerm ? (
+              (statusSearch === 'success' || statusMAL === 'success') && <Combobox.Empty>Nothing found</Combobox.Empty>
             ) : results.length > 0 && !loading ? (
               results?.map((result, index) =>
                 type === 'mal' ? (

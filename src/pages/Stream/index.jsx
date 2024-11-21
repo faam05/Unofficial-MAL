@@ -6,7 +6,7 @@ import StreamPage from '../../components/pages/stream/Home'
 const Stream = () => {
   const { DEV, VITE_LOCAL_URL, VITE_PUBLIC_URL } = import.meta.env
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ['stream-home'],
     queryFn: async () => await axios(`${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/stream/home`),
   })
@@ -15,7 +15,7 @@ const Stream = () => {
     return (
       <div className='flex flex-col items-center'>
         <p>There was an error, please refresh or click Retry Button</p>
-        <button onClick={() => queryClient.invalidateQueries('nowAnime')}>Retry</button>
+        <button onClick={() => refetch()}>Retry</button>
       </div>
     )
   }
