@@ -124,7 +124,7 @@ export default function Home() {
                   {getSeason(getDate.getMonth())} {getDate.getFullYear()} Anime
                 </Text>
                 {!mobile && (
-                  <NavLink to='/coming-soon' className='ml-auto flex no-underline hover:underline' id='coming-soon'>
+                  <NavLink to='/coming-soon' className='flex ml-auto no-underline hover:underline' id='coming-soon'>
                     <span>Coming Soon</span>
                     <svg
                       xmlns='http://www.w3.org/2000/svg'

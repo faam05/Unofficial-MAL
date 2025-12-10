@@ -12,7 +12,8 @@ const InfoAnime = () => {
     queryKey: ['stream-anime-info', slug],
     queryFn: async () => await axios(`${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/stream/anime/${slug}`),
   })
-  if (isError) {
+
+  if (isError || typeof data !== 'object' || data?.data?.status === 'error') {
     return (
       <div className='flex flex-col items-center'>
         <p>There was an error, please refresh or click Retry Button</p>
@@ -28,7 +29,7 @@ const InfoAnime = () => {
       </div>
     )
   }
-  return <InfoPage data={data} isLoading={isLoading} isError={isError} />
+  return <InfoPage data={data} isLoading={isLoading} />
 }
 
 export default InfoAnime

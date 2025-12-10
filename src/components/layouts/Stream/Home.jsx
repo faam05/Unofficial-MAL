@@ -8,8 +8,8 @@ import { NavLink } from 'react-router-dom'
 const Home = ({ data, isLoading, isError }) => {
   return (
     <>
-      <h1 className='border-b font-bold'>{isLoading ? <Skeleton /> : 'On Going Anime'}</h1>
-      <div className='mt-2 grid grid-cols-3 gap-1 sm:grid-cols-3 md:grid-cols-5'>
+      <h1 className='font-bold border-b'>{isLoading ? <Skeleton /> : 'On Going Anime'}</h1>
+      <div className='grid grid-cols-3 gap-1 mt-2 sm:grid-cols-3 md:grid-cols-5'>
         {isLoading
           ? Array(15)
               .fill()
@@ -18,7 +18,7 @@ const Home = ({ data, isLoading, isError }) => {
               <NavLink
                 key={`${item.slug}_${item.current_episode}`}
                 to={`/stream/anime/${item.slug}`}
-                className='relative overflow-hidden rounded-md text-xs text-white'>
+                className='relative overflow-hidden text-xs text-white rounded-md'>
                 <LazyLoadImage
                   src={item.poster}
                   placeholderSrc={item.poster}
@@ -28,7 +28,7 @@ const Home = ({ data, isLoading, isError }) => {
                   wrapperProps={{
                     style: { transitionDelay: '1s' },
                   }}
-                  className='size-full object-cover duration-500 hover:scale-110 '
+                  className='object-cover duration-500 size-full hover:scale-110 '
                 />
                 <p className='absolute top-0 bg-black bg-opacity-70 p-0.5 sm:text-sm'>{item.current_episode}</p>
                 <p className='absolute top-8 bg-black bg-opacity-70 p-0.5'>{item.newest_release_date}</p>
