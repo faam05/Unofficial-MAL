@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import React from 'react'
 import { useParams } from 'react-router-dom'
 import InfoPage from '../../components/pages/stream/Info'
 
@@ -10,10 +9,13 @@ const InfoAnime = () => {
   const queryClient = useQueryClient()
   const { data, isLoading, isError } = useQuery({
     queryKey: ['stream-anime-info', slug],
-    queryFn: async () => await axios(`${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/stream/anime/${slug}`),
+    queryFn: async () => {
+      const res = await axios.get(`${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/stream/anime/${slug}`)
+      return res.data
+    },
   })
 
-  if (isError || typeof data !== 'object' || data?.data?.status === 'error') {
+  if (isError || (!isLoading && (!data || Object.keys(data).length === 0))) {
     return (
       <div className='flex flex-col items-center'>
         <p>There was an error, please refresh or click Retry Button</p>
@@ -29,6 +31,7 @@ const InfoAnime = () => {
       </div>
     )
   }
+
   return <InfoPage data={data} isLoading={isLoading} />
 }
 
