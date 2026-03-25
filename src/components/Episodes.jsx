@@ -1,12 +1,15 @@
-import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
 import { Button, Card, ScrollArea, SimpleGrid, Text } from '@mantine/core'
+import { useQuery } from '@tanstack/react-query'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Skeleton from 'react-loading-skeleton'
+import { useNavigate } from 'react-router-dom'
+
 import { useMobileDevice } from '../hooks/useMobileDevice'
+
 import ErrorMessage from './ErrorMessage'
-import 'react-loading-skeleton/dist/skeleton.css'
+
 import 'react-lazy-load-image-component/src/effects/blur.css'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Episodes = ({ datas }) => {
   const mobile = useMobileDevice()

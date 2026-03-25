@@ -1,22 +1,35 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
 import { NavLink } from 'react-router-dom'
-import Accordion from '../../molecules/Accordion'
 
-const EpisodeLayout = ({ data, isLoading, isError, status }) => {
+import { Button, Menu, Text } from '@mantine/core'
+
+import 'react-loading-skeleton/dist/skeleton.css'
+
+const EpisodeLayout = ({ data, isLoading, isError }) => {
+  const [currentVideo, setCurrentVideo] = useState(null)
+
+  useEffect(() => {
+    if (data?.data?.video_player) {
+      setCurrentVideo(data.data.video_player)
+    }
+  }, [data?.data?.video_player])
+
+  const qualities = !isLoading && !isError ? Object.keys(data?.data?.mirrors ?? {}) : []
+
   return (
     <div className='rounded bg-[#fafafa] p-2 md:mx-auto md:w-5/6'>
       <section>
         <div className='rounded bg-[#e1e7f5] p-2 md:text-center'>
-          <h1 className='md:text-md text-sm font-bold'>{isLoading ? <Skeleton /> : data.data.episode}</h1>
+          <h1 className='md:text-md text-sm font-bold'>{isLoading ? <Skeleton /> : data?.data?.judul}</h1>
         </div>
+
         <div className='mt-2'>
-          {isLoading ? (
+          {isLoading || !currentVideo ? (
             <Skeleton className='h-[200px] md:h-[400px]' />
           ) : (
             <iframe
-              src={data.data.stream_url}
+              src={currentVideo}
               className='h-[200px] w-full md:h-[400px]'
               allowFullScreen
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
@@ -24,62 +37,46 @@ const EpisodeLayout = ({ data, isLoading, isError, status }) => {
             />
           )}
         </div>
-        <div className='flex justify-between'>
-          {isLoading ? (
-            <Skeleton width={30} />
-          ) : (
-            data.data.has_previous_episode && (
-              <NavLink to={`/stream/episode/${data.data.previous_episode.slug}`} className='mx-1'>
-                Prev Eps.
-              </NavLink>
-            )
+
+        <div className='flex items-center justify-between py-2'>
+          {qualities.length > 0 && (
+            <div className='flex gap-3'>
+              {qualities.map((quality) => (
+                <Menu key={quality} shadow='md' width={200}>
+                  <Menu.Target>
+                    <Button>{quality}</Button>
+                  </Menu.Target>
+                  <Menu.Dropdown>
+                    {data?.data?.mirrors[quality]?.map((item, index) => (
+                      <Menu.Item key={index} onClick={() => setCurrentVideo(item.url)}>
+                        <Text>{item.label}</Text>
+                      </Menu.Item>
+                    ))}
+                  </Menu.Dropdown>
+                </Menu>
+              ))}
+            </div>
           )}
-          {isLoading ? (
-            <Skeleton width={30} />
-          ) : (
-            data.data.has_next_episode && (
-              <NavLink to={`/stream/episode/${data.data.next_episode.slug}`} className='mx-1 ml-auto'>
-                Next Eps.
-              </NavLink>
-            )
-          )}
-        </div>
-      </section>
-      <section>
-        <div className='mt-3 rounded bg-[#e1e7f5] p-2 md:text-center'>
-          <h1 className='md:text-md text-sm font-bold'>{isLoading ? <Skeleton /> : 'Download'}</h1>
-        </div>
-        <div className='mt-2'>
-          <div className='rounded-sm bg-[#e1e7f5] p-2'>
-            <p className='mb-1 border-b border-black text-center'>{isLoading ? <Skeleton /> : '.MKV'}</p>
+
+          <div className='space-x-2'>
             {isLoading ? (
-              <Skeleton count={3} />
+              <Skeleton width={80} height={36} inline />
             ) : (
-              data.data.download_urls.mkv.map((res, index) => (
-                <Accordion title={res.resolution} key={index}>
-                  {res.urls.map((url, index) => (
-                    <a key={index} href={url.url} target='_blank' className='sm:p-2'>
-                      {url.provider}
-                    </a>
-                  ))}
-                </Accordion>
-              ))
+              data?.data?.prev_episode && (
+                <NavLink to={`/stream/episode/${data.data.prev_episode}`}>
+                  <Button>Previous Eps.</Button>
+                </NavLink>
+              )
             )}
-          </div>
-          <div className='rounded-sm border-t-4 border-[#1c439b] bg-[#e1e7f5] p-2'>
-            <p className='mb-1 border-b border-black text-center'>{isLoading ? <Skeleton /> : '.MP4'}</p>
+
             {isLoading ? (
-              <Skeleton count={3} />
+              <Skeleton width={80} height={36} inline />
             ) : (
-              data.data.download_urls.mp4.map((res, index) => (
-                <Accordion title={res.resolution} key={index}>
-                  {res.urls.map((url, index) => (
-                    <a key={index} href={url.url} target='_blank' className='p-2'>
-                      {url.provider}
-                    </a>
-                  ))}
-                </Accordion>
-              ))
+              data?.data?.next_episode && (
+                <NavLink to={`/stream/episode/${data.data.next_episode}`}>
+                  <Button>Next Eps.</Button>
+                </NavLink>
+              )
             )}
           </div>
         </div>

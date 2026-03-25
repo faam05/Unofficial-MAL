@@ -1,4 +1,3 @@
-import React from 'react'
 import Home from '../../layouts/Stream/Home'
 
 const StreamPage = ({ data, isLoading, isError }) => {

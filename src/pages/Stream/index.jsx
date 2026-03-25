@@ -1,15 +1,14 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import 'react-loading-skeleton/dist/skeleton.css'
+
 import StreamPage from '../../components/pages/stream/Home'
 
-const Stream = () => {
-  const { DEV, VITE_LOCAL_URL, VITE_PUBLIC_URL } = import.meta.env
+import 'react-loading-skeleton/dist/skeleton.css'
 
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ['stream-home'],
-    queryFn: async () => await axios(`${DEV ? VITE_LOCAL_URL : VITE_PUBLIC_URL}/stream/home`),
-  })
+const Stream = () => {
+  const { VITE_STREAM_URL } = import.meta.env
+
+  const { data, isLoading, isError, refetch } = useQuery({ queryKey: ['stream-home'], queryFn: async () => await axios(`${VITE_STREAM_URL}/home`) })
 
   if (isError) {
     return (
