@@ -38,13 +38,15 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
           )}
         </div>
 
-        <div className='flex items-center justify-between py-2'>
+        <div className='sm: flex items-center justify-between gap-1 overflow-x-auto p-2 sm:gap-2 sm:p-3'>
           {qualities.length > 0 && (
-            <div className='flex gap-3'>
+            <div className='flex size-full items-center gap-1 sm:gap-2'>
               {qualities.map((quality) => (
                 <Menu key={quality} shadow='md' width={200}>
                   <Menu.Target>
-                    <Button>{quality}</Button>
+                    <Button size='compact-sm' variant='outline' color='grape'>
+                      {quality}
+                    </Button>
                   </Menu.Target>
                   <Menu.Dropdown>
                     {data?.data?.mirrors[quality]?.map((item, index) => (
@@ -58,24 +60,28 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
             </div>
           )}
 
-          <div className='space-x-2'>
+          <div className='ml-auto flex gap-1 whitespace-nowrap sm:gap-2'>
             {isLoading ? (
-              <Skeleton width={80} height={36} inline />
+              <div className='sm:w-18 h-6 w-16 sm:h-8'>
+                <Skeleton inline className='size-full' />
+              </div>
             ) : (
               data?.data?.prev_episode && (
-                <NavLink to={`/stream/episode/${data.data.prev_episode}`}>
-                  <Button>Previous Eps.</Button>
-                </NavLink>
+                <Button component='a' size='compact-sm' variant='outline' color='red' href={`/stream/episode/${data.data.prev_episode}`}>
+                  Previous Eps.
+                </Button>
               )
             )}
 
             {isLoading ? (
-              <Skeleton width={80} height={36} inline />
+              <div className='sm:w-18 h-6 w-16 sm:h-8'>
+                <Skeleton inline className='size-full' />
+              </div>
             ) : (
               data?.data?.next_episode && (
-                <NavLink to={`/stream/episode/${data.data.next_episode}`}>
-                  <Button>Next Eps.</Button>
-                </NavLink>
+                <Button component='a' size='compact-sm' variant='outline' href={`/stream/episode/${data.data.next_episode}`}>
+                  Next Eps.
+                </Button>
               )
             )}
           </div>
