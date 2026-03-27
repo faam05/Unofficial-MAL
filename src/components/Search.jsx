@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button, Combobox, Group, InputBase, ScrollArea, Text, useCombobox } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useMobileDevice } from '../hooks/useMobileDevice'
@@ -126,6 +126,11 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
           leftSectionPointerEvents='none'
           placeholder='Type to search ...'
           value={searchTerm}
+          styles={{
+            input: {
+              '--input-bd-focus': type === 'stream' && 'red',
+            },
+          }}
           onChange={(event) => {
             const val = event.currentTarget.value
             setSearchTerm(val)
@@ -166,8 +171,12 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
                             className='h-full max-h-[90px]'
                           />
                           <div className='flex-1'>
-                            <Text size='xs' lineClamp={3}>{item.value}</Text>
-                            <Text size='xs' c='dimmed'>{item.description}</Text>
+                            <Text size='xs' lineClamp={3}>
+                              {item.value}
+                            </Text>
+                            <Text size='xs' c='dimmed'>
+                              {item.description}
+                            </Text>
                           </div>
                         </Group>
                       </Combobox.Option>
@@ -185,8 +194,12 @@ const CSearch = ({ type = 'mal', setOpenedModal, openedModal = null }) => {
                         className='h-full max-h-[90px]'
                       />
                       <div className='flex-1'>
-                        <Text size='xs' lineClamp={3}>{result.judul}</Text>
-                        <Text size='xs' c='dimmed'>{result.status}</Text>
+                        <Text size='xs' lineClamp={3}>
+                          {result.judul}
+                        </Text>
+                        <Text size='xs' c='dimmed'>
+                          {result.status}
+                        </Text>
                       </div>
                     </Group>
                   </Combobox.Option>

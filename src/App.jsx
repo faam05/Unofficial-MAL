@@ -1,10 +1,11 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { lazy, Suspense, useEffect } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
-import { Layout } from './components/layouts/new'
-import { routes, routesStream } from './routes/routes'
 import ReactGA from 'react-ga4'
+import { Route, Routes, useLocation } from 'react-router-dom'
+
+import { routes, routesStream } from './routes/routes'
+import { Layout } from './components/layouts/new'
 
 const LazyNotFound = lazy(() => import('./components/layouts/404'))
 

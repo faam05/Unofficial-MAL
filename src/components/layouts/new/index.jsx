@@ -1,23 +1,26 @@
-import { AppShell, Burger, Button, Container, Flex, Group, Menu, Modal, rem, Text } from '@mantine/core'
+import { AppShell, Burger, Button, Container, Flex, Group, Menu, Modal, rem } from '@mantine/core'
 import { IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
-import { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+
 import { useMobileDevice } from '../../../hooks/useMobileDevice'
+
 import Footer from '../../footer'
 import ScrollButton from '../../ScrollButton'
 import CSearch from '../../Search'
 
 export function Layout({ type = 'mal', children }) {
-  const [opened, setOpened] = useState(false)
   const mobile = useMobileDevice()
+
+  const [opened, setOpened] = useState(false)
   const [openedModal, setOpenedModal] = useState(false)
 
   return (
     <AppShell header={{ height: 50 }} footer={{ height: 35 }} padding='xs' className='min-h-screen w-full overflow-x-hidden'>
       <AppShell.Header>
-        <Container h={'100%'} size={!mobile && 1060}>
+        <Container h={'100%'} size={!mobile && 1060} p={mobile && 0}>
           <Group h='100%'>
-            <Group justify='space-between' className='flex-1'>
+            <Group justify='space-between' className={`flex-1 ${mobile && 'px-2'}`}>
               <NavLink to={type === 'stream' ? '/stream' : '/'} style={{ textDecoration: 'none' }} className='font-nunito text-xl font-bold'>
                 {type == 'stream' ? (
                   <Flex align='center' gap={2}>
@@ -31,7 +34,7 @@ export function Layout({ type = 'mal', children }) {
               <Group ml='xl' gap={0}>
                 {mobile && (
                   <>
-                    <Button onClick={() => setOpenedModal(true)} ml={'auto'} className={''}>
+                    <Button onClick={() => setOpenedModal(true)} ml={'auto'} color={type === 'stream' && 'red'}>
                       <IconSearch />
                     </Button>
                     <Modal withCloseButton={false} opened={openedModal} onClose={() => setOpenedModal(!openedModal)} size='100%'>
@@ -54,7 +57,11 @@ export function Layout({ type = 'mal', children }) {
                 )}
                 <Menu shadow='md' width={200} mr={!mobile && 4} onChange={setOpened}>
                   <Menu.Target>
-                    {mobile ? <Burger opened={opened} onClick={() => setOpened(!opened)} hiddenFrom='sm' size='sm' /> : <Button>Menu</Button>}
+                    {mobile ? (
+                      <Burger opened={opened} onClick={() => setOpened(!opened)} hiddenFrom='sm' size='sm' />
+                    ) : (
+                      <Button color={type === 'stream' && 'red'}>Menu</Button>
+                    )}
                   </Menu.Target>
 
                   <Menu.Dropdown>
@@ -87,9 +94,9 @@ export function Layout({ type = 'mal', children }) {
       </AppShell.Header>
 
       <AppShell.Main>
-        <Container h={'100%'} size={!mobile && 1060}>
+        <Container h={'100%'} size={!mobile && 1060} p={mobile && 0}>
           {children}
-          <ScrollButton />
+          <ScrollButton type={type} />
         </Container>
       </AppShell.Main>
 
