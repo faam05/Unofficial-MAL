@@ -1,24 +1,28 @@
 {
     "rewrites": [
         {
-            "source": "/(.*)",
-            "destination": "/"
-        }
-    ],
-    "routes": [
-        {
-            "src": "^/stream$",
-            "status": 301,
-            "headers": {
-                "Location": "https://stream.mfadhilfadholi.my.id"
-            }
+            "source": "/",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "stream.mfadhilfadholi.my.id"
+                }
+            ],
+            "destination": "/stream"
         },
         {
-            "src": "^/stream/(.*)",
-            "status": 301,
-            "headers": {
-                "Location": "https://stream.mfadhilfadholi.my.id/$1"
-            }
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "stream.mfadhilfadholi.my.id"
+                }
+            ],
+            "destination": "/stream/:path*"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/"
         }
     ],
     "cleanUrls": true,
