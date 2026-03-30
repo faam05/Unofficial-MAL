@@ -6,7 +6,6 @@ import StreamPage from '../../components/pages/stream/Home'
 import 'react-loading-skeleton/dist/skeleton.css'
 
 const Stream = () => {
-  console.log('render stream route')
   const { VITE_STREAM_URL } = import.meta.env
 
   const { data, isLoading, isError, refetch } = useQuery({ queryKey: ['stream-home'], queryFn: async () => await axios(`${VITE_STREAM_URL}/home`) })

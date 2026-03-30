@@ -1,21 +1,11 @@
 {
-    "routes": [
+    "rewrites": [
         {
-            "src": "^/(.*)",
-            "has": [
-                {
-                    "type": "host",
-                    "value": "stream.mfadhilfadholi.my.id"
-                }
-            ],
-            "dest": "/stream/$1"
-        },
-        {
-            "handle": "filesystem"
-        },
-        {
-            "src": "/.*",
-            "dest": "/index.html"
+            "source": "/(.*)",
+            "destination": "/"
         }
-    ]
+    ],
+    "cleanUrls": true,
+    "framework": "vite",
+    "installCommand": "npm install"
 }

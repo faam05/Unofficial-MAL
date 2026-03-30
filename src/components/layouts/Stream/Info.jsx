@@ -112,13 +112,20 @@ const Info = ({ data: resp, isLoading }) => {
           <h1>{isLoading ? <Skeleton /> : `${resp.info.judul} Batch`}</h1>
         </div>
         <div className='md:text-md bg-[#bac0ff] p-2 text-xs sm:text-sm'>
-          <p>{isLoading ? <Skeleton /> : resp.batch ? (
-            resp.batch.length > 0 && resp.batch.map((item, index) => (
-             <NavLink key={item.slug} to={`/stream/batch/${item.slug}`}>
-                <p className={`p-2 ${index % 2 == 1 && 'bg-slate-200'}`}>{item.judul}</p>
-              </NavLink>
-            ))
-          ) : 'ASAP'}</p>
+          <p>
+            {isLoading ? (
+              <Skeleton />
+            ) : resp.batch ? (
+              resp.batch.length > 0 &&
+              resp.batch.map((item, index) => (
+                <NavLink key={item.slug} to={`/stream/batch/${item.slug}`}>
+                  <p className={`p-2 ${index % 2 == 1 && 'bg-slate-200'}`}>{item.judul}</p>
+                </NavLink>
+              ))
+            ) : (
+              'ASAP'
+            )}
+          </p>
         </div>
       </section>
     </div>
