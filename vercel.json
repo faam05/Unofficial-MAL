@@ -5,6 +5,18 @@
             "destination": "/"
         }
     ],
+    "redirects": [
+        {
+            "source": "/stream",
+            "destination": "https://stream.mfadhilfadholi.my.id",
+            "permanent": true
+        },
+        {
+            "source": "/stream/:path*",
+            "destination": "https://stream.mfadhilfadholi.my.id/:path*",
+            "permanent": true
+        }
+    ],
     "cleanUrls": true,
     "framework": "vite",
     "installCommand": "npm install"
