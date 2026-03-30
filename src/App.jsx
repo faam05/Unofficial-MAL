@@ -40,7 +40,7 @@ export default function App() {
               key={index}
               path={route.path}
               element={
-                <Suspense>
+                <Suspense fallback={<div>Loading...</div>}>
                   <Layout>{route.component}</Layout>
                 </Suspense>
               }
@@ -53,7 +53,7 @@ export default function App() {
               key={index}
               path={`/stream${route.path}`}
               element={
-                <Suspense>
+                <Suspense fallback={<div>Loading...</div>}>
                   <Layout type='stream'>{route.component}</Layout>
                 </Suspense>
               }

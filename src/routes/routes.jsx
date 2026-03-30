@@ -25,7 +25,7 @@ const routes = [
 ]
 
 const routesStream = [
-  { path: '/', component: <LazyStream /> },
+  { path: '', component: <LazyStream /> },
   { path: '/anime/:slug', component: <LazyInfo /> },
   { path: '/episode/:slug', component: <LazyEpisode /> },
 ]
