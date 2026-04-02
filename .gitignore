@@ -24,3 +24,7 @@ yarn.lock
 *.njsproj
 *.sln
 *.sw?
+
+# unused files
+*.jsx.*
+*.js.*
