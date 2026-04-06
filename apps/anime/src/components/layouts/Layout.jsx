@@ -1,4 +1,4 @@
-import { IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
+import { IconFlower, IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
@@ -64,6 +64,9 @@ export function Layout({ children }) {
                     </Link>
                     <Link to='/coming-soon' className='w-full'>
                       <Menu.Item leftSection={<IconMessageCircle style={{ width: rem(14), height: rem(14) }} />}>Coming Soon</Menu.Item>
+                    </Link>
+                    <Link to='/season' className='w-full'>
+                      <Menu.Item leftSection={<IconFlower style={{ width: rem(14), height: rem(14) }} />}>Season</Menu.Item>
                     </Link>
                     <Menu.Divider />
 
