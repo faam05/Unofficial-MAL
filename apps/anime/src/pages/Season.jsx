@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-import { useMobileDevice } from '@shared'
 import { getCurrentSeasonInfo } from '../helpers/date'
 import { useAnimeSeason } from '../hooks/useAnime'
 
@@ -21,7 +20,6 @@ const LIST_SEASON = ['WINTER', 'SPRING', 'SUMMER', 'FALL']
 
 const SeasonPage = () => {
   const { season, year } = getCurrentSeasonInfo()
-  const mobile = useMobileDevice()
   const [currentSeason, setCurrentSeason] = useState(season)
 
   const { data: animeList, isLoading, isError, error } = useAnimeSeason(currentSeason, year)

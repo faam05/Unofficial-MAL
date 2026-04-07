@@ -1,41 +1,10 @@
-import { formatAiringTime } from '../../helpers/time'
-import { formatStartDate } from '../../helpers/date'
-
-import { IconUser } from '@tabler/icons-react'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { Link } from 'react-router-dom'
+import { IconClock, IconUser } from '@tabler/icons-react'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
-import 'react-lazy-load-image-component/src/effects/blur.css'
-
-export const AnimeCard = ({ anime, isCurrentSeason }) => {
-  let showEpisodeInfo
-  let formattedAiringTime
-
-  const filteredStudios = anime.studios?.nodes?.find((studio) => studio.isAnimationStudio) || anime.studios?.nodes?.[0]
-
-  // const filteredRank = anime.rankings?.find((r) => r.season === anime?.season && r.year === anime?.seasonYear)?.rank
-  //   ? `# ${anime?.rankings?.find((r) => r.season === anime.season && r.year === anime.seasonYear)?.rank}`
-  //   : 'N/A'
-
-  const popularity = new Intl.NumberFormat('id-ID').format(anime.popularity || '0')
-
-  if (isCurrentSeason) {
-    const currentEpisode = anime.nextAiringEpisode?.episode && `Ep ${anime.nextAiringEpisode?.episode}`
-    const allEpisodes = anime.episodes && `of ${anime.episodes}`
-
-    formattedAiringTime = anime.nextAiringEpisode && ` airing in ${formatAiringTime(anime.nextAiringEpisode?.timeUntilAiring)}`
-
-    showEpisodeInfo = `${currentEpisode ?? ''} ${allEpisodes ?? ''}`
-  } else {
-    if (anime.status === 'FINISHED') {
-      showEpisodeInfo = `Aired on ${formatStartDate(anime.startDate)}`
-    } else if (anime.status === 'NOT_YET_RELEASED') {
-      showEpisodeInfo = `Airing on ${formatStartDate(anime.startDate)}`
-    }
-  }
-
+const DesktopAnimeCard = ({ anime, popularity, showEpisodeInfo, formattedAiringTime, filteredStudios }) => {
   return (
-    <div className='group flex flex-col overflow-hidden rounded-xl border border-slate-50 bg-slate-100 shadow-xl transition-all duration-300 hover:border-blue-500/70'>
+    <>
       {/* IMAGE SECTION */}
       <div className='relative aspect-[3/4] overflow-hidden'>
         <LazyLoadImage
@@ -52,19 +21,7 @@ export const AnimeCard = ({ anime, isCurrentSeason }) => {
           {anime.format}
         </div>
         <div className='absolute bottom-2 left-2 flex items-center gap-1 rounded border border-slate-100 bg-white  px-2 py-1 text-[10px] font-bold backdrop-blur-md group-hover:border-blue-300 group-hover:text-blue-700'>
-          <svg
-            xmlns='http://www.w3.org/2000/svg'
-            width='10'
-            height='10'
-            viewBox='0 0 24 24'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='3'
-            strokeLinecap='round'
-            strokeLinejoin='round'>
-            <circle cx='12' cy='12' r='10' />
-            <polyline points='12 6 12 12 16 14' />
-          </svg>
+          <IconClock size={12} />
           {showEpisodeInfo}
           {formattedAiringTime}
         </div>
@@ -76,9 +33,12 @@ export const AnimeCard = ({ anime, isCurrentSeason }) => {
         <div className='flex flex-col justify-between gap-2 p-4'>
           <h2 className='line-clamp-2 text-sm font-bold leading-tight transition-colors group-hover:text-blue-400'>{anime.title.romaji}</h2>
           <div className='flex flex-wrap gap-1'>
-            <span className='rounded-full bg-blue-600 px-2 py-1 text-[10px] font-bold uppercase text-white'>
-              {anime.genres.slice(0, 2).join(', ')}
-            </span>
+            {anime.genres.length > 0 &&
+              anime.genres.slice(0, 2).map((genre) => (
+                <span key={genre} className='rounded-full bg-blue-600 px-2 py-1 text-[10px] font-bold uppercase text-white'>
+                  {genre}
+                </span>
+              ))}
           </div>
         </div>
 
@@ -97,6 +57,8 @@ export const AnimeCard = ({ anime, isCurrentSeason }) => {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   )
 }
+
+export default DesktopAnimeCard

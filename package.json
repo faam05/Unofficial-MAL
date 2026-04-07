@@ -13,5 +13,8 @@
     "apps/anime",
     "apps/stream",
     "packages/shared"
-  ]
+  ],
+  "dependencies": {
+    "clsx": "^2.1.1"
+  }
 }
