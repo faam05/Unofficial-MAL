@@ -48,11 +48,17 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
                     </Button>
                   </Menu.Target>
                   <Menu.Dropdown>
-                    {data?.data?.mirrors[quality]?.map((item, index) => (
-                      <Menu.Item key={index} onClick={() => setCurrentVideo(item.url)}>
-                        <Text>{item.label}</Text>
+                    {data?.data?.mirrors[quality]?.length > 0 ? (
+                      data?.data?.mirrors[quality]?.map((item, index) => (
+                        <Menu.Item key={index} onClick={() => setCurrentVideo(item.url)}>
+                          <Text>{item.label}</Text>
+                        </Menu.Item>
+                      ))
+                    ) : (
+                      <Menu.Item disabled>
+                        <Text>No available sources</Text>
                       </Menu.Item>
-                    ))}
+                    )}
                   </Menu.Dropdown>
                 </Menu>
               ))}
