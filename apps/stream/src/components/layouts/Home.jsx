@@ -1,4 +1,4 @@
-import { Text } from '@mantine/core'
+import { Group, Pagination, Text } from '@mantine/core'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { NavLink } from 'react-router-dom'
 
@@ -6,7 +6,7 @@ import Skeleton from 'react-loading-skeleton'
 
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
-const StreamPage = ({ data, isLoading }) => {
+const StreamPage = ({ data, isLoading, activePage, setPage }) => {
   return (
     <>
       <h1 className='border-b font-bold'>{isLoading ? <Skeleton /> : 'On Going Anime'}</h1>
@@ -53,6 +53,20 @@ const StreamPage = ({ data, isLoading }) => {
               </NavLink>
             ))}
       </div>
+
+      {!isLoading && (
+        <>
+          <Pagination.Root total={5} mt='sm' color='red' value={activePage} onChange={setPage}>
+            <Group gap={5} justify='center'>
+              <Pagination.First />
+              <Pagination.Previous />
+              <Pagination.Items />
+              <Pagination.Next />
+              <Pagination.Last />
+            </Group>
+          </Pagination.Root>
+        </>
+      )}
     </>
   )
 }

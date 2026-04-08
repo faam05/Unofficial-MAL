@@ -19,7 +19,7 @@ export function Layout({ children }) {
   const [openedModal, setOpenedModal] = useState(false)
 
   return (
-    <AppShell header={{ height: 50 }} footer={{ height: 35 }} padding='xs' className='min-h-screen w-full overflow-x-hidden'>
+    <AppShell header={{ height: 50 }} footer={{ height: 35 }} padding='xs' className='min-h-dvh w-full overflow-x-hidden'>
       <AppShell.Header>
         <Container h={'100%'} size={!mobile && 1060} p={mobile && 0}>
           <Group h='100%'>

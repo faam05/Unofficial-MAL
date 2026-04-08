@@ -23,13 +23,13 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
           <h1 className='md:text-md text-sm font-bold'>{isLoading ? <Skeleton /> : data?.data?.judul}</h1>
         </div>
 
-        <div className='mt-2'>
+        <div className='mt-2 size-full'>
           {isLoading || !currentVideo ? (
             <Skeleton className='h-[200px] md:h-[400px]' />
           ) : (
             <iframe
               src={currentVideo}
-              className='h-[200px] w-full md:h-[400px]'
+              className='w-full rounded-xl md:h-[400px]'
               allowFullScreen
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
               loading='eager'
