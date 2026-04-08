@@ -5,11 +5,12 @@ import { useAnimeSeason } from '../hooks/useAnime'
 
 import { AnimeCard } from '../components/layouts/AnimeCard'
 
-const ButtonNavigation = ({ season, year = '2026', isActive, setSession }) => {
+const ButtonNavigation = ({ season, year = '2026', isActive, setSession, isLoading }) => {
   return (
     <button
       className={`group flex flex-col items-center justify-center ${isActive ? 'text-blue-700 hover:text-blue-700/70' : 'text-black/70 hover:text-blue-700/90'}`}
-      onClick={() => setSession(season.toUpperCase())}>
+      onClick={() => setSession(season.toUpperCase())}
+      disabled={isLoading}>
       <span className='font-bold capitalize md:text-lg'>{season.toLowerCase()}</span>
       <span className='text-sm text-black/40 md:text-base'>{year}</span>
     </button>
@@ -24,7 +25,6 @@ const SeasonPage = () => {
 
   const { data: animeList, isLoading, isError, error } = useAnimeSeason(currentSeason, year)
 
-  if (isLoading) return <div className='p-10 text-white'>Loading data dari AniList...</div>
   if (isError) return <div className='p-10 text-red-500'>Error: {error.message}</div>
 
   return (
@@ -39,9 +39,9 @@ const SeasonPage = () => {
       </section>
 
       <section className='grid grid-cols-1 gap-6 p-2 sm:grid-cols-2 md:p-4 lg:grid-cols-4'>
-        {animeList.map((anime) => (
-          <AnimeCard key={anime.id} isCurrentSeason={season === anime.season} anime={anime} />
-        ))}
+        {isLoading
+          ? Array.from({ length: 8 }).map((_, index) => <AnimeCard key={index} isCurrentSeason={false} anime={{}} isLoading={true} />)
+          : animeList.map((anime) => <AnimeCard key={anime.id} isCurrentSeason={season === anime.season} anime={anime} isLoading={isLoading} />)}
       </section>
     </div>
   )
