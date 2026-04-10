@@ -29,7 +29,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
           ) : (
             <iframe
               src={currentVideo}
-              className='w-full rounded-xl md:h-[400px]'
+              className='h-[200px] w-full rounded-xl md:h-[400px]'
               allowFullScreen
               allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
               loading='eager'
