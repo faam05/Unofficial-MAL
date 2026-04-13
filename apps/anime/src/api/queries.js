@@ -1,45 +1,3 @@
-export const GET_DETAILED_SEASONAL = `
-query (
-  $season: MediaSeason,
-  $year: Int,
-  $format: MediaFormat,
-  $page: Int
-) {
-  Page(page: $page) {
-    pageInfo {
-      hasNextPage
-      total
-    }
-    media(
-      season: $season,
-      seasonYear: $year,
-      format: $format,
-      isAdult: false,
-      type: ANIME,
-      sort: TITLE_ROMAJI
-    ) {
-      id
-      idMal
-      title { romaji english native }
-      coverImage { extraLarge color }
-      bannerImage
-      description
-      status
-      episodes
-      averageScore
-      genres
-      studios(isMain: true) {
-        nodes { name }
-      }
-      nextAiringEpisode {
-        airingAt
-        episode
-      }
-      # Tambahkan field lain dari query kamu di sini sesuai kebutuhan UI
-    }
-  }
-}
-`
 export const SEASONAL_QUERY = `
 query ($season: MediaSeason, $year: Int) {
   Page(perPage: 20) {
@@ -50,6 +8,7 @@ query ($season: MediaSeason, $year: Int) {
       coverImage { large, color }
       format
       season
+      description
       status
       seasonYear
       rankings {
@@ -84,6 +43,65 @@ query ($season: MediaSeason, $year: Int) {
       hasNextPage
       total
       lastPage
+    }
+  }
+}
+`
+
+export const GET_SCHEDULE = `
+query AiringSchedule($page: Int, $airingAtGreater: Int, $airingAtLesser: Int, $sort: [AiringSort]) {
+  Page(page: $page) {
+    airingSchedules(airingAt_greater: $airingAtGreater, airingAt_lesser: $airingAtLesser, sort: $sort) {
+      id
+      episode
+      airingAt
+      media {
+        id
+      idMal
+      title {
+        romaji
+      }
+      coverImage {
+        color
+        large
+      }
+      description
+      season
+      seasonYear
+      genres
+      episodes
+      status
+      rankings {
+        season
+        type
+        rank
+        allTime
+        year
+      }
+      popularity
+      nextAiringEpisode {
+        airingAt
+        episode
+        timeUntilAiring
+      }
+      startDate {
+        day
+        month
+        year
+      }
+      studios {
+        nodes {
+          name
+          isAnimationStudio
+        }
+      }
+      format
+      isAdult
+      }
+    }
+    pageInfo {
+      total
+      hasNextPage
     }
   }
 }

@@ -24,7 +24,8 @@ export default function ImageSkeleton({ anime }) {
         alt={anime.title.romaji}
         effect='blur'
         onLoad={() => setLoaded(true)}
-        className='h-full w-full object-cover transition-transform duration-500 group-hover:scale-110'
+        wrapperClassName='size-full'
+        className='size-full object-cover transition-transform duration-500'
       />
     </div>
   )

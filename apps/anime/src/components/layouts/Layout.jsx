@@ -1,4 +1,4 @@
-import { IconFlower, IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
+import { IconCalendarEventFilled, IconFlower, IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 
@@ -19,9 +19,9 @@ export function Layout({ children }) {
   const [openedModal, setOpenedModal] = useState(false)
 
   return (
-    <AppShell header={{ height: 50 }} footer={{ height: 35 }} padding='xs' className='min-h-screen w-full overflow-x-hidden'>
+    <AppShell header={{ height: 50 }} footer={{ height: 35 }} padding='xs' className='min-h-dvh w-full overflow-x-hidden'>
       <AppShell.Header>
-        <Container h={'100%'} size={!mobile && 1060} p={mobile && 0}>
+        <Container h={'100%'} size={!mobile && 1536} p={mobile && 0}>
           <Group h='100%'>
             <Group justify='space-between' className={`flex-1 ${mobile && 'px-2'}`}>
               <NavLink to={'/'} style={{ textDecoration: 'none' }} className='font-nunito text-xl font-bold'>
@@ -68,6 +68,9 @@ export function Layout({ children }) {
                     <Link to='/season' className='w-full'>
                       <Menu.Item leftSection={<IconFlower style={{ width: rem(14), height: rem(14) }} />}>Season</Menu.Item>
                     </Link>
+                    <Link to='/schedule' className='w-full'>
+                      <Menu.Item leftSection={<IconCalendarEventFilled style={{ width: rem(14), height: rem(14) }} />}>Schedule</Menu.Item>
+                    </Link>
                     <Menu.Divider />
 
                     <Menu.Label>{'Want to streaming video?'}</Menu.Label>
@@ -85,8 +88,8 @@ export function Layout({ children }) {
         </Container>
       </AppShell.Header>
 
-      <AppShell.Main>
-        <Container h={'100%'} size={!mobile && 1060} p={mobile && 0}>
+      <AppShell.Main className='pb-[60px]'>
+        <Container h={'100%'} size={!mobile && 1536} p={mobile && 0}>
           {children}
           <ScrollButton type={'mal'} />
         </Container>

@@ -47,3 +47,24 @@ export const formatStartDate = (startDate) => {
   // 4. Jika hanya ada Tahun saja
   return year.toString()
 }
+
+export const groupScheduleByDay = (schedules) => {
+  // Format hari ke Bahasa Indonesia
+  const dayFormatter = new Intl.DateTimeFormat('id-ID', { weekday: 'long' })
+
+  return schedules.reduce((groups, item) => {
+    // Ambil nama hari dari timestamp airingAt
+    const date = new Date(item.airingAt * 1000)
+    const dayName = dayFormatter.format(date)
+
+    // Jika hari belum ada di objek, buat array kosong
+    if (!groups[dayName]) {
+      groups[dayName] = []
+    }
+
+    // Masukkan anime ke dalam hari yang sesuai
+    groups[dayName].push(item)
+
+    return groups
+  }, {})
+}

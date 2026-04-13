@@ -1,38 +1,43 @@
-import { AnimeCard } from '../components/layouts/AnimeCard'
-import { useAnimeSeason } from '../hooks/useAnime'
+import { getStartDayWeekRange } from '../helpers'
+import { useAnimeSchedule } from '../hooks/useAnimeSchedule'
 
-const ButtonNavigation = ({ season, year = '2026', isActive }) => {
-  return (
-    <button
-      className={`group flex flex-col items-center justify-center ${isActive ? 'text-blue-700 hover:text-blue-700/70' : 'text-black/70 hover:text-blue-700/90'}`}>
-      <span className='font-bold md:text-lg'>{season}</span>
-      <span className='text-sm text-black/40 md:text-base'>{year}</span>
-    </button>
-  )
-}
+import { AnimeCard } from '../components/layouts/AnimeCard'
+
+import '../styles/season.css'
 
 const SeasonPage = () => {
-  const { data: animeList, isLoading, isError, error } = useAnimeSeason('SPRING', 2026)
+  const { airingAtGreater, airingAtLesser } = getStartDayWeekRange()
 
-  if (isLoading) return <div className='p-10 text-white'>Loading data dari AniList...</div>
+  // const { data: animeList, isLoading, isError, error } = useAnimeSchedule(1, airingAtGreater, airingAtLesser)
+  const { data: animeList, isLoading, isError, error } = useAnimeSchedule(airingAtGreater, airingAtLesser)
+
   if (isError) return <div className='p-10 text-red-500'>Error: {error.message}</div>
 
   return (
-    <div className='min-h-svh'>
-      <section className='mb-2 space-y-2 rounded-md  bg-slate-100 pt-2 shadow-md md:mb-4 md:space-y-4 md:pt-4'>
-        <h1 className='px-2 text-lg font-bold md:px-4 md:text-2xl'>Anime Seasonal</h1>
-        <div className='flex items-center justify-evenly gap-3 rounded-b-md bg-slate-200 p-2'>
-          <ButtonNavigation season='Winter' year='2026' />
-          <ButtonNavigation season='Spring' year='2026' isActive />
-          <ButtonNavigation season='Summer' year='2026' />
-          <ButtonNavigation season='Fall' year='2026' />
-        </div>
-      </section>
+    <div className='size-full space-y-2 rounded-md bg-slate-50 p-2 shadow-md md:space-y-4 md:p-4'>
+      <h1 className='text-xl font-bold md:text-2xl xl:text-3xl'>Anime Schedule</h1>
 
-      <section className='grid grid-cols-1 gap-6 p-2 sm:grid-cols-2 md:p-4 lg:grid-cols-4'>
-        {animeList.map((anime) => (
-          <AnimeCard key={anime.id} anime={anime} />
-        ))}
+      <section className='size-full space-y-2 xl:space-y-4'>
+        {isLoading ? (
+          <div className='grid grid-cols-1 gap-3 py-2 md:py-4 lg:grid-cols-2 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4'>
+            {Array.from({ length: 12 }).map((_, index) => (
+              <AnimeCard key={index} isLoading={true} />
+            ))}
+          </div>
+        ) : (
+          Object.entries(animeList).map(([day, animeArray], index) => (
+            <>
+              <h2 className='border-b-4 border-gray-300 pb-2 text-lg font-bold text-blue-400 md:text-2xl'>{day}</h2>
+              <div key={index} className='space-y-2 rounded-md px-2 md:space-y-4 md:px-4'>
+                <div className='grid grid-cols-1 gap-3 lg:grid-cols-2 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4'>
+                  {animeArray.map((anime, key) => (
+                    <AnimeCard key={key} anime={anime} isLoading={isLoading} isCurrentSeason={true} />
+                  ))}
+                </div>
+              </div>
+            </>
+          ))
+        )}
       </section>
     </div>
   )

@@ -24,3 +24,21 @@ export const formatAiringTime = (seconds) => {
 // const { days, hours, minutes } = formatTime(200415)
 // console.log(`${days}d ${hours}h ${minutes}m`)
 // Hasil: 0d 8h 40m
+
+export const getStartDayWeekRange = () => {
+  // 1. Ambil waktu hari ini
+  const start = new Date()
+  // Set ke jam 00:00:00.000 (Waktu lokal user)
+  start.setHours(0, 0, 0, 0)
+
+  // 2. Buat waktu untuk 7 hari ke depan
+  const end = new Date(start)
+  end.setDate(start.getDate() + 6)
+  // Set ke jam 23:59:59.999 (Waktu lokal user)
+  end.setHours(23, 59, 59, 999)
+
+  return {
+    airingAtGreater: Math.floor(start.getTime() / 1000),
+    airingAtLesser: Math.floor(end.getTime() / 1000),
+  }
+}
