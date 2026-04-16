@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 import { getCurrentSeasonInfo } from '../helpers/date'
 import { useAnimeSeason } from '../hooks/useAnimeSeason'
@@ -25,7 +26,25 @@ const SeasonPage = () => {
   const { season, year } = getCurrentSeasonInfo()
   const [currentSeason, setCurrentSeason] = useState(season)
 
-  const { data: animeList, isLoading, isError, error } = useAnimeSeason(currentSeason, year)
+  const { data, isLoading, isError, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useAnimeSeason(currentSeason, year)
+
+  const { ref, inView } = useInView({
+    threshold: 0.1, // Picu saat 10% elemen sensor terlihat
+  })
+
+  const [allAnime, setAllAnime] = useState([])
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage()
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setAllAnime(data?.pages.flatMap((page) => page.Page.media) || [])
+    }
+  }, [data, isLoading])
 
   if (isError) return <div className='p-10 text-red-500'>Error: {error.message}</div>
 
@@ -40,11 +59,22 @@ const SeasonPage = () => {
         </div>
       </section>
 
-      <section className='grid grid-cols-1 gap-3 py-2 md:py-4 lg:grid-cols-2 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4'>
+      <section className='grid grid-cols-1 gap-3 py-2 sm:grid-cols-2 md:py-4 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4'>
         {isLoading
           ? Array.from({ length: 12 }).map((_, index) => <AnimeCard key={index} isLoading={true} />)
-          : animeList.map((anime) => <AnimeCard key={anime.id} isCurrentSeason={season === anime.season} anime={anime} isLoading={isLoading} />)}
+          : allAnime.map((anime) => <AnimeCard key={anime.id} isCurrentSeason={season === anime.season} anime={anime} isLoading={isLoading} />)}
       </section>
+
+      {hasNextPage && (
+        <div ref={ref} className='flex justify-center p-10'>
+          {isFetchingNextPage && (
+            <div className='flex flex-col items-center gap-2'>
+              <div className='h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent'></div>
+              <p className='text-xs font-bold uppercase tracking-widest text-slate-500'>Loading...</p>
+            </div>
+          )}
+        </div>
+      )}
     </>
   )
 }

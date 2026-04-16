@@ -42,3 +42,15 @@ export const getStartDayWeekRange = () => {
     airingAtLesser: Math.floor(end.getTime() / 1000),
   }
 }
+
+export const formatToAMPM = (timestamp) => {
+  if (!timestamp) return ''
+
+  const date = new Date(timestamp * 1000) // Konversi ke milidetik
+
+  return new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  }).format(date)
+}

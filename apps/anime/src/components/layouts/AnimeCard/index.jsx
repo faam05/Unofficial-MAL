@@ -25,10 +25,10 @@ export const AnimeCard = ({ anime, isCurrentSeason, isLoading }) => {
   return (
     <div
       className={clsx(
-        'group flex size-full overflow-hidden rounded-xl border border-slate-50 bg-slate-100 shadow-xl transition-all duration-300 hover:border-blue-500/70',
+        'group flex size-full max-h-80 overflow-hidden rounded-xl border border-slate-50 bg-slate-100 shadow-xl transition-all duration-300 hover:border-blue-500/70',
       )}>
       {/* left */}
-      <div className='relative h-full w-1/2 overflow-hidden sm:w-2/5 xl:w-3/5'>
+      <div className='relative h-full min-h-56 w-1/2 overflow-hidden sm:w-2/5 xl:min-h-80 xl:w-[52%]'>
         <ImageSkeleton anime={anime} />
         <div className='absolute right-2 top-2 flex items-center gap-1 rounded border border-slate-100 bg-white px-2 py-1 text-[10px] font-bold backdrop-blur-md group-hover:border-blue-300 group-hover:text-blue-700'>
           <IconUser size={10} /> {popularity}
@@ -48,13 +48,13 @@ export const AnimeCard = ({ anime, isCurrentSeason, isLoading }) => {
       </div>
 
       {/* right */}
-      <div className='flex h-full w-1/2 flex-col justify-between overflow-hidden sm:w-3/5 xl:w-2/5'>
-        <div className='flex h-full flex-col gap-1 p-2 lg:gap-1.5 lg:p-4'>
-          {showEpisodeInfo && <p className='text-xs text-slate-500 lg:text-sm'>{showEpisodeInfo} airing in</p>}
+      <div className='flex max-h-full flex-1 flex-col justify-between overflow-hidden'>
+        <div className='flex size-full flex-col gap-1 p-2 lg:gap-1.5 lg:p-4'>
+          {showEpisodeInfo && <p className='text-xs text-slate-500 lg:text-sm'>{showEpisodeInfo}</p>}
           {formattedAiringTime && <p className='text-sm font-bold text-black/50 lg:text-lg'>{formattedAiringTime.replace('airing in', '')}</p>}
           {anime.description && (
             <div
-              className='custom-scrollbar line-clamp-5 overflow-hidden text-[10px] text-slate-700 lg:max-h-32 lg:text-sm lg:hover:line-clamp-none lg:hover:overflow-y-auto'
+              className='custom-scrollbar line-clamp-5 overflow-hidden text-[10px] text-slate-700 lg:max-h-32 lg:text-sm lg:hover:line-clamp-none lg:hover:flex-1 lg:hover:overflow-y-auto'
               dangerouslySetInnerHTML={{ __html: anime.description }}
             />
           )}
@@ -64,7 +64,7 @@ export const AnimeCard = ({ anime, isCurrentSeason, isLoading }) => {
         <div className='flex content-end items-center justify-between border-t border-slate-300 bg-slate-200 p-2 lg:px-3 lg:py-3'>
           <div className='flex flex-wrap gap-1'>
             {anime.genres.length > 0 &&
-              anime.genres.slice(0, mobile ? 1 : 3).map((genre) => (
+              anime.genres.slice(0, mobile ? 2 : 3).map((genre) => (
                 <span
                   key={genre}
                   className='lg"px-2 rounded-full px-1 py-1 text-[8px] font-bold uppercase text-white lg:text-[10px]'

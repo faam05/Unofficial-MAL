@@ -1,15 +1,17 @@
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 
 import { fetchAniList } from '../api/anilist'
 import { SEASONAL_QUERY } from '../api/queries'
 
 export const useAnimeSeason = (season, year) => {
-  return useQuery({
-    // Query key sangat penting untuk caching.
-    // Jika season/year berubah, TanStack Query otomatis fetch ulang.
+  return useInfiniteQuery({
     queryKey: ['anime', season, year],
-    queryFn: () => fetchAniList(SEASONAL_QUERY, { season, year }),
-    select: (data) => data.Page.media, // Memotong data langsung ke array media
+    initialPageParam: 1,
+    queryFn: ({ pageParam = 1 }) => fetchAniList(SEASONAL_QUERY, { season, year, page: pageParam, isAdult: false }),
+    getNextPageParam: (lastPage) => {
+      const { hasNextPage, currentPage } = lastPage.Page.pageInfo
+      return hasNextPage ? currentPage + 1 : undefined
+    },
     staleTime: 1000 * 60 * 5, // Data dianggap "fresh" selama 5 menit
   })
 }

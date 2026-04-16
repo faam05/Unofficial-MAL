@@ -1,7 +1,11 @@
 export const SEASONAL_QUERY = `
-query ($season: MediaSeason, $year: Int) {
-  Page(perPage: 20) {
-    media(season: $season, seasonYear: $year, type: ANIME, sort: POPULARITY_DESC) {
+query ($season: MediaSeason, $year: Int, $page: Int, $isAdult: Boolean) {
+  Page(perPage: 20, page: $page) {
+    pageInfo {
+      currentPage
+      hasNextPage
+    }
+    media(season: $season, seasonYear: $year, type: ANIME, sort: POPULARITY_DESC, isAdult: $isAdult) {
       id
       idMal
       title { romaji }
@@ -37,12 +41,6 @@ query ($season: MediaSeason, $year: Int) {
           isAnimationStudio
         }
       }
-    }
-    pageInfo {
-      currentPage
-      hasNextPage
-      total
-      lastPage
     }
   }
 }

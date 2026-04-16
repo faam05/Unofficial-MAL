@@ -1,6 +1,10 @@
-import { formatAiringTime, formatStartDate } from '../helpers'
+import { useLocation } from 'react-router-dom'
+import { formatAiringTime, formatStartDate, formatToAMPM } from '../helpers'
 
 export function useSeasonAnimeDetail(anime, isCurrentSeason) {
+  const currentPath = useLocation()
+  const isSchedulePage = currentPath.pathname.includes('schedule')
+
   let showEpisodeInfo
   let formattedAiringTime
 
@@ -16,9 +20,13 @@ export function useSeasonAnimeDetail(anime, isCurrentSeason) {
     const currentEpisode = anime.nextAiringEpisode?.episode && `Ep ${anime.nextAiringEpisode?.episode}`
     const allEpisodes = anime.episodes && `of ${anime.episodes}`
 
-    formattedAiringTime = anime.nextAiringEpisode && ` airing in ${formatAiringTime(anime.nextAiringEpisode?.timeUntilAiring)}`
+    if (isSchedulePage) {
+      formattedAiringTime = anime.airingAt && formatToAMPM(anime.airingAt)
+    } else {
+      formattedAiringTime = anime.nextAiringEpisode && formatAiringTime(anime.nextAiringEpisode.timeUntilAiring)
+    }
 
-    showEpisodeInfo = `${currentEpisode ?? ''} ${allEpisodes ?? ''}`
+    showEpisodeInfo = `${currentEpisode ?? ''} ${allEpisodes ?? ''} airing in`
   } else {
     if (anime.status === 'FINISHED') {
       showEpisodeInfo = `Aired on ${formatStartDate(anime.startDate)}`
