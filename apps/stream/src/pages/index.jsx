@@ -1,31 +1,54 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { useState } from 'react'
 
-import StreamPage from '../components/layouts/Home'
+import HomePage from '../components/layouts/Home'
 
 import 'react-loading-skeleton/dist/skeleton.css'
 
 const { VITE_MAIN_SERVICE } = import.meta.env
 
-const Stream = () => {
-  const [activePage, setPage] = useState(1)
-
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ['stream-home', activePage],
-    queryFn: async () => await axios(`${VITE_MAIN_SERVICE}/home?page=${activePage}`),
+const Home = () => {
+  const {
+    data: animeData,
+    isLoading: isAnimeLoading,
+    isError: isAnimeError,
+    refetch: refetchAnime,
+  } = useQuery({
+    queryKey: ['stream-home', 1],
+    queryFn: async () => await axios(`${VITE_MAIN_SERVICE}/home?page=1`),
+    select: (res) => res.data.ongoing,
   })
 
-  if (!isLoading && (typeof data !== 'object' || !data || isError || !data.data || !data.data.ongoing)) {
+  const {
+    data: movieData,
+    isLoading: isMovieLoading,
+    isError: isMovieError,
+    refetch: refetchMovie,
+  } = useQuery({
+    queryKey: ['stream-movie', 1],
+    queryFn: async () => await axios(`${VITE_MAIN_SERVICE}/home-movie2?page=1`),
+    select: (res) => res.data.movie,
+  })
+
+  if (!isAnimeLoading && (typeof animeData !== 'object' || !animeData || isAnimeError)) {
     return (
       <div className='flex flex-col items-center'>
         <p>There was an error, please refresh or click Retry Button</p>
-        <button onClick={() => refetch()}>Retry</button>
+        <button onClick={() => refetchAnime()}>Retry</button>
       </div>
     )
   }
 
-  return <StreamPage data={data} isLoading={isLoading} activePage={activePage} setPage={setPage} />
+  if (!isMovieLoading && (typeof movieData !== 'object' || !movieData || isMovieError)) {
+    return (
+      <div className='flex flex-col items-center'>
+        <p>There was an error, please refresh or click Retry Button</p>
+        <button onClick={() => refetchMovie()}>Retry</button>
+      </div>
+    )
+  }
+
+  return <HomePage dataAnime={animeData} isLoadingAnime={isAnimeLoading} dataMovie={movieData} isLoadingMovie={isMovieLoading} />
 }
 
-export default Stream
+export default Home

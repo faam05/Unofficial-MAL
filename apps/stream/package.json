@@ -5,25 +5,25 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:test": "vite --host --port 5174",
     "build": "vite build",
     "preview": "vite preview",
     "deploy": "rm -rf dist && vite build && vite preview"
   },
   "dependencies": {
-    "@mantine/carousel": "^7",
     "@mantine/core": "^7",
     "@mantine/hooks": "^7",
-    "@tabler/icons-react": "^3.1.0",
-    "@tanstack/react-query": "^5.28.9",
-    "@tanstack/react-query-devtools": "^5.28.10",
-    "axios": "^1.6.8",
-    "embla-carousel-react": "^8.0.0",
+    "@tabler/icons-react": "^3.41.1",
+    "@tanstack/react-query": "^5.100.1",
+    "@tanstack/react-query-devtools": "^5.100.1",
+    "axios": "^1.15.2",
+    "clsx": "^2.1.1",
     "react": "^18",
     "react-dom": "^18",
     "react-ga4": "^2.1.0",
     "react-lazy-load-image-component": "^1.6.0",
     "react-loading-skeleton": "^3.4.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^7.14.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.73",

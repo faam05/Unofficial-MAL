@@ -1,11 +1,15 @@
 import { lazy } from 'react'
 
-const LazyStream = lazy(() => import('../pages'))
+const LazyHome = lazy(() => import('../pages'))
+const LazyOnGoing = lazy(() => import('../pages/list'))
+const LazyMovie = lazy(() => import('../pages/movie'))
 const LazyInfo = lazy(() => import('../pages/info'))
 const LazyEpisode = lazy(() => import('../pages/episode'))
 
 const routes = [
-  { path: '/', component: <LazyStream /> },
+  { path: '/', component: <LazyHome /> },
+  { path: '/list-all', component: <LazyOnGoing /> },
+  { path: '/movie', component: <LazyMovie /> },
   { path: '/anime/:slug', component: <LazyInfo /> },
   { path: '/episode/:slug', component: <LazyEpisode /> },
 ]

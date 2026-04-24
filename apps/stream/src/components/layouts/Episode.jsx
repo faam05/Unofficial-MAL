@@ -65,6 +65,28 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
             </div>
           )}
 
+          {data?.data?.mirror && (
+            <Menu shadow='md' width={200}>
+              <Menu.Target>
+                <Button size='compact-sm' variant='outline' color='grape'>
+                  Mirror
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                {(data.data.mirror.length > 0 &&
+                  data.data?.mirror?.map((item, index) => (
+                    <Menu.Item key={index} onClick={() => setCurrentVideo(item.value)}>
+                      <Text>{item.label}</Text>
+                    </Menu.Item>
+                  ))) || (
+                  <Menu.Item disabled>
+                    <Text>No available sources</Text>
+                  </Menu.Item>
+                )}
+              </Menu.Dropdown>
+            </Menu>
+          )}
+
           <div className='ml-auto flex gap-1 whitespace-nowrap sm:gap-2'>
             {isLoading ? (
               <div className='sm:w-18 h-6 w-16 sm:h-8'>

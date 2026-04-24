@@ -2,8 +2,8 @@
   "name": "mal-app",
   "private": true,
   "scripts": {
-    "dev:anime": "npm run dev --workspace=apps/anime",
-    "dev:stream": "npm run dev --workspace=apps/stream",
+    "dev:anime": "npm run dev:test --workspace=apps/anime",
+    "dev:stream": "npm run dev:test --workspace=apps/stream",
     "build:anime": "npm run build --workspace=apps/anime",
     "build:stream": "npm run build --workspace=apps/stream",
     "preview:anime": "npm run preview --workspace=apps/anime",
@@ -13,8 +13,5 @@
     "apps/anime",
     "apps/stream",
     "packages/shared"
-  ],
-  "dependencies": {
-    "clsx": "^2.1.1"
-  }
+  ]
 }
