@@ -3,7 +3,7 @@ export const getCurrentSeasonInfo = () => {
   const month = now.getMonth() // 0-11 (Januari adalah 0)
   const year = now.getFullYear()
 
-  let season = ''
+  let season
 
   // Logika pembagian bulan (0: Jan, 1: Feb, 2: Mar, dst)
   if (month >= 0 && month <= 2) {

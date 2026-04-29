@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useMemo, useRef } from 'react'
+import { Link, useNavigate, useParams } from 'react-router'
 
 import { useFetcher, useMobileDevice } from '@shared'
 
@@ -24,26 +24,27 @@ function titleCase(str) {
   return splitStr.join(' ')
 }
 
+const OPTIONS = {
+  // autoplay: true,
+  // fullscreen: false,
+  controls: true,
+  responsive: true,
+  fluid: true,
+  preload: 'metadata',
+  playbackRates: [0.5, 1, 1.5, 2, 2.5],
+  userActions: {
+    hotkeys: true,
+  },
+  // controlBar: {
+  //   pictureInPictureToggle: false,
+  // },
+}
+
 const Watch = () => {
   const mobile = useMobileDevice()
   const playerRef = useRef(null)
   const { id } = useParams()
   const navigate = useNavigate()
-  const [options, setOptions] = useState({
-    // autoplay: true,
-    // fullscreen: false,
-    controls: true,
-    responsive: true,
-    fluid: true,
-    preload: 'metadata',
-    playbackRates: [0.5, 1, 1.5, 2, 2.5],
-    userActions: {
-      hotkeys: true,
-    },
-    // controlBar: {
-    //   pictureInPictureToggle: false,
-    // },
-  })
 
   const handlePlayerReady = (player) => {
     playerRef.current = player
@@ -52,8 +53,10 @@ const Watch = () => {
   const url = `${VITE_EPISODE_URL}/anime/gogoanime/watch/${id}`
   const { data, isLoading, isError } = useFetcher(url, ['watch', id], true)
 
-  useEffect(() => {
-    if (data) {
+  const options = useMemo(() => {
+    if (!data) {
+      return OPTIONS
+    } else {
       let source = []
       let filter = data.sources.filter((item) => {
         if (item.quality === '1080p' || item.quality === 'backup') return true
@@ -63,12 +66,12 @@ const Watch = () => {
           src: item.url,
         })
       })
-      setOptions({
-        ...options,
+      return {
+        ...OPTIONS,
         sources: source,
-      })
+      }
     }
-  }, [isLoading, id])
+  }, [data])
 
   let findID = id.substring(0, id.indexOf('-episode'))
   let current = id.split('-').pop()

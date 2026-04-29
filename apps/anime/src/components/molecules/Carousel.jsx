@@ -7,14 +7,16 @@ const MyCarousel = ({ children, changeSlide = 'auto', slideGap = 'sm', slideSize
     <Carousel
       classNames={classes}
       withControls={withControls}
-      dragFree={drag}
       controlSize={40}
       slideSize={slideSize}
       slideGap={slideGap}
-      loop={loop}
-      align='start'
-      slidesToScroll={changeSlide}
-      className='relative'>
+      emblaOptions={{
+        dragFree: drag,
+        loop,
+        align: "start",
+        slidesToScroll: changeSlide,
+      }}
+      className="relative">
       {children}
     </Carousel>
   )

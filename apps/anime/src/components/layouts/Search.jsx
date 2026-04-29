@@ -1,10 +1,11 @@
 import { Button, Combobox, Group, InputBase, ScrollArea, Text, useCombobox } from '@mantine/core'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useRef, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 import { useMobileDevice } from '@shared'
+import useDebounce from '@shared/hooks/useDebounce'
 
 import { IconSearch } from '@tabler/icons-react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
@@ -14,28 +15,14 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 const MAIN_URL = import.meta.env.VITE_MAIN_SERVICE
 
 const CSearch = ({ setOpenedModal, openedModal = null }) => {
-  const { pathname } = useLocation()
   const navigate = useNavigate()
   const mobile = useMobileDevice()
 
   const [searchTerm, setSearchTerm] = useState('')
-  const [debouncedTerm, setDebouncedTerm] = useState('')
   const [isOpen, setIsOpen] = useState(openedModal ?? false)
   const searchRef = useRef(null)
 
-  useEffect(() => {
-    setSearchTerm('')
-    setDebouncedTerm('')
-  }, [pathname])
-
-  useEffect(() => {
-    if (searchTerm === '') {
-      setDebouncedTerm('')
-      return
-    }
-    const timer = setTimeout(() => setDebouncedTerm(searchTerm), 500)
-    return () => clearTimeout(timer)
-  }, [searchTerm])
+  const { debouncedValue: debouncedTerm, setDebouncedValue: setDebouncedTerm } = useDebounce(searchTerm, 500)
 
   const {
     data: dataMAL,
@@ -172,7 +159,7 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                 mobile ? setOpenedModal(false) : setIsOpen(false)
                 navigate(`/search/${searchTerm}`)
               }}>
-              <Button className='rounded-[0]' w='100%'>
+              <Button className='rounded-none' w='100%'>
                 Show Details
               </Button>
             </Combobox.Footer>

@@ -2,13 +2,13 @@ import { getStartDayWeekRange } from '../helpers'
 import { useAnimeSchedule } from '../hooks/useAnimeSchedule'
 
 import { AnimeCard } from '../components/layouts/AnimeCard'
+import AnimeCardLoading from '../components/loading/AnimeCard'
 
 import '../styles/season.css'
 
 const SchedulePage = () => {
   const { airingAtGreater, airingAtLesser } = getStartDayWeekRange()
 
-  // const { data: animeList, isLoading, isError, error } = useAnimeSchedule(1, airingAtGreater, airingAtLesser)
   const { data: animeList, isLoading, isError, error } = useAnimeSchedule(airingAtGreater, airingAtLesser)
 
   if (isError) return <div className='p-10 text-red-500'>Error: {error.message}</div>
@@ -19,7 +19,7 @@ const SchedulePage = () => {
         {isLoading ? (
           <div className='grid grid-cols-1 gap-3 py-2 md:py-4 lg:grid-cols-2 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4'>
             {Array.from({ length: 12 }).map((_, index) => (
-              <AnimeCard key={index} isLoading={true} />
+              <AnimeCardLoading key={index} />
             ))}
           </div>
         ) : (

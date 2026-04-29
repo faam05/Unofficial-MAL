@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useMobileDevice } from '@shared'
+import useDebounce from '@shared/hooks/useDebounce'
 
 import { Combobox, Group, InputBase, ScrollArea, Text, useCombobox } from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
@@ -19,23 +20,10 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
   const mobile = useMobileDevice()
 
   const [searchTerm, setSearchTerm] = useState('')
-  const [debouncedTerm, setDebouncedTerm] = useState('')
   const [isOpen, setIsOpen] = useState(openedModal ?? false)
   const searchRef = useRef(null)
 
-  useEffect(() => {
-    setSearchTerm('')
-    setDebouncedTerm('')
-  }, [pathname])
-
-  useEffect(() => {
-    if (searchTerm === '') {
-      setDebouncedTerm('')
-      return
-    }
-    const timer = setTimeout(() => setDebouncedTerm(searchTerm), 500)
-    return () => clearTimeout(timer)
-  }, [searchTerm])
+  const { debouncedValue: debouncedTerm, setDebouncedValue: setDebouncedTerm } = useDebounce(searchTerm, 500)
 
   const {
     data: dataSearch,

@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 import { useMobileDevice } from '@shared'
 
-import DetailMobile from '../components/layouts/detail/Mobile'
 import DetailDesktop from '../components/layouts/detail/Desktop'
+import DetailMobile from '../components/layouts/detail/Mobile'
+import ErrorMessage from '../components/molecules/ErrorMessage'
 
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import 'react-loading-skeleton/dist/skeleton.css'

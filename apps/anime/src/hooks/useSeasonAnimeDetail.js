@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { formatAiringTime, formatStartDate, formatToAMPM } from '../helpers'
 
 export function useSeasonAnimeDetail(anime, isCurrentSeason) {

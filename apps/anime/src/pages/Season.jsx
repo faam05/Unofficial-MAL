@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 
 import { getCurrentSeasonInfo } from '../helpers/date'
 import { useAnimeSeason } from '../hooks/useAnimeSeason'
 
 import { AnimeCard } from '../components/layouts/AnimeCard'
+import AnimeCardLoading from '../components/loading/AnimeCard'
 
 import '../styles/season.css'
 
@@ -32,18 +33,16 @@ const SeasonPage = () => {
     threshold: 0.1, // Picu saat 10% elemen sensor terlihat
   })
 
-  const [allAnime, setAllAnime] = useState([])
-
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage()
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage])
 
-  useEffect(() => {
-    if (data && !isLoading) {
-      setAllAnime(data?.pages.flatMap((page) => page.Page.media) || [])
-    }
+  const allAnime = useMemo(() => {
+    if (!data || isLoading) return []
+
+    return data.pages.flatMap((page) => page.Page.media)
   }, [data, isLoading])
 
   if (isError) return <div className='p-10 text-red-500'>Error: {error.message}</div>
@@ -61,7 +60,7 @@ const SeasonPage = () => {
 
       <section className='grid grid-cols-1 gap-3 py-2 sm:grid-cols-2 md:py-4 xl:grid-cols-3 xl:gap-6 2xl:grid-cols-4'>
         {isLoading
-          ? Array.from({ length: 12 }).map((_, index) => <AnimeCard key={index} isLoading={true} />)
+          ? Array.from({ length: 12 }).map((_, index) => <AnimeCardLoading key={index} />)
           : allAnime.map((anime) => <AnimeCard key={anime.id} isCurrentSeason={season === anime.season} anime={anime} isLoading={isLoading} />)}
       </section>
 

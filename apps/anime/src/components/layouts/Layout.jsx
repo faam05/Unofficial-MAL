@@ -1,6 +1,6 @@
 import { IconCalendarEventFilled, IconFlower, IconHome, IconMessageCircle, IconSearch, IconVideo } from '@tabler/icons-react'
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router'
 
 import { useMobileDevice } from '@shared'
 import { WEB_TITLE } from '../../configs'

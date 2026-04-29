@@ -4,6 +4,7 @@ import { useDetail } from '@hooks/useDetail'
 
 import { Accordion, Anchor, Badge, Group, List, Spoiler, Text } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
+import ErrorMessage from '../../molecules/ErrorMessage'
 import InformationModal from '../../molecules/InformationModal'
 import Characters from '../Characters'
 import Recommendation from '../Recommendation'

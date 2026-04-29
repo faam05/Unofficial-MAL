@@ -1,14 +1,14 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import { useMobileDevice } from '@shared'
 
 import { Carousel } from '@mantine/carousel'
 import { Flex, Text } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
+import HomeLoading from '../components/loading/Home'
 import MyCarousel from '../components/molecules/Carousel'
 import CarouselCard from '../components/molecules/CarouselCard'
-import HomeLoading from '../components/loading/Home'
 
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -16,51 +16,6 @@ const { VITE_MAIN_SERVICE } = import.meta.env
 
 export default function Home() {
   const mobile = useMobileDevice()
-
-  // const [userLocation, setUserLocation] = useState(null)
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         const { latitude, longitude } = position.coords
-  //         fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`)
-  //           .then((response) => response.json())
-  //           .then((data) => {
-  //             console.log()
-  //             setUserLocation(`${data.countryCode.toLowerCase()}-${data.countryCode.toUpperCase()}`)
-  //           })
-  //           .catch((error) => console.error('Error fetching location:', error))
-  //       },
-  //       (error) => {
-  //         console.error('Error getting location:', error)
-  //       }
-  //     )
-  //   } else {
-  //     console.error('Geolocation is not supported by this browser.')
-  //   }
-  // }, [])
-
-  // const test = useCallback(async () => {
-  //   try {
-  //     // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/fitur/MSBO`, {
-  //     // let res = await fetch(`https://msmiledev.bankmega.com/service/backoffice/gate/logout`, {
-  //     //   method: 'POST',
-  //     //   // headers: {
-  //     //   //   'Content-Type': 'application/json',
-  //     //   // },
-  //     //   // body: JSON.stringify({
-  //     //   //   accountUsername: 'faam00',
-  //     //   // }),
-  //     // })
-  //     // return await res.json()
-  //   } catch (error) {
-  //     return error
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   let data = test()
-  // }, [])
 
   const getDate = new Date()
   const date = getDate.toLocaleString('en-EN', { weekday: 'long' })

@@ -1,5 +1,5 @@
 import { useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 import { useFetcher } from '@shared'
 
@@ -155,7 +155,9 @@ export default function Information({ data, loading }) {
                   .filter((item) => item.title.toLowerCase().includes('op'))
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
-                      <Image w={100} h={55} src={item.video.images.image_url} alt={item.title?.replace(/[ , -]/g, '_')} />
+                      {item.video.images.image_url && (
+                        <Image w={100} h={55} src={item.video.images.image_url} alt={item.title?.replace(/[ , -]/g, '_')} />
+                      )}
                       <div className='ml-auto text-right'>
                         <Text fz={12}>{item.title}</Text>
                         <Text fz={10}>{item.meta.title && item.meta.author ? `${item.meta.title} by ${item.meta.author}` : 'N/A'}</Text>
@@ -178,7 +180,7 @@ export default function Information({ data, loading }) {
               {queryVideos.isLoading ? (
                 Array(3)
                   .fill()
-                  .map((item, index) => (
+                  .map((_, index) => (
                     <Flex key={index} mb={10}>
                       <Skeleton height={55} width={100} />
                       <div className='ml-auto text-right'>
@@ -194,7 +196,9 @@ export default function Information({ data, loading }) {
                   .filter((item) => item.title.toLowerCase().includes('ed'))
                   .map((item, index) => (
                     <Flex key={index} mb={10}>
-                      <Image w={100} h={55} src={item.video.images.image_url} alt={item.meta?.title?.replace(/[ , -]/g, '_')} />
+                      {item.video.images.image_url && (
+                        <Image w={100} h={55} src={item.video.images.image_url} alt={item.meta?.title?.replace(/[ , -]/g, '_')} />
+                      )}
                       <div className='ml-auto text-right'>
                         <Text fz={12}>{item.title}</Text>
                         <Text fz={10}>

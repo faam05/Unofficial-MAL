@@ -8,6 +8,7 @@ import Skeleton from 'react-loading-skeleton'
 import Characters from '../Characters'
 import Staff from '../Staff'
 import Information from './../Information'
+import ErrorMessage from '../../molecules/ErrorMessage'
 
 const DetailDesktop = ({ id }) => {
   const { data, isLoading, isError, activeTab, setActiveTab } = useDetail(id)

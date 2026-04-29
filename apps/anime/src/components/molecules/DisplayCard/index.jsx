@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import { useMobileDevice } from '@shared'
 
@@ -41,14 +41,14 @@ const DisplayCard = ({ data }) => {
                       {item.studios.length > 0
                         ? item.studios.map((studio, index) => {
                             return (
-                              <Badge key={index} className='max-w-[calc(100%-0px)]' variant='light' color='gray' size={!mobile ? 'md' : 'xs'}>
+                              <Badge key={index} className='max-w-[calc(100%-0)]' variant='light' color='gray' size={!mobile ? 'md' : 'xs'}>
                                 {studio.name}
                               </Badge>
                             )
                           })
                         : item.producers.map((item, index) => {
                             return (
-                              <Badge key={index} className='max-w-[calc(100%-0px)]' variant='light' color='gray'>
+                              <Badge key={index} className='max-w-[calc(100%-0)]' variant='light' color='gray'>
                                 {item.name}
                               </Badge>
                             )
