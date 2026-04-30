@@ -10,7 +10,7 @@ import App from './App'
 
 import '@mantine/carousel/styles.css'
 import '@mantine/core/styles.css'
-import './styles/main.css'
+import '@shared/styles/main.css'
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import Skeleton from 'react-loading-skeleton'
 
@@ -11,7 +11,7 @@ const HomePage = ({ dataAnime, isLoadingAnime, dataMovie, isLoadingMovie }) => {
     <div className='size-full space-y-4'>
       <section>
         <div className='flex items-center justify-between border-b'>
-          <h2 className='border-b font-bold'>{isLoadingAnime ? <Skeleton /> : 'On Going Anime'}</h2>
+          <h2 className='font-bold'>{isLoadingAnime ? <Skeleton /> : 'On Going Anime'}</h2>
           <NavLink to='/list-all?type=ongoing' className='text-red-500'>
             See All
           </NavLink>

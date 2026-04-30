@@ -1,12 +1,12 @@
 import { AppShell, Burger, Button, Container, Flex, Group, Menu, Modal, rem } from '@mantine/core'
 import { IconHome, IconListDetails, IconSearch, IconVideo } from '@tabler/icons-react'
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router'
 
 import { useMobileDevice } from '@shared'
 import { WEB_TITLE } from '../../configs'
 
-import Footer from './Footer'
+import { Footer } from '@shared/components'
 import ScrollButton from './ScrollButton'
 import CSearch from './Search'
 

@@ -1,18 +1,16 @@
-import { useEffect, useState } from 'react'
-import Skeleton from 'react-loading-skeleton'
+import { useState } from 'react'
 
 import { Button, Menu, Text } from '@mantine/core'
+import Skeleton from 'react-loading-skeleton'
 
 import 'react-loading-skeleton/dist/skeleton.css'
 
 const EpisodeLayout = ({ data, isLoading, isError }) => {
-  const [currentVideo, setCurrentVideo] = useState(null)
+  const initialVideo = data?.data?.video_player
 
-  useEffect(() => {
-    if (data?.data?.video_player) {
-      setCurrentVideo(data.data.video_player)
-    }
-  }, [data?.data?.video_player])
+  const [selectedVideo, setCurrentVideo] = useState(null)
+
+  const currentVideo = selectedVideo ?? initialVideo
 
   const qualities = !isLoading && !isError ? Object.keys(data?.data?.mirrors ?? {}) : []
 

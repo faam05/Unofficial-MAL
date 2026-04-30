@@ -1,7 +1,7 @@
 import { Group, Pagination, Text } from '@mantine/core'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Skeleton from 'react-loading-skeleton'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import 'react-lazy-load-image-component/src/effects/blur.css'
 

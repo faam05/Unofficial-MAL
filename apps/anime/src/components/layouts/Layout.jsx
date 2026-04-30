@@ -6,7 +6,8 @@ import { useMobileDevice } from '@shared'
 import { WEB_TITLE } from '../../configs'
 
 import { AppShell, Burger, Button, Container, Flex, Group, Menu, Modal, rem } from '@mantine/core'
-import Footer from './Footer'
+
+import { Footer } from '@shared/components'
 import ScrollButton from './ScrollButton'
 import CSearch from './Search'
 
@@ -88,7 +89,7 @@ export function Layout({ children }) {
         </Container>
       </AppShell.Header>
 
-      <AppShell.Main className='pb-[60px]'>
+      <AppShell.Main className='pb-15'>
         <Container h={'100%'} size={!mobile && 1536} p={mobile && 0}>
           {children}
           <ScrollButton type={'mal'} />

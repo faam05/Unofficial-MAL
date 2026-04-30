@@ -1,13 +1,13 @@
 import { Group, Pagination, Text } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 import ImageWithSkeleton from '../ui/ImageWithSkeleton'
 
 const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPages }) => {
   return (
     <>
       <h1 className='border-b font-bold'>{isLoading ? <Skeleton /> : title}</h1>
-      <div className='mt-2 grid grid-cols-3 gap-1 sm:grid-cols-3 md:grid-cols-5'>
+      <section className='mt-2 grid grid-cols-3 gap-1 sm:grid-cols-3 md:grid-cols-5'>
         {isLoading
           ? Array(15)
               .fill()
@@ -46,7 +46,7 @@ const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPag
                 </Text>
               </NavLink>
             ))}
-      </div>
+      </section>
 
       {!isLoading && (
         <>
