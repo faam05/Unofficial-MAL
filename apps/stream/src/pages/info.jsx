@@ -12,10 +12,9 @@ const InfoAnime = () => {
 
   const type = params.get('type') || 'anime'
 
-  let queryKey = ['stream-anime-info', slug]
-  let url = `${VITE_MAIN_SERVICE}/anime?slug=${slug}`
-
   const queryClient = useQueryClient()
+
+  let queryKey, url
 
   switch (type) {
     case 'movie':

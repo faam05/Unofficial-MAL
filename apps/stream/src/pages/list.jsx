@@ -77,7 +77,17 @@ const List = () => {
     )
   }
 
-  return <ListPage data={data} isLoading={isLoading} activePage={activePage} handleChangePage={handleChangePage} title={title} maxPages={maxPages} />
+  return (
+    <ListPage
+      data={data}
+      isLoading={isLoading}
+      activePage={activePage}
+      handleChangePage={handleChangePage}
+      title={title}
+      maxPages={maxPages}
+      type={type}
+    />
+  )
 }
 
 export default List

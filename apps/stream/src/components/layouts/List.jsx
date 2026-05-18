@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton'
 import { NavLink } from 'react-router'
 import ImageWithSkeleton from '../ui/ImageWithSkeleton'
 
-const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPages }) => {
+const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPages, type }) => {
   return (
     <>
       <h1 className='border-b font-bold'>{isLoading ? <Skeleton /> : title}</h1>
@@ -15,7 +15,7 @@ const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPag
           : data.map((item) => (
               <NavLink
                 key={`${item.slug}_${item.current_episode}`}
-                to={`/anime/${item.slug}`}
+                to={`/anime/${item.slug}?type=${type}`}
                 className='relative overflow-hidden rounded-md text-xs text-white'>
                 <ImageWithSkeleton
                   src={item.thumbnail}
