@@ -19,4 +19,10 @@ export default defineConfig({
       '@shared': path.resolve(__dirname, '../../packages/shared'),
     },
   },
+
+  server: {
+    allowedHosts: ['stream.test'], // Sesuaikan dengan domain di file hosts tadi
+    host: 'stream.test', // Sesuaikan dengan domain di file hosts tadi
+    port: 5174, // Kamu bisa ubah port-nya sesuka hati (opsional)
+  },
 })
