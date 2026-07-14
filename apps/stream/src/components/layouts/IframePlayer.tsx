@@ -9,27 +9,33 @@ export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  useEffect(() => {
-    // Reset state setiap kali URL src berubah
-    setIsBlocked(false)
+  // Gunakan ref untuk melacak apakah iframe SUDAH berhasil dimuat
+  const hasLoadedSuccessfully = useRef<boolean>(false)
 
-    // Batas waktu deteksi (4 detik)
-    const TIMEOUT_LIMIT = 4000
+  useEffect(() => {
+    // Reset setiap kali src berubah
+    setIsBlocked(false)
+    hasLoadedSuccessfully.current = false
+
+    // Timeout untuk mendeteksi CSP (jika dalam 4.5 detik tidak ada tanda-tanda sukses)
+    const TIMEOUT_LIMIT = 4500
 
     const timeoutId = setTimeout(() => {
+      // Jika iframe sudah berhasil memicu onLoad dengan aman, batalkan pemblokiran
+      if (hasLoadedSuccessfully.current) return
+
       const iframe = iframeRef.current
       if (!iframe) return
 
       try {
-        // Jika diblokir oleh CSP frame-ancestors di Prod, baris ini akan melempar error Cross-Origin
+        // Cek apakah halaman kosong (Ciri khas CSP Block di beberapa browser)
         const iframeDoc = iframe.contentWindow?.document
-
-        // Cek tambahan jika tidak melempar error tapi halaman kosong/blank putih
         if (!iframeDoc || iframeDoc.body.innerHTML === '') {
           setIsBlocked(true)
         }
       } catch (error) {
-        console.warn('Iframe terdeteksi diblokir oleh aturan CSP/Cross-Origin:', error)
+        // Jika cross-origin diblokir total oleh CSP sejak awal (tidak memicu onLoad sama sekali)
+        console.warn('Mencurigai pemblokiran CSP karena timeout habis:', error)
         setIsBlocked(true)
       }
     }, TIMEOUT_LIMIT)
@@ -38,14 +44,8 @@ export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player
   }, [src])
 
   const handleLoad = () => {
-    try {
-      // Cek instan saat event load terpicu (berhasil diakses biasanya hanya di localhost/dev)
-      if (iframeRef.current?.contentWindow?.location.href) {
-        setIsBlocked(false)
-      }
-    } catch (e) {
-      setIsBlocked(true)
-    }
+    hasLoadedSuccessfully.current = true
+    setIsBlocked(false)
   }
 
   return (
