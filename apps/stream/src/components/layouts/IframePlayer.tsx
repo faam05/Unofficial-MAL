@@ -1,4 +1,7 @@
-import { type FC, useState, useEffect, useRef } from 'react'
+import clsx from 'clsx'
+import { type FC, useEffect, useRef, useState } from 'react'
+
+import Skeleton from 'react-loading-skeleton'
 
 interface IframePlayerProps {
   src: string
@@ -8,11 +11,13 @@ interface IframePlayerProps {
 export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player' }) => {
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const hasLoadedSuccessfully = useRef<boolean>(false)
 
   useEffect(() => {
     // Reset setiap kali src berubah
+    setIsLoading(true)
     setIsBlocked(false)
     hasLoadedSuccessfully.current = false
 
@@ -21,7 +26,10 @@ export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player
 
     const timeoutId = setTimeout(() => {
       // Jika iframe sudah berhasil memicu onLoad dengan aman, batalkan pemblokiran
-      if (hasLoadedSuccessfully.current) return
+      if (hasLoadedSuccessfully.current) {
+        setIsLoading(false)
+        return
+      }
 
       const iframe = iframeRef.current
       if (!iframe) return
@@ -36,6 +44,8 @@ export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player
         // Jika cross-origin diblokir total oleh CSP sejak awal (tidak memicu onLoad sama sekali)
         console.warn('Mencurigai pemblokiran CSP karena timeout habis:', error)
         setIsBlocked(true)
+      } finally {
+        setIsLoading(false)
       }
     }, TIMEOUT_LIMIT)
 
@@ -49,12 +59,17 @@ export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player
 
   return (
     <div className='relative w-full'>
+      {isLoading && <Skeleton className='min-h-50 lg:h-125 h-fit w-full rounded-lg' />}
+
       <iframe
         ref={iframeRef}
         src={src}
         title={title}
         onLoad={handleLoad}
-        className={`min-h-50 lg:h-125 h-fit w-full rounded-lg border-none bg-black ${isBlocked ? 'hidden' : 'block'}`}
+        className={clsx('min-h-50 lg:h-125 h-fit w-full rounded-lg border-none bg-black', {
+          hidden: isBlocked || isLoading,
+          block: !isBlocked && !isLoading,
+        })}
         allowFullScreen
         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
         loading='eager'
