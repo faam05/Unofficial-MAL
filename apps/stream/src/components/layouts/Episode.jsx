@@ -4,6 +4,7 @@ import { Button, Menu, Text } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
 
 import 'react-loading-skeleton/dist/skeleton.css'
+import { IframePlayer } from './IframePlayer'
 
 const EpisodeLayout = ({ data, isLoading, isError }) => {
   const initialVideo = data?.data?.video_player
@@ -25,13 +26,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
           {isLoading || !currentVideo ? (
             <Skeleton className='h-[200px] md:h-[400px]' />
           ) : (
-            <iframe
-              src={currentVideo}
-              className='h-[200px] w-full rounded-xl md:h-[400px]'
-              allowFullScreen
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
-              loading='eager'
-            />
+            <IframePlayer src={currentVideo} title={data?.data?.judul} />
           )}
         </div>
 

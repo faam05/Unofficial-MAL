@@ -138,7 +138,7 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
         <div className='mt-3 bg-[#e1e7f5] p-2 font-semibold'>
           <h1>{isLoading ? <Skeleton /> : `${resp.info.judul} Episode List`}</h1>
         </div>
-        <div className='bg-[#bac0ff] '>
+        <div className='flex flex-col bg-[#bac0ff]'>
           {isLoading ? (
             <Skeleton />
           ) : resp.episodes.length > 0 ? (
@@ -156,8 +156,9 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
               }
 
               return (
-                <NavLink key={item.slug} to={url}>
-                  <p className={`p-2 ${index % 2 == 1 && 'bg-slate-200'}`}>{item.judul}</p>
+                <NavLink key={item.slug} to={url} className={`p-2${index % 2 == 1 ? ' bg-slate-200' : ''}`}>
+                  {/* <span>{item.judul}</span> */}
+                  {item.judul}
                 </NavLink>
               )
             })
@@ -179,7 +180,7 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
               ) : resp.batch.length > 0 ? (
                 resp.batch.map((item, index) => (
                   <NavLink key={item.slug} to={`/batch/${item.slug}`}>
-                    <p className={`p-2 ${index % 2 == 1 && 'bg-slate-200'}`}>{item.judul}</p>
+                    <span className={`p-2${index % 2 == 1 ? ' bg-slate-200' : ''}`}>{item.judul}</span>
                   </NavLink>
                 ))
               ) : (
