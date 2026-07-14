@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import { Button, Menu, Text } from '@mantine/core'
 import Skeleton from 'react-loading-skeleton'
+import { IframePlayer } from './IframePlayer'
 
 import 'react-loading-skeleton/dist/skeleton.css'
-import { IframePlayer } from './IframePlayer'
 
 const EpisodeLayout = ({ data, isLoading, isError }) => {
   const initialVideo = data?.data?.video_player
@@ -43,7 +43,11 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
                   <Menu.Dropdown>
                     {data?.data?.mirrors[quality]?.length > 0 ? (
                       data?.data?.mirrors[quality]?.map((item, index) => (
-                        <Menu.Item key={index} onClick={() => setCurrentVideo(item.url)}>
+                        <Menu.Item
+                          key={index}
+                          bg={item.url === currentVideo ? 'red' : ''}
+                          c={item.url === currentVideo ? 'white' : 'dark'}
+                          onClick={() => setCurrentVideo(item.url)}>
                           <Text>{item.label}</Text>
                         </Menu.Item>
                       ))
@@ -69,7 +73,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
                 {(data.data.mirror.length > 0 &&
                   data.data?.mirror?.map((item, index) => (
                     <Menu.Item key={index} onClick={() => setCurrentVideo(item.value)}>
-                      <Text>{item.label}</Text>
+                      <Text c={'red'}>{item.label}</Text>
                     </Menu.Item>
                   ))) || (
                   <Menu.Item disabled>

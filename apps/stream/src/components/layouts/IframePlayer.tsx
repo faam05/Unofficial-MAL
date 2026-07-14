@@ -9,7 +9,6 @@ export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player
   const [isBlocked, setIsBlocked] = useState<boolean>(false)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  // Gunakan ref untuk melacak apakah iframe SUDAH berhasil dimuat
   const hasLoadedSuccessfully = useRef<boolean>(false)
 
   useEffect(() => {
@@ -55,20 +54,20 @@ export const IframePlayer: FC<IframePlayerProps> = ({ src, title = 'Video Player
         src={src}
         title={title}
         onLoad={handleLoad}
-        className={`min-h-50 h-fit w-full rounded-lg border-none bg-black ${isBlocked ? 'hidden' : 'block'}`}
+        className={`min-h-50 lg:h-125 h-fit w-full rounded-lg border-none bg-black ${isBlocked ? 'hidden' : 'block'}`}
         allowFullScreen
         allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope'
         loading='eager'
       />
 
       {isBlocked && (
-        <div className='min-h-50 mx-auto flex h-fit max-w-2xl flex-col rounded-lg border border-red-200 bg-red-50 p-8 text-center shadow-sm'>
+        <div className='min-h-50 lg:h-125 mx-auto flex h-fit max-w-2xl flex-col justify-center gap-8 rounded-lg border border-red-200 bg-red-50 p-8 text-center shadow-sm'>
           <h3 className='mb-2 mt-0 text-xl font-bold text-red-600'>Gagal Memutar Video</h3>
           <a
             href={src}
             target='_blank'
             rel='noopener noreferrer'
-            className='mt-auto inline-block rounded-md bg-red-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700'>
+            className='inline-block rounded-md bg-red-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-colors duration-200 hover:bg-red-700'>
             Tonton Langsung ↗
           </a>
         </div>
