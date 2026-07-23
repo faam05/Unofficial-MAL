@@ -17,7 +17,7 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
     <div className='size-full space-y-4'>
       <section>
         <div className='flex items-center justify-between border-b'>
-          <h2 className='font-bold'>{isLoadingAnime ? <Skeleton /> : 'On Going Anime'}</h2>
+          {isLoadingAnime ? <Skeleton width={150} height={14} className='h-10 w-10' /> : <h2 className='font-bold'>On Going Anime</h2>}
           <NavLink to='/list-all?type=ongoing' className='text-red-500'>
             See All
           </NavLink>
@@ -76,7 +76,7 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
 
       <section>
         <div className='flex items-center justify-between border-b'>
-          <h2 className='font-bold'>{isLoadingMovie ? <Skeleton /> : 'Movie'}</h2>
+          {isLoadingMovie ? <Skeleton width={150} height={14} className='h-10 w-10' /> : <h2 className='font-bold'>Movie</h2>}
           <NavLink to='/list-all?type=movie' className='text-red-500'>
             See All
           </NavLink>
