@@ -6,7 +6,7 @@ import Skeleton from 'react-loading-skeleton'
 
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
-const LoadingSkeleton = ({ count = 15 }) => {
+const LoadingSkeleton = ({ count = 10 }) => {
   return Array(count)
     .fill()
     .map((_, index) => <Skeleton key={index} className='h-28 max-h-[220px] sm:h-36 md:h-[220px]' />)
