@@ -184,7 +184,7 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
                   </NavLink>
                 ))
               ) : (
-                <p>Batch Not Found</p>
+                <span>Batch Not Found</span>
               )}
             </p>
           </div>

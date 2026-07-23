@@ -1,6 +1,9 @@
 import { useState } from 'react'
 
+import { useMobileDevice } from '@shared/hooks/useMobileDevice'
+
 import { Button, Menu, Text } from '@mantine/core'
+import { IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled } from '@tabler/icons-react'
 import Skeleton from 'react-loading-skeleton'
 import { IframePlayer } from './IframePlayer'
 
@@ -8,6 +11,8 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const EpisodeLayout = ({ data, isLoading, isError }) => {
   const initialVideo = data?.data?.video_player
+
+  const isMobile = useMobileDevice()
 
   const [selectedVideo, setCurrentVideo] = useState(null)
 
@@ -30,7 +35,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
           )}
         </div>
 
-        <div className='sm: flex items-center justify-between gap-1 overflow-x-auto p-2 sm:gap-2 sm:p-3'>
+        <div className='my-2 flex items-center justify-between gap-1 overflow-x-auto sm:my-3 sm:gap-2'>
           {qualities.length > 0 && (
             <div className='flex size-full items-center gap-1 sm:gap-2'>
               {qualities.map((quality) => (
@@ -86,25 +91,25 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
 
           <div className='ml-auto flex gap-1 whitespace-nowrap sm:gap-2'>
             {isLoading ? (
-              <div className='sm:w-18 h-6 w-16 sm:h-8'>
+              <div className='h-6 w-16 sm:h-8 sm:w-18'>
                 <Skeleton inline className='size-full' />
               </div>
             ) : (
               data?.data?.prev_episode && (
                 <Button component='a' size='compact-sm' variant='outline' color='red' href={`/episode/${data.data.prev_episode}`}>
-                  Previous Eps.
+                  {isMobile ? <IconPlayerTrackPrevFilled stroke={2} /> : 'Prev Eps.'}
                 </Button>
               )
             )}
 
             {isLoading ? (
-              <div className='sm:w-18 h-6 w-16 sm:h-8'>
+              <div className='h-6 w-16 sm:h-8 sm:w-18'>
                 <Skeleton inline className='size-full' />
               </div>
             ) : (
               data?.data?.next_episode && (
                 <Button component='a' size='compact-sm' variant='outline' href={`/episode/${data.data.next_episode}`}>
-                  Next Eps.
+                  {isMobile ? <IconPlayerTrackNextFilled stroke={2} /> : 'Next Eps.'}
                 </Button>
               )
             )}
