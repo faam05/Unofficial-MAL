@@ -30,25 +30,18 @@ const Home = () => {
     select: (res) => res.data.movie,
   })
 
-  if (!isAnimeLoading && (typeof animeData !== 'object' || !animeData || isAnimeError)) {
-    return (
-      <div className='flex flex-col items-center'>
-        <p>There was an error, please refresh or click Retry Button</p>
-        <button onClick={() => refetchAnime()}>Retry</button>
-      </div>
-    )
-  }
-
-  if (!isMovieLoading && (typeof movieData !== 'object' || !movieData || isMovieError)) {
-    return (
-      <div className='flex flex-col items-center'>
-        <p>There was an error, please refresh or click Retry Button</p>
-        <button onClick={() => refetchMovie()}>Retry</button>
-      </div>
-    )
-  }
-
-  return <HomePage dataAnime={animeData} isLoadingAnime={isAnimeLoading} dataMovie={movieData} isLoadingMovie={isMovieLoading} />
+  return (
+    <HomePage
+      dataAnime={animeData}
+      isLoadingAnime={isAnimeLoading}
+      isAnimeError={isAnimeError}
+      refetchAnime={refetchAnime}
+      dataMovie={movieData}
+      isLoadingMovie={isMovieLoading}
+      isMovieError={isMovieError}
+      refetchMovie={refetchMovie}
+    />
+  )
 }
 
 export default Home
