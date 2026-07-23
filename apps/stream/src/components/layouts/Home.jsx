@@ -50,9 +50,9 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
                     }}
                     className='size-full object-cover duration-500 hover:scale-110'
                   />
-                  <p className='absolute top-0 bg-black bg-opacity-70 p-0.5 sm:text-sm'>{item.episode}</p>
-                  <p className='absolute top-1/2 bg-red-500 bg-opacity-70 p-0.5 sm:text-sm'>{item.tanggal}</p>
-                  <p className='absolute right-0 top-0 hidden bg-black bg-opacity-70 p-0.5 sm:block'>{item.hari}</p>
+                  <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>{item.episode}</p>
+                  <p className='bg-opacity-70 absolute top-1/2 bg-red-500 p-0.5 sm:text-sm'>{item.tanggal}</p>
+                  <p className='bg-opacity-70 absolute top-0 right-0 hidden bg-black p-0.5 sm:block'>{item.hari}</p>
                   <Text
                     lineClamp={1}
                     fz={12}
@@ -108,9 +108,9 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
                   }}
                   className='size-full object-cover duration-500 hover:scale-110'
                 />
-                <p className='absolute top-0 bg-black bg-opacity-70 p-0.5 sm:text-sm'>{item.episode}</p>
-                <p className='absolute top-1/2 bg-red-500 bg-opacity-70 p-0.5 sm:text-sm'>{item.tanggal}</p>
-                <p className='absolute right-0 top-0 hidden bg-black bg-opacity-70 p-0.5 sm:block'>{item.hari}</p>
+                <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>{item.episode}</p>
+                <p className='bg-opacity-70 absolute top-1/2 bg-red-500 p-0.5 sm:text-sm'>{item.tanggal}</p>
+                <p className='bg-opacity-70 absolute top-0 right-0 hidden bg-black p-0.5 sm:block'>{item.hari}</p>
                 <Text
                   lineClamp={1}
                   fz={12}

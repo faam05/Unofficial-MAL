@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@source '../../**/*.{js,jsx,ts,tsx}';
+
 @layer base {
   @font-face {
     font-family: 'Nunito';
