@@ -21,8 +21,8 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
   const qualities = !isLoading && !isError ? Object.keys(data?.data?.mirrors ?? {}) : []
 
   return (
-    <div className='rounded bg-[#fafafa] p-2'>
-      <section>
+    <div className='size-full rounded bg-[#fafafa] p-2'>
+      <section className='size-full'>
         <div className='rounded bg-[#e1e7f5] p-2 md:text-center'>
           <h1 className='md:text-md text-sm font-bold'>{isLoading ? <Skeleton /> : data?.data?.judul}</h1>
         </div>
@@ -35,7 +35,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
           )}
         </div>
 
-        <div className='my-2 flex items-center justify-between gap-1 overflow-x-auto sm:my-3 sm:gap-2'>
+        <div className='flex items-center justify-between gap-1 overflow-x-auto py-2 sm:my-3 sm:gap-2'>
           {qualities.length > 0 && (
             <div className='flex size-full items-center gap-1 sm:gap-2'>
               {qualities.map((quality) => (
