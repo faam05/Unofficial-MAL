@@ -17,8 +17,6 @@ const isCloudServer = VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
 const EpisodeLayout = ({ data, isLoading, isError }) => {
   const initialVideo = isCloudServer ? data?.defaultStreamingUrl : data?.video_player
 
-  console.log('EpisodeLayout props:', data, isLoading, isError, initialVideo)
-
   const isMobile = useMobileDevice()
 
   const [selectedVideo, setCurrentVideo] = useState(null)

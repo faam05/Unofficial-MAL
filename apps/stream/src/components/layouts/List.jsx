@@ -9,7 +9,6 @@ const { VITE_USE_SERVER_ANIME } = import.meta.env
 const isCloudServer = VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
 
 const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPages, type }) => {
-  console.log('ListPage props:', data, isLoading, activePage, title, maxPages, type)
   return (
     <>
       <h1 className='border-b font-bold'>{isLoading ? <Skeleton /> : title}</h1>
