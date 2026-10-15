@@ -222,16 +222,16 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
         </div>
       </section>
 
-      {!isLoading && resp.batch && (
+      {/* {!isLoading && resp.batch && (
         <section>
           <div className='mt-3 bg-[#e1e7f5] p-2 font-semibold'>
-            <h1>{isLoading ? <Skeleton /> : `${resp.info.judul} Batch`}</h1>
+            <h1>{isLoading ? <Skeleton /> : `${resp.info?.judul || resp.title} Batch`}</h1>
           </div>
           <div className='md:text-md bg-[#bac0ff] p-2 text-xs sm:text-sm'>
             <p>
               {isLoading ? (
                 <Skeleton />
-              ) : resp.batch.length > 0 ? (
+              ) : resp.batch?.length > 0 ? (
                 resp.batch.map((item, index) => (
                   <NavLink key={item.slug} to={`/batch/${item.slug}`}>
                     <span className={`p-2${index % 2 == 1 ? ' bg-slate-200' : ''}`}>{item.judul}</span>
@@ -243,7 +243,7 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
             </p>
           </div>
         </section>
-      )}
+      )} */}
     </div>
   )
 }
