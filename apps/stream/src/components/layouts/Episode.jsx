@@ -73,7 +73,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
             <div className='flex size-full items-center gap-1 sm:gap-2'>
               {isCloudServer
                 ? qualities.map((quality) => (
-                    <Menu key={quality} shadow='md' width={200}>
+                    <Menu key={quality.title} shadow='md' width={200}>
                       <Menu.Target>
                         <Button size='compact-sm' variant='outline' color='grape'>
                           {quality.title}
@@ -156,7 +156,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
               </div>
             ) : (
               (data?.prev_episode || data?.prevEpisode) && (
-                <NavLink to={`/episode/${data?.prev_episode || data?.prevEpisode}`}>
+                <NavLink to={`/episode/${data?.prev_episode || data?.prevEpisode.episodeId}`}>
                   <Button size='compact-sm' variant='outline' color='red'>
                     {isMobile ? <IconPlayerTrackPrevFilled stroke={2} /> : 'Prev Eps.'}
                   </Button>
