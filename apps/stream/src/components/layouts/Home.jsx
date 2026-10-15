@@ -13,8 +13,11 @@ const LoadingSkeleton = ({ count = 10 }) => {
     .map((_, index) => <Skeleton key={index} className='h-28 max-h-[220px] sm:h-36 md:h-[220px]' />)
 }
 
+const isCloudServer = import.meta.env.VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
+
 const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataMovie, isLoadingMovie, isMovieError, refetchMovie }) => {
   const mobile = useMobileDevice()
+
   return (
     <div className='size-full space-y-4'>
       <section>
@@ -37,12 +40,12 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
           ) : (
             dataAnime?.slice(0, mobile ? 9 : 10).map((item) => (
               <NavLink
-                key={`${item.slug}_${item.current_episode}`}
-                to={`/anime/${item.slug}`}
+                key={isCloudServer ? `${item.animeId}_${item.episodes}` : `${item.slug}_${item.current_episode}`}
+                to={isCloudServer ? `/anime/${item.animeId}` : `/anime/${item.slug}`}
                 className='relative overflow-hidden rounded-md text-xs text-white'>
                 <LazyLoadImage
-                  src={item.thumbnail}
-                  placeholderSrc={item.thumbnail}
+                  src={item.thumbnail ?? item.poster}
+                  placeholderSrc={item.thumbnail ?? item.poster}
                   // effect='blur'
                   // width={160}
                   // height={220}
@@ -51,9 +54,9 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
                   }}
                   className='size-full object-cover duration-500 hover:scale-110'
                 />
-                <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>{item.episode}</p>
-                <p className='bg-opacity-70 absolute top-1/2 bg-red-500 p-0.5 sm:text-sm'>{item.tanggal}</p>
-                <p className='bg-opacity-70 absolute top-0 right-0 hidden bg-black p-0.5 sm:block'>{item.hari}</p>
+                <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>{isCloudServer ? `Episode ${item.episodes}` : item.episode}</p>
+                <p className='bg-opacity-70 absolute top-1/2 bg-red-500 p-0.5 sm:text-sm'>{isCloudServer ? item.latestReleaseDate : item.tanggal}</p>
+                <p className='bg-opacity-70 absolute top-0 right-0 hidden bg-black p-0.5 sm:block'>{isCloudServer ? item.releaseDay : item.hari}</p>
                 <Text
                   lineClamp={1}
                   fz={12}
@@ -68,7 +71,7 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
                     // whiteSpace: 'nowrap',
                     boxShadow: '0 5px 0 #000',
                   }}>
-                  {item.judul}
+                  {item.judul ?? item.title}
                 </Text>
               </NavLink>
             ))

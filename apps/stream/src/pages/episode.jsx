@@ -4,7 +4,9 @@ import { useParams, useSearchParams } from 'react-router'
 
 import EpisodeLayout from '../components/layouts/Episode'
 
-const { VITE_MAIN_SERVICE } = import.meta.env
+const { VITE_MAIN_SERVICE, VITE_USE_SERVER_ANIME, VITE_MAIN_SERVICE_CLOUD } = import.meta.env
+
+const isCloudServer = VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
 
 const Episode = () => {
   const { slug } = useParams()
@@ -22,12 +24,24 @@ const Episode = () => {
 
     default:
       // anime
+      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/episode/${slug}`
       url = `${VITE_MAIN_SERVICE}/episode?slug=${slug}`
   }
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['stream-episode', slug],
     queryFn: async () => await axios(url),
+    select: (res) => {
+      switch (type) {
+        case 'movie':
+          return res.data
+
+        default:
+          // anime
+          if (isCloudServer) return res.data.data
+          else return res.data
+      }
+    },
   })
 
   if (isError) {
