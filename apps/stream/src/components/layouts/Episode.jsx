@@ -39,14 +39,13 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
     }
   }, [pathname])
 
-  let qualities = []
-  if (!isLoading && !isError) {
-    if (isCloudServer) {
-      qualities = data.server.qualities
-    } else {
-      qualities = Object.keys(data?.mirrors ?? {}) || []
-    }
-  }
+  const qualities = useMemo(() => {
+    if (isLoading || isError) return []
+
+    if (isCloudServer) return data?.server?.qualities || []
+
+    return Object.keys(data?.mirrors ?? {}) || []
+  }, [data, isLoading, isError])
 
   const handleCloudChangeCurrentVideo = async (id) => {
     setSelectedCurrentVideoId(id)

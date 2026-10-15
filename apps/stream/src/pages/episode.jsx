@@ -25,7 +25,7 @@ const Episode = () => {
     default:
       // anime
       if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/episode/${slug}`
-      url = `${VITE_MAIN_SERVICE}/episode?slug=${slug}`
+      else url = `${VITE_MAIN_SERVICE}/episode?slug=${slug}`
   }
 
   const { data, isLoading, isError } = useQuery({
