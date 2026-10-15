@@ -4,7 +4,9 @@ import { useParams, useSearchParams } from 'react-router'
 
 import InfoPage from '../components/layouts/Info'
 
-const { VITE_MAIN_SERVICE } = import.meta.env
+const { VITE_MAIN_SERVICE, VITE_USE_SERVER_ANIME, VITE_MAIN_SERVICE_CLOUD } = import.meta.env
+
+const isCloudServer = VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
 
 const InfoAnime = () => {
   const { slug } = useParams()
@@ -26,7 +28,8 @@ const InfoAnime = () => {
     default:
       // anime
       queryKey = ['stream-anime-info', slug]
-      url = `${VITE_MAIN_SERVICE}/anime?slug=${slug}`
+      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/anime/${slug}`
+      else url = `${VITE_MAIN_SERVICE}/anime?slug=${slug}`
 
       break
   }
@@ -41,12 +44,13 @@ const InfoAnime = () => {
 
         default:
           // anime
-          return res.data
+          if (isCloudServer) return res.data.data
+          else return res.data
       }
     },
   })
 
-  if (isError || (data && !isLoading && !isError && !data.judul)) {
+  if (isError) {
     return (
       <div className='flex flex-col items-center'>
         <p>There was an error, please refresh or click Retry Button</p>

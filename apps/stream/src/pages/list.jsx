@@ -7,7 +7,9 @@ import ListPage from '../components/layouts/List'
 
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const { VITE_MAIN_SERVICE } = import.meta.env
+const { VITE_MAIN_SERVICE, VITE_USE_SERVER_ANIME, VITE_MAIN_SERVICE_CLOUD } = import.meta.env
+
+const isCloudServer = VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
 
 const List = () => {
   const [params, setSearchParams] = useSearchParams()
@@ -33,6 +35,7 @@ const List = () => {
   let queryKey
   let url = ''
   let title
+
   let maxPages = 2
 
   switch (type) {
@@ -46,9 +49,10 @@ const List = () => {
     default:
       // ongoing
       queryKey = ['stream-ongoing', activePage]
-      url = `${VITE_MAIN_SERVICE}/home?page=${activePage}`
+      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/ongoing-anime?page=${activePage}`
+      else url = `${VITE_MAIN_SERVICE_CLOUD}/home?page=${activePage}`
+
       title = 'On Going Anime'
-      maxPages = 5
 
       break
   }
@@ -63,12 +67,19 @@ const List = () => {
 
         default:
           // ongoing
-          return res.data.ongoing
+          if (isCloudServer) {
+            // eslint-disable-next-line react-hooks/immutability
+            maxPages = res.data.pagination.totalPages
+            return res.data.data.animeList
+          } else {
+            maxPages = 5
+            return res.data.ongoing
+          }
       }
     },
   })
 
-  if (!isLoading && (!data || isError)) {
+  if (!isLoading && isError) {
     return (
       <div className='flex flex-col items-center'>
         <p>There was an error, please refresh or click Retry Button</p>
