@@ -7,7 +7,9 @@
     "build:anime": "npm run build --workspace=apps/anime",
     "build:stream": "npm run build --workspace=apps/stream",
     "preview:anime": "npm run preview --workspace=apps/anime",
-    "preview:stream": "npm run preview --workspace=apps/stream"
+    "preview:stream": "npm run preview --workspace=apps/stream",
+    "test:anime": "npm run build --workspace=apps/anime && npm run preview --workspace=apps/anime",
+    "test:stream": "npm run build --workspace=apps/stream && npm run preview --workspace=apps/stream"
   },
   "workspaces": [
     "apps/anime",

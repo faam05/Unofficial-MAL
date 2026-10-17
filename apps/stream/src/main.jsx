@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router'
 
 import { ErrorBoundary } from '@shared/components/ErrorBoundary'
 import App from './App'
+import OfflineBanner from './components/layouts/OfflineBanner'
 
 import '@mantine/core/styles.css'
 import '@shared/styles/main.css'
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <QueryClientProvider client={queryClient}>
           <ErrorBoundary>
+            <OfflineBanner />
             <App />
           </ErrorBoundary>
           <ReactQueryDevtools initialIsOpen={false} />

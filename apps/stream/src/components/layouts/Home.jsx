@@ -1,9 +1,10 @@
 import { Text } from '@mantine/core'
-import { useMobileDevice } from '@shared'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import Skeleton from 'react-loading-skeleton'
 import { NavLink } from 'react-router'
 
-import Skeleton from 'react-loading-skeleton'
+import { useMobileDevice } from '@shared'
+import InstallButton from './InstallButton'
 
 import 'react-lazy-load-image-component/src/effects/blur.css'
 
@@ -20,6 +21,7 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
 
   return (
     <div className='size-full space-y-4'>
+      <InstallButton />
       <section>
         <div className='flex items-center justify-between border-b'>
           {isLoadingAnime ? <Skeleton width={150} height={14} className='h-10 w-10' /> : <h2 className='font-bold'>On Going Anime</h2>}
