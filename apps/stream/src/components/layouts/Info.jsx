@@ -5,21 +5,19 @@ import { NavLink } from 'react-router'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const isCloudServer = import.meta.env.VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
-
 const InfoPage = ({ data: resp, isLoading, type }) => {
   return (
     <div className='rounded bg-[#fafafa] text-xs sm:text-sm md:mx-auto md:p-2'>
       <section>
         <div className='rounded bg-[#e1e7f5] p-2 text-center text-xs sm:text-sm md:text-lg'>
-          <h1 className='truncate font-bold'>{isLoading ? <Skeleton /> : isCloudServer ? resp?.title : resp?.judul}</h1>
+          <h1 className='truncate font-bold'>{isLoading ? <Skeleton /> : resp?.title || resp?.judul}</h1>
         </div>
         <div className='md:flex md:justify-between'>
           <div className='mx-auto mt-2 w-fit'>
             {isLoading ? (
               <Skeleton height={220} width={160} />
             ) : (
-              <LazyLoadImage src={isCloudServer ? resp?.poster : resp?.thumbnail} effect='blur' className='h-[220px] w-[160px] object-cover' />
+              <LazyLoadImage src={resp?.poster || resp?.thumbnail} effect='blur' className='h-[220px] w-[160px] object-cover' />
             )}
           </div>
           <div className='flex-1 p-2 text-black'>
@@ -27,45 +25,21 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
               <h2>
                 <b className='inline-block sm:w-32'>Title</b>
                 <span>: </span>
-                <span>
-                  {isLoading ? (
-                    <Skeleton width={200} className='ml-2' />
-                  ) : isCloudServer ? (
-                    resp?.title || 'N/A'
-                  ) : (
-                    resp?.info?.judul || resp.info?.title || 'N/A'
-                  )}
-                </span>
+                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.title || resp?.info?.judul || resp?.info?.title || 'N/A'}</span>
               </h2>
             )}
             {!isLoading && (resp.info?.japanese || resp?.japanese) && (
               <h2>
                 <b className='inline-block sm:w-32'>Judul Synonim</b>
                 <span>: </span>
-                <span>
-                  {isLoading ? (
-                    <Skeleton width={200} className='ml-2' />
-                  ) : isCloudServer ? (
-                    resp?.japanese || 'N/A'
-                  ) : (
-                    resp.info?.japanese || resp?.japanese || 'N/A'
-                  )}
-                </span>
+                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.japanese || resp?.info?.japanese || 'N/A'}</span>
               </h2>
             )}
-            {!isLoading && (resp.info?.total_episode || resp?.episodes) && (
+            {!isLoading && (resp?.info?.total_episode || (resp?.episodes && !Array.isArray(resp?.episodes))) && (
               <h2>
                 <b className='inline-block sm:w-32'>Total Episode</b>
                 <span>: </span>
-                <span>
-                  {isLoading ? (
-                    <Skeleton width={200} className='ml-2' />
-                  ) : isCloudServer ? (
-                    resp?.episodes || 'N/A'
-                  ) : (
-                    resp.info?.total_episode || 'N/A'
-                  )}
-                </span>
+                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.episodes || resp?.info?.total_episode || 'N/A'}</span>
               </h2>
             )}
             {!isLoading && resp.info?.episode && (
@@ -78,14 +52,12 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
             <h2>
               <b className='inline-block sm:w-32'>Type</b>
               <span>: </span>
-              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : isCloudServer ? resp?.type || 'N/A' : resp.info?.tipe || 'N/A'}</span>
+              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.type || resp.info?.tipe || 'N/A'}</span>
             </h2>
             <h2>
               <b className='inline-block sm:w-32'>Duration</b>
               <span>: </span>
-              <span>
-                {isLoading ? <Skeleton width={200} className='ml-2' /> : isCloudServer ? resp?.duration || 'N/A' : resp.info?.durasi || 'N/A'}
-              </span>
+              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.duration || resp.info?.durasi || 'N/A'}</span>
             </h2>
             {!isLoading && resp.info?.genre && (
               <h2>
@@ -121,18 +93,14 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
               <h2>
                 <b className='inline-block sm:w-32'>Studio</b>
                 <span>: </span>
-                <span>
-                  {isLoading ? <Skeleton width={200} className='ml-2' /> : isCloudServer ? resp?.studios || 'N/A' : resp.info?.studio || 'N/A'}
-                </span>
+                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.studios || resp.info?.studio || 'N/A'}</span>
               </h2>
             )}
             {!isLoading && (resp.info?.tanggal_rilis || resp?.aired) && (
               <h2>
                 <b className='inline-block sm:w-32'>Release Date</b>
                 <span>: </span>
-                <span>
-                  {isLoading ? <Skeleton width={200} className='ml-2' /> : isCloudServer ? resp?.aired || 'N/A' : resp.info?.tanggal_rilis || 'N/A'}
-                </span>
+                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.aired || resp.info?.tanggal_rilis || 'N/A'}</span>
               </h2>
             )}
             {!isLoading && resp.info?.dirilis && (
@@ -152,24 +120,20 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
             <h2>
               <b className='inline-block sm:w-32'>Status</b>
               <span>: </span>
-              <span>
-                {isLoading ? <Skeleton width={200} className='ml-2' /> : isCloudServer ? resp?.status || 'N/A' : resp.info?.status || 'N/A'}
-              </span>
+              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.status || resp.info?.status || 'N/A'}</span>
             </h2>
             {!isLoading && (resp.info?.produser || resp?.producers) && (
               <h2>
                 <b className='inline-block sm:w-32'>Producers</b>
                 <span>: </span>
-                <span>
-                  {isLoading ? <Skeleton width={200} className='ml-2' /> : isCloudServer ? resp?.producers || 'N/A' : resp.info?.produser || 'N/A'}
-                </span>
+                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.producers || resp.info?.produser || 'N/A'}</span>
               </h2>
             )}
             {!isLoading && (resp.info?.skor || resp?.score) && (
               <h2>
                 <b className='inline-block sm:w-32'>Rating</b>
                 <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : isCloudServer ? resp?.score || 'N/A' : resp.info?.skor || 'N/A'}</span>
+                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.score || resp.info?.skor || 'N/A'}</span>
               </h2>
             )}
           </div>
@@ -183,7 +147,7 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
 
       <section>
         <div className='mt-3 bg-[#e1e7f5] p-2 font-semibold'>
-          <h1>{isLoading ? <Skeleton /> : `${resp.info?.judul || resp.title} Episode List`}</h1>
+          <h1>{isLoading ? <Skeleton /> : `${resp.title || resp.info?.judul || resp?.info?.title} Episode List`}</h1>
         </div>
         <div className='flex flex-col bg-[#bac0ff]'>
           {isLoading ? (
