@@ -64,8 +64,6 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
 
-  // {"json":{"title":"Zutaboro Reijou wa Ane no Moto Konyakusha ni Dekiai sareru (Episode 1 – 12) Subtitle Indonesia","poster":"https://otakudesu.blog/wp-content/uploads/2025/10/Zutaboro-Reijou-wa-Ane-no-Moto-Konyakusha-ni-Dekiai-sareru-Sub-Indo.jpg","status":"Completed","score":"7.35","animeId":"zutaboro-reijou-wa-ane-no-moto-sub-indo","href":"/anime/anime/zutaboro-reijou-wa-ane-no-moto-sub-indo","otakudesuUrl":"https://otakudesu.blog/anime/zutaboro-reijou-wa-ane-no-moto-sub-indo/","genreList":[{"title":"Drama","genreId":"drama","href":"/anime/genre/drama","otakudesuUrl":"https://otakudesu.blog/genres/drama/"},{"title":"Josei","genreId":"josei","href":"/anime/genre/josei","otakudesuUrl":"https://otakudesu.blog/genres/josei/"},{"title":"Romance","genreId":"romance","href":"/anime/genre/romance","otakudesuUrl":"https://otakudesu.blog/genres/romance/"}]}}
-
   return (
     <Combobox
       store={combobox}
@@ -110,7 +108,7 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
       <Combobox.Dropdown>
         <Combobox.Options>
           <ScrollArea.Autosize type='scroll' mah={300}>
-            {isDoneAndEmpty ? (
+            {isDoneAndEmpty || (!isLoading && results.length === 0) ? (
               <Combobox.Empty>Nothing found</Combobox.Empty>
             ) : results.length > 0 ? (
               results.map((result, index) => (
