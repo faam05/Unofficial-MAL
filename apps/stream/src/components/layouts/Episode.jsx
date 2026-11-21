@@ -28,9 +28,9 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
       if (data?.defaultStreamingUrl) {
         return `${VITE_MAIN_SERVICE_CLOUD}/stream?url=${encodeURIComponent(data?.defaultStreamingUrl)}`
       } else {
-        return data.stream.find((item) => item.quality === '720p')?.url
-          ? `${VITE_MAIN_SERVICE_CLOUD}/stream?url=${data.stream.find((item) => item.quality === '720p')?.url}`
-          : data.stream[0]?.url
+        return data.stream.find((item) => item.quality === '720p')?.embedUrl
+          ? `${VITE_MAIN_SERVICE_CLOUD}/stream?url=${data.stream.find((item) => item.quality === '720p')?.embedUrl}`
+          : data.stream[0]?.embedUrl
       }
     } else return data?.video_player
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,6 +60,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
   }, [data, isLoading, isError])
 
   const handleCloudChangeCurrentVideo = async (id) => {
+    console.log('id', id)
     if (!id.startsWith('http')) {
       setSelectedCurrentVideoId(id)
 
@@ -75,7 +76,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
         setCurrentVideo(data.data.url)
       }
     } else {
-      const currentId = data?.stream.find((item) => item.url === id).id
+      const currentId = data?.stream.find((item) => item.embedUrl === id).id
 
       setSelectedCurrentVideoId(currentId)
       setCurrentVideo(`${VITE_MAIN_SERVICE_CLOUD}/stream?url=${id}`)
