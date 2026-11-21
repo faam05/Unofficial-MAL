@@ -82,6 +82,8 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
     }
   }
 
+  console.log('qualities', qualities)
+
   return (
     <>
       {data && 'series' in data && 'slug' in data.series ? (
@@ -117,12 +119,12 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
                   <>
                     {qualities.map((quality, index) => (
                       <Fragment key={index}>
-                        {'id' in quality && 'url' in quality && quality.id && quality.url ? (
+                        {'id' in quality && 'embedUrl' in quality && quality.id && quality.embedUrl ? (
                           <Button
                             key={quality.id}
                             size='compact-xs'
                             bg={quality.id === selectedCurrentVideoId ? 'red' : ''}
-                            onClick={() => handleCloudChangeCurrentVideo(quality.url)}>
+                            onClick={() => handleCloudChangeCurrentVideo(quality.embedUrl)}>
                             <Text>{quality.quality}</Text>
                           </Button>
                         ) : (
