@@ -41,7 +41,9 @@ const List = () => {
   switch (type) {
     case 'movie':
       queryKey = ['stream-movie', activePage]
-      url = `${VITE_MAIN_SERVICE}/home-movie2?page=${activePage}`
+
+      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/browse?type=movie&page=${activePage}`
+      else url = `${VITE_MAIN_SERVICE}/home-movie2?page=${activePage}`
       title = 'Movies'
 
       break
@@ -49,7 +51,7 @@ const List = () => {
     default:
       // ongoing
       queryKey = ['stream-ongoing', activePage]
-      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/ongoing-anime?page=${activePage}`
+      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/browse?status=ongoing&page=${activePage}`
       else url = `${VITE_MAIN_SERVICE}/home?page=${activePage}`
 
       title = 'On Going Anime'
@@ -63,14 +65,19 @@ const List = () => {
     select: (res) => {
       switch (type) {
         case 'movie':
-          return res.data.movie
+          if (isCloudServer) return res.data.items
+          else return res.data.movie
 
         default:
           // ongoing
           if (isCloudServer) {
-            // eslint-disable-next-line react-hooks/immutability
-            maxPages = res.data.pagination.totalPages
-            return res.data.data.animeList
+            if ('pagination' in res.data) {
+              // eslint-disable-next-line react-hooks/immutability
+              maxPages = res.data.pagination.totalPages
+              return res.data.data.animeList
+            }
+            maxPages = res.data.totalPages ?? 1
+            return res.data.items
           } else {
             maxPages = 5
             return res.data.ongoing

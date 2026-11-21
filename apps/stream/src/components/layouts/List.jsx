@@ -19,19 +19,28 @@ const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPag
               .map((_, index) => <Skeleton key={index} className='h-28 max-h-[220px] sm:h-36 md:h-[220px]' />)
           : data.map((item) => (
               <NavLink
-                key={isCloudServer ? `${item.animeId}_${item.episodes}` : `${item.slug}_${item.current_episode}`}
-                to={isCloudServer ? `/anime/${item.animeId}` : `/anime/${item.slug}?type=${type}`}
+                key={isCloudServer ? (item.animeId ? `${item.animeId}_${item.episodes}` : item.id) : `${item.slug}_${item.current_episode}`}
+                to={`/anime/${item.animeId || item.slug}${type === 'movie' ? '?type=movie' : ''}`}
                 className='relative overflow-hidden rounded-md text-xs text-white'>
                 <ImageWithSkeleton
                   src={item.thumbnail ?? item.poster}
-                  alt={item.judul ?? item.title}
-                  width={160}
-                  height={220}
-                  containersClassName={'delay-1000'}
-                  className={'hover:scale-110'}
+                  placeholderSrc={item.thumbnail ?? item.poster}
+                  // effect='blur'
+                  // width={160}
+                  // height={220}
+                  wrapperProps={{
+                    style: { transitionDelay: '1s' },
+                  }}
+                  className='h-[120px] w-full object-cover duration-500 hover:scale-110 sm:h-full'
                 />
-                <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>{isCloudServer ? `Episode ${item.episodes}` : item.episode}</p>
-                <p className='bg-opacity-70 absolute top-1/2 bg-red-500 p-0.5 sm:text-sm'>{isCloudServer ? item.latestReleaseDate : item.tanggal}</p>
+                {item.episodes && (
+                  <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>
+                    {isCloudServer ? `Episode ${item.episodes ?? item.episode}` : item.episode}
+                  </p>
+                )}
+                <p className='bg-opacity-70 absolute top-3/7 bg-red-500 sm:text-sm'>
+                  {isCloudServer ? (item.latestReleaseDate ?? item.releasedAgo) : item.tanggal}
+                </p>
                 <p className='bg-opacity-70 absolute top-0 right-0 hidden bg-black p-0.5 sm:block'>{isCloudServer ? item.releaseDay : item.hari}</p>
                 <Text
                   lineClamp={1}

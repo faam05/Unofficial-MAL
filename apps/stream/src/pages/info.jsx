@@ -21,7 +21,8 @@ const InfoAnime = () => {
   switch (type) {
     case 'movie':
       queryKey = ['stream-movie-info', slug]
-      url = `${VITE_MAIN_SERVICE}/anime2?slug=${slug}`
+      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/anime/${slug}`
+      else url = `${VITE_MAIN_SERVICE}/anime2?slug=${slug}`
 
       break
 
@@ -40,12 +41,15 @@ const InfoAnime = () => {
     select: (res) => {
       switch (type) {
         case 'movie':
-          return res.data
+          if (isCloudServer) return res.data.data
+          else return res.data
 
         default:
           // anime
-          if (isCloudServer) return res.data.data
-          else return res.data
+          if (isCloudServer) {
+            if ('data' in res.data) return res.data.data
+            return res.data
+          } else return res.data
       }
     },
   })

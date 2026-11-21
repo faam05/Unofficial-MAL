@@ -19,7 +19,8 @@ const Episode = () => {
 
   switch (type) {
     case 'movie':
-      url = `${VITE_MAIN_SERVICE}/episode2?slug=${slug}`
+      if (isCloudServer) url = `${VITE_MAIN_SERVICE_CLOUD}/episode/${slug}`
+      else url = `${VITE_MAIN_SERVICE}/episode2?slug=${slug}`
       break
 
     default:
@@ -34,12 +35,14 @@ const Episode = () => {
     select: (res) => {
       switch (type) {
         case 'movie':
-          return res.data
+          if (isCloudServer) return res.data.data
+          else return res.data
 
         default:
           // anime
-          if (isCloudServer) return res.data.data
-          else return res.data
+          if (isCloudServer) {
+            return res.data.data
+          } else return res.data
       }
     },
   })

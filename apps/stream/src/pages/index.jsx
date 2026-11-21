@@ -18,7 +18,17 @@ const Home = () => {
   } = useQuery({
     queryKey: ['stream-home', 1],
     queryFn: async () => await axios(isCloudServer ? `${VITE_MAIN_SERVICE_CLOUD}/home` : `${VITE_MAIN_SERVICE}/home?page=1`),
-    select: (res) => (isCloudServer ? res.data.data.ongoing.animeList : res.data.ongoing),
+    select: (res) => {
+      if (isCloudServer) {
+        if ('ongoing' in res.data.data) {
+          return res.data.data.ongoing.animeList
+        } else {
+          return res.data.data
+        }
+      } else {
+        return res.data.ongoing
+      }
+    },
   })
 
   const {
@@ -28,8 +38,15 @@ const Home = () => {
     refetch: refetchMovie,
   } = useQuery({
     queryKey: ['stream-movie', 1],
-    queryFn: async () => await axios(`${VITE_MAIN_SERVICE}/home-movie2?page=1`),
-    select: (res) => res.data.movie,
+    queryFn: async () =>
+      await axios(isCloudServer ? `${VITE_MAIN_SERVICE_CLOUD}/browse?type=movie&page=1` : `${VITE_MAIN_SERVICE}/home-movie2?page=1`),
+    select: (res) => {
+      if (isCloudServer) {
+        return res.data.items
+      } else {
+        return res.data.movies
+      }
+    },
   })
 
   return (

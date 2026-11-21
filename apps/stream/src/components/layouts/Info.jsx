@@ -1,3 +1,4 @@
+import { Button } from '@mantine/core'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import Skeleton from 'react-loading-skeleton'
 import { NavLink } from 'react-router'
@@ -7,186 +8,247 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const InfoPage = ({ data: resp, isLoading, type }) => {
   return (
-    <div className='rounded bg-[#fafafa] text-xs sm:text-sm md:mx-auto md:p-2'>
-      <section>
-        <div className='rounded bg-[#e1e7f5] p-2 text-center text-xs sm:text-sm md:text-lg'>
-          <h1 className='truncate font-bold'>{isLoading ? <Skeleton /> : resp?.title || resp?.judul}</h1>
-        </div>
-        <div className='md:flex md:justify-between'>
-          <div className='mx-auto mt-2 w-fit'>
+    <>
+      <div className='mb-2 size-full'>
+        <NavLink to={`/`} size='compact-xs' className='my-2'>
+          <Button size='compact-xs' variant='outline' color='red'>
+            Kembali ke Home
+          </Button>
+        </NavLink>
+      </div>
+
+      <div className='rounded bg-[#fafafa] text-xs sm:text-sm md:mx-auto md:p-2'>
+        <section>
+          <div className='rounded bg-[#e1e7f5] p-2 text-center text-xs sm:text-sm md:text-lg'>
+            <h1 className='truncate font-bold'>{isLoading ? <Skeleton /> : resp?.title || resp?.judul}</h1>
+          </div>
+          <div className='md:flex md:justify-between'>
+            <div className='mx-auto mt-2 w-fit'>
+              {isLoading ? (
+                <Skeleton height={220} width={160} />
+              ) : (
+                <LazyLoadImage src={resp?.poster || resp?.thumbnail || resp?.cover} effect='blur' className='h-[220px] w-[160px] object-cover' />
+              )}
+            </div>
+            <div className='flex-1 p-2 text-black'>
+              {!isLoading && (resp?.info?.judul || resp.info?.title || resp?.title) && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Title</b>
+                  <span>: </span>
+                  <span>
+                    {isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.title || resp?.info?.judul || resp?.info?.title || 'N/A'}
+                  </span>
+                </h2>
+              )}
+              {!isLoading && (resp.info?.japanese || resp?.japanese || resp?.alternateTitles) && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Judul Synonim</b>
+                  <span>: </span>
+                  <span>
+                    {isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.japanese || resp?.info?.japanese || resp?.alternateTitles || 'N/A'}
+                  </span>
+                </h2>
+              )}
+              {!isLoading && (resp?.info?.total_episode || (resp?.episodes && !Array.isArray(resp?.episodes))) && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Total Episode</b>
+                  <span>: </span>
+                  <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.episodes || resp?.info?.total_episode || 'N/A'}</span>
+                </h2>
+              )}
+              {!isLoading && resp.info?.episode && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Episode</b>
+                  <span>: </span>
+                  <span>
+                    {isLoading ? (
+                      <Skeleton width={200} className='ml-2' />
+                    ) : typeof resp.info?.episode === 'object' ? (
+                      resp.info?.episode?.value || 'N/A'
+                    ) : (
+                      resp.info?.episode || 'N/A'
+                    )}
+                  </span>
+                </h2>
+              )}
+              <h2>
+                <b className='inline-block sm:w-32'>Type</b>
+                <span>: </span>
+                <span>
+                  {isLoading ? (
+                    <Skeleton width={200} className='ml-2' />
+                  ) : resp?.type || typeof resp.info?.tipe === 'object' ? (
+                    resp.info?.tipe.value || 'N/A'
+                  ) : (
+                    resp.info?.tipe || 'N/A'
+                  )}
+                </span>
+              </h2>
+              <h2>
+                <b className='inline-block sm:w-32'>Duration</b>
+                <span>: </span>
+                <span>
+                  {isLoading ? (
+                    <Skeleton width={200} className='ml-2' />
+                  ) : resp?.duration || typeof resp.info?.durasi === 'object' ? (
+                    resp.info?.durasi.value || 'N/A'
+                  ) : (
+                    resp.info?.durasi || 'N/A'
+                  )}
+                </span>
+              </h2>
+              {!isLoading && resp.info?.genre && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Genre</b>
+                  <span>: </span>
+                  <span className='capitalize'>
+                    {isLoading ? (
+                      <Skeleton width={200} className='ml-2' />
+                    ) : resp.info?.genre.length > 0 ? (
+                      resp.info.genre.map((item, index) => `${item}${resp.info?.genre.length === index + 1 ? '' : ', '}`)
+                    ) : (
+                      'N/A'
+                    )}
+                  </span>
+                </h2>
+              )}
+              {!isLoading && resp?.genreList && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Genre</b>
+                  <span>: </span>
+                  <span className='capitalize'>
+                    {isLoading ? (
+                      <Skeleton width={200} className='ml-2' />
+                    ) : resp.genreList?.length > 0 ? (
+                      resp.genreList.map((item, index) => `${item.title}${resp.genreList?.length === index + 1 ? '' : ', '}`)
+                    ) : (
+                      'N/A'
+                    )}
+                  </span>
+                </h2>
+              )}
+              {!isLoading && (resp.info?.studio || resp?.studios) && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Studio</b>
+                  <span>: </span>
+                  <span>
+                    {isLoading ? (
+                      <Skeleton width={200} className='ml-2' />
+                    ) : resp?.studios || typeof resp.info?.studio === 'object' ? (
+                      resp.info?.studio.value || 'N/A'
+                    ) : (
+                      resp.info?.studio || 'N/A'
+                    )}
+                  </span>
+                </h2>
+              )}
+              {!isLoading && (resp.info?.tanggal_rilis || resp?.aired || resp.info?.musim) && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Release Date</b>
+                  <span>: </span>
+                  <span>
+                    {isLoading ? (
+                      <Skeleton width={200} className='ml-2' />
+                    ) : (
+                      resp?.aired || resp.info?.tanggal_rilis || resp.info?.musim?.value || 'N/A'
+                    )}
+                  </span>
+                </h2>
+              )}
+              {!isLoading && resp.info?.dirilis && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Dirilis</b>
+                  <span>: </span>
+                  <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp.info?.dirilis || 'N/A'}</span>
+                </h2>
+              )}
+              {!isLoading && resp.info?.diperbarui_pada && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Diperbarui Pada</b>
+                  <span>: </span>
+                  <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp.info?.diperbarui_pada || 'N/A'}</span>
+                </h2>
+              )}
+              <h2>
+                <b className='inline-block sm:w-32'>Status</b>
+                <span>: </span>
+                <span>
+                  {isLoading ? (
+                    <Skeleton width={200} className='ml-2' />
+                  ) : resp?.status || typeof resp.info?.status === 'object' ? (
+                    resp.info?.status.value || 'N/A'
+                  ) : (
+                    resp.info?.status || 'N/A'
+                  )}
+                </span>
+              </h2>
+              {!isLoading && (resp.info?.produser || resp?.producers) && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Producers</b>
+                  <span>: </span>
+                  <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.producers || resp.info?.produser || 'N/A'}</span>
+                </h2>
+              )}
+              {!isLoading && (resp.info?.skor || resp?.score) && (
+                <h2>
+                  <b className='inline-block sm:w-32'>Rating</b>
+                  <span>: </span>
+                  <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.score || resp.info?.skor || 'N/A'}</span>
+                </h2>
+              )}
+            </div>
+          </div>
+          {!isLoading && resp?.sinopsis && <p className='border-t-2 border-[#1c439b] p-2'>{resp?.sinopsis}</p>}
+          {!isLoading && !Array.isArray(resp?.synopsis) && resp?.synopsis && <p className='border-t-2 border-[#1c439b] p-2'>{resp?.synopsis}</p>}
+          {!isLoading &&
+            resp?.synopsis &&
+            Array.isArray(resp?.synopsis) &&
+            resp?.synopsis?.length > 0 &&
+            resp?.synopsis?.map((item) => <p className='border-t-2 border-[#1c439b] p-2'>{item}</p>)}
+        </section>
+
+        <section>
+          <div className='mt-3 bg-[#e1e7f5] p-2 font-semibold'>
+            <h1>{isLoading ? <Skeleton /> : `${resp.title || resp.info?.judul || resp?.info?.title} Episode List`}</h1>
+          </div>
+          <div className='flex flex-col bg-[#bac0ff]'>
             {isLoading ? (
-              <Skeleton height={220} width={160} />
+              <Skeleton />
+            ) : resp.episodes?.length > 0 ? (
+              resp.episodes.map((item, index) => {
+                let url
+
+                switch (type) {
+                  case 'movie':
+                    url = `/episode/${item.slug}?type=movie`
+                    break
+
+                  default:
+                    // anime
+                    url = `/episode/${item.slug}`
+                }
+
+                return (
+                  <NavLink key={item.slug} to={url} className={`p-2${index % 2 == 1 ? ' bg-slate-200' : ''}`}>
+                    {item.judul || item.title}
+                  </NavLink>
+                )
+              })
+            ) : resp.episodeList?.length > 0 ? (
+              resp.episodeList.map((item, index) => {
+                return (
+                  <NavLink key={item.episodeId} to={`/episode/${item.episodeId}`} className={`p-2${index % 2 == 1 ? ' bg-slate-200' : ''}`}>
+                    {item.title}
+                  </NavLink>
+                )
+              })
             ) : (
-              <LazyLoadImage src={resp?.poster || resp?.thumbnail} effect='blur' className='h-[220px] w-[160px] object-cover' />
+              <span className='p-2'>Episode Not Found</span>
             )}
           </div>
-          <div className='flex-1 p-2 text-black'>
-            {!isLoading && (resp?.info?.judul || resp.info?.title || resp?.title) && (
-              <h2>
-                <b className='inline-block sm:w-32'>Title</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.title || resp?.info?.judul || resp?.info?.title || 'N/A'}</span>
-              </h2>
-            )}
-            {!isLoading && (resp.info?.japanese || resp?.japanese) && (
-              <h2>
-                <b className='inline-block sm:w-32'>Judul Synonim</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.japanese || resp?.info?.japanese || 'N/A'}</span>
-              </h2>
-            )}
-            {!isLoading && (resp?.info?.total_episode || (resp?.episodes && !Array.isArray(resp?.episodes))) && (
-              <h2>
-                <b className='inline-block sm:w-32'>Total Episode</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.episodes || resp?.info?.total_episode || 'N/A'}</span>
-              </h2>
-            )}
-            {!isLoading && resp.info?.episode && (
-              <h2>
-                <b className='inline-block sm:w-32'>Episode</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp.info?.episode || 'N/A'}</span>
-              </h2>
-            )}
-            <h2>
-              <b className='inline-block sm:w-32'>Type</b>
-              <span>: </span>
-              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.type || resp.info?.tipe || 'N/A'}</span>
-            </h2>
-            <h2>
-              <b className='inline-block sm:w-32'>Duration</b>
-              <span>: </span>
-              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.duration || resp.info?.durasi || 'N/A'}</span>
-            </h2>
-            {!isLoading && resp.info?.genre && (
-              <h2>
-                <b className='inline-block sm:w-32'>Genre</b>
-                <span>: </span>
-                <span className='capitalize'>
-                  {isLoading ? (
-                    <Skeleton width={200} className='ml-2' />
-                  ) : resp.info?.genre.length > 0 ? (
-                    resp.info.genre.map((item, index) => `${item}${resp.info?.genre.length === index + 1 ? '' : ', '}`)
-                  ) : (
-                    'N/A'
-                  )}
-                </span>
-              </h2>
-            )}
-            {!isLoading && resp?.genreList && (
-              <h2>
-                <b className='inline-block sm:w-32'>Genre</b>
-                <span>: </span>
-                <span className='capitalize'>
-                  {isLoading ? (
-                    <Skeleton width={200} className='ml-2' />
-                  ) : resp.genreList?.length > 0 ? (
-                    resp.genreList.map((item, index) => `${item.title}${resp.genreList?.length === index + 1 ? '' : ', '}`)
-                  ) : (
-                    'N/A'
-                  )}
-                </span>
-              </h2>
-            )}
-            {!isLoading && (resp.info?.studio || resp?.studios) && (
-              <h2>
-                <b className='inline-block sm:w-32'>Studio</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.studios || resp.info?.studio || 'N/A'}</span>
-              </h2>
-            )}
-            {!isLoading && (resp.info?.tanggal_rilis || resp?.aired) && (
-              <h2>
-                <b className='inline-block sm:w-32'>Release Date</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.aired || resp.info?.tanggal_rilis || 'N/A'}</span>
-              </h2>
-            )}
-            {!isLoading && resp.info?.dirilis && (
-              <h2>
-                <b className='inline-block sm:w-32'>Dirilis</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp.info?.dirilis || 'N/A'}</span>
-              </h2>
-            )}
-            {!isLoading && resp.info?.diperbarui_pada && (
-              <h2>
-                <b className='inline-block sm:w-32'>Diperbarui Pada</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp.info?.diperbarui_pada || 'N/A'}</span>
-              </h2>
-            )}
-            <h2>
-              <b className='inline-block sm:w-32'>Status</b>
-              <span>: </span>
-              <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.status || resp.info?.status || 'N/A'}</span>
-            </h2>
-            {!isLoading && (resp.info?.produser || resp?.producers) && (
-              <h2>
-                <b className='inline-block sm:w-32'>Producers</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.producers || resp.info?.produser || 'N/A'}</span>
-              </h2>
-            )}
-            {!isLoading && (resp.info?.skor || resp?.score) && (
-              <h2>
-                <b className='inline-block sm:w-32'>Rating</b>
-                <span>: </span>
-                <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.score || resp.info?.skor || 'N/A'}</span>
-              </h2>
-            )}
-          </div>
-        </div>
-        {!isLoading && resp?.sinopsis && <p className='border-t-2 border-[#1c439b] p-2'>{resp?.sinopsis}</p>}
-        {!isLoading &&
-          resp?.synopsis &&
-          resp?.synopsis?.length > 0 &&
-          resp?.synopsis.map((item) => <p className='border-t-2 border-[#1c439b] p-2'>{item}</p>)}
-      </section>
+        </section>
 
-      <section>
-        <div className='mt-3 bg-[#e1e7f5] p-2 font-semibold'>
-          <h1>{isLoading ? <Skeleton /> : `${resp.title || resp.info?.judul || resp?.info?.title} Episode List`}</h1>
-        </div>
-        <div className='flex flex-col bg-[#bac0ff]'>
-          {isLoading ? (
-            <Skeleton />
-          ) : resp.episodes?.length > 0 ? (
-            resp.episodes.map((item, index) => {
-              let url
-
-              switch (type) {
-                case 'movie':
-                  url = `/episode/${item.slug}?type=movie`
-                  break
-
-                default:
-                  // anime
-                  url = `/episode/${item.slug}`
-              }
-
-              return (
-                <NavLink key={item.slug} to={url} className={`p-2${index % 2 == 1 ? ' bg-slate-200' : ''}`}>
-                  {item.judul}
-                </NavLink>
-              )
-            })
-          ) : resp.episodeList?.length > 0 ? (
-            resp.episodeList.map((item, index) => {
-              return (
-                <NavLink key={item.episodeId} to={`/episode/${item.episodeId}`} className={`p-2${index % 2 == 1 ? ' bg-slate-200' : ''}`}>
-                  {item.title}
-                </NavLink>
-              )
-            })
-          ) : (
-            <span className='p-2'>Episode Not Found</span>
-          )}
-        </div>
-      </section>
-
-      {/* {!isLoading && resp.batch && (
+        {/* {!isLoading && resp.batch && (
         <section>
           <div className='mt-3 bg-[#e1e7f5] p-2 font-semibold'>
             <h1>{isLoading ? <Skeleton /> : `${resp.info?.judul || resp.title} Batch`}</h1>
@@ -208,7 +270,8 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
           </div>
         </section>
       )} */}
-    </div>
+      </div>
+    </>
   )
 }
 

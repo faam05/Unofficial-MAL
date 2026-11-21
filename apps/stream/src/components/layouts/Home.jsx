@@ -36,14 +36,14 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
             <button onClick={() => refetchAnime()}>Retry</button>
           </div>
         )}
-        <div className='mt-2 grid grid-cols-3 gap-1 sm:grid-cols-3 md:grid-cols-5'>
+        <div className='mt-2 grid grid-cols-2 gap-1 sm:grid-cols-3'>
           {isLoadingAnime ? (
             <LoadingSkeleton count={mobile ? 9 : 10} />
           ) : (
-            dataAnime?.slice(0, mobile ? 9 : 10).map((item) => (
+            dataAnime?.slice(0, mobile ? 10 : 12).map((item) => (
               <NavLink
-                key={isCloudServer ? `${item.animeId}_${item.episodes}` : `${item.slug}_${item.current_episode}`}
-                to={isCloudServer ? `/anime/${item.animeId}` : `/anime/${item.slug}`}
+                key={isCloudServer ? (item.animeId ? `${item.animeId}_${item.episodes}` : item.id) : `${item.slug}_${item.current_episode}`}
+                to={isCloudServer ? (item.animeId ? `/anime/${item.animeId}` : `/episode/${item.slug}`) : `/anime/${item.slug}`}
                 className='relative overflow-hidden rounded-md text-xs text-white'>
                 <LazyLoadImage
                   src={item.thumbnail ?? item.poster}
@@ -54,10 +54,14 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
                   wrapperProps={{
                     style: { transitionDelay: '1s' },
                   }}
-                  className='size-full object-cover duration-500 hover:scale-110'
+                  className='h-[120px] w-full object-cover duration-500 hover:scale-110 sm:h-full'
                 />
-                <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>{isCloudServer ? `Episode ${item.episodes}` : item.episode}</p>
-                <p className='bg-opacity-70 absolute top-1/2 bg-red-500 p-0.5 sm:text-sm'>{isCloudServer ? item.latestReleaseDate : item.tanggal}</p>
+                <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>
+                  {isCloudServer ? `Episode ${item.episodes ?? item.episode}` : item.episode}
+                </p>
+                <p className='bg-opacity-70 absolute top-3/7 bg-red-500 sm:text-sm'>
+                  {isCloudServer ? (item.latestReleaseDate ?? item.releasedAgo) : item.tanggal}
+                </p>
                 <p className='bg-opacity-70 absolute top-0 right-0 hidden bg-black p-0.5 sm:block'>{isCloudServer ? item.releaseDay : item.hari}</p>
                 <Text
                   lineClamp={1}
@@ -130,7 +134,7 @@ const HomePage = ({ dataAnime, isLoadingAnime, isAnimeError, refetchAnime, dataM
                     // whiteSpace: 'nowrap',
                     boxShadow: '0 5px 0 #000',
                   }}>
-                  {item.judul}
+                  {item.judul ?? item.title}
                 </Text>
               </NavLink>
             ))
