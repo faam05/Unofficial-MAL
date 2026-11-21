@@ -35,9 +35,10 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
     queryFn: async () => {
       if (!debouncedTerm) return null
 
-      if (isCloudServer) return await axios(`${VITE_MAIN_SERVICE_CLOUD}/search/${debouncedTerm}`)
+      if (isCloudServer) return await axios(`${VITE_MAIN_SERVICE_CLOUD}/search?q=${debouncedTerm}`)
       else return await axios(`${VITE_MAIN_SERVICE}/search?q=${debouncedTerm}`)
     },
+    select: (res) => res.data,
     enabled: debouncedTerm !== '',
   })
 
@@ -49,8 +50,11 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
     if (isLoading) return [] // sedang loading, jangan derive dulu
 
     if (statusSearch === 'success') {
-      if (isCloudServer) return dataSearch?.data?.data?.animeList
-      if (dataSearch?.data?.results) return dataSearch.data.results
+      if (isCloudServer) {
+        if ('data' in dataSearch && 'animeList' in dataSearch.data) return dataSearch?.data?.animeList
+        return dataSearch?.results
+      }
+      if (dataSearch?.data?.results) return dataSearch.results
     }
 
     return []
@@ -112,12 +116,12 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
               <Combobox.Empty>Nothing found</Combobox.Empty>
             ) : results.length > 0 ? (
               results.map((result, index) => (
-                <Combobox.Option value={isCloudServer ? result.animeId : result.slug} key={index}>
+                <Combobox.Option value={isCloudServer ? result.animeId || result.slug : result.slug} key={index}>
                   <Group justify='space-between' align='center'>
                     <LazyLoadImage
                       width={60}
-                      src={isCloudServer ? result.poster : result.thumbnail}
-                      placeholderSrc={isCloudServer ? result.poster : result.thumbnail}
+                      src={isCloudServer ? result.poster || result.thumbnailUrl : result.thumbnail}
+                      placeholderSrc={isCloudServer ? result.poster || result.thumbnailUrl : result.thumbnail}
                       alt={isCloudServer ? result.title?.replace(/[ , -]/g, '_') : result.judul?.replace(/[ , -]/g, '_')}
                       effect='blur'
                       className='h-full max-h-[90px]'
