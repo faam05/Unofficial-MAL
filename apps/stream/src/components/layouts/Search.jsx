@@ -120,8 +120,8 @@ const CSearch = ({ setOpenedModal, openedModal = null }) => {
                   <Group justify='space-between' align='center'>
                     <LazyLoadImage
                       width={60}
-                      src={isCloudServer ? result.poster || result.thumbnailUrl : result.thumbnail}
-                      placeholderSrc={isCloudServer ? result.poster || result.thumbnailUrl : result.thumbnail}
+                      src={isCloudServer ? result.poster || result.thumbnailUrl || result.cover : result.thumbnail}
+                      placeholderSrc={isCloudServer ? result.poster || result.thumbnailUrl || result.cover : result.thumbnail}
                       alt={isCloudServer ? result.title?.replace(/[ , -]/g, '_') : result.judul?.replace(/[ , -]/g, '_')}
                       effect='blur'
                       className='h-full max-h-[90px]'

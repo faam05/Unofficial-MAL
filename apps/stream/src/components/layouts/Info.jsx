@@ -77,10 +77,12 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
                 <span>
                   {isLoading ? (
                     <Skeleton width={200} className='ml-2' />
-                  ) : resp?.type || typeof resp.info?.tipe === 'object' ? (
-                    resp.info?.tipe.value || 'N/A'
+                  ) : resp?.type ? (
+                    resp?.type
+                  ) : typeof resp?.info?.tipe === 'object' ? (
+                    resp?.info?.tipe?.value || 'N/A'
                   ) : (
-                    resp.info?.tipe || 'N/A'
+                    resp?.info?.tipe || 'N/A'
                   )}
                 </span>
               </h2>
@@ -175,7 +177,9 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
                 <span>
                   {isLoading ? (
                     <Skeleton width={200} className='ml-2' />
-                  ) : resp?.status || typeof resp.info?.status === 'object' ? (
+                  ) : resp?.status ? (
+                    resp?.status
+                  ) : typeof resp.info?.status === 'object' ? (
                     resp.info?.status.value || 'N/A'
                   ) : (
                     resp.info?.status || 'N/A'
@@ -186,7 +190,15 @@ const InfoPage = ({ data: resp, isLoading, type }) => {
                 <h2>
                   <b className='inline-block sm:w-32'>Producers</b>
                   <span>: </span>
-                  <span>{isLoading ? <Skeleton width={200} className='ml-2' /> : resp?.producers || resp.info?.produser || 'N/A'}</span>
+                  <span>
+                    {isLoading ? (
+                      <Skeleton width={200} className='ml-2' />
+                    ) : resp?.producers || typeof resp.info?.produser === 'object' ? (
+                      resp.info?.produser?.value || 'N/A'
+                    ) : (
+                      resp.info?.produser || 'N/A'
+                    )}
+                  </span>
                 </h2>
               )}
               {!isLoading && (resp.info?.skor || resp?.score) && (

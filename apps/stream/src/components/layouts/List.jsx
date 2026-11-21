@@ -31,7 +31,7 @@ const ListPage = ({ data, isLoading, activePage, handleChangePage, title, maxPag
                   wrapperProps={{
                     style: { transitionDelay: '1s' },
                   }}
-                  className='h-[120px] w-full object-cover duration-500 hover:scale-110 sm:h-full'
+                  className='size-full object-cover duration-500 hover:scale-110'
                 />
                 {item.episodes && (
                   <p className='bg-opacity-70 absolute top-0 bg-black p-0.5 sm:text-sm'>

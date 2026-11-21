@@ -1,9 +1,9 @@
 import { Button, Menu, Text } from '@mantine/core'
 import { IconPlayerTrackNextFilled, IconPlayerTrackPrevFilled } from '@tabler/icons-react'
 import axios from 'axios'
-import { useEffect, useMemo, useState } from 'react'
+import { Fragment, useEffect, useMemo, useState } from 'react'
 import Skeleton from 'react-loading-skeleton'
-import { NavLink, useLocation } from 'react-router'
+import { NavLink, useLocation, useNavigate } from 'react-router'
 
 import { useMobileDevice } from '@shared/hooks/useMobileDevice'
 import { IframePlayer } from './IframePlayer'
@@ -16,6 +16,7 @@ const isCloudServer = VITE_USE_SERVER_ANIME.toLowerCase() === 'cloud'
 
 const EpisodeLayout = ({ data, isLoading, isError }) => {
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
   const [selectedVideo, setCurrentVideo] = useState(null)
   const [selectedCurrentVideoId, setSelectedCurrentVideoId] = useState(null)
@@ -25,7 +26,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
 
     if (isCloudServer) {
       if (data?.defaultStreamingUrl) {
-        return data?.defaultStreamingUrl
+        return `${VITE_MAIN_SERVICE_CLOUD}/stream?url=${encodeURIComponent(data?.defaultStreamingUrl)}`
       } else {
         return data.stream.find((item) => item.quality === '720p')?.url
           ? `${VITE_MAIN_SERVICE_CLOUD}/stream?url=${data.stream.find((item) => item.quality === '720p')?.url}`
@@ -48,7 +49,12 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
   const qualities = useMemo(() => {
     if (isLoading || isError) return []
 
-    if (isCloudServer) return data?.server?.qualities || data.stream
+    if (isCloudServer) {
+      if (data && 'source' in data) {
+        if (data.source === 'sokuja') return data.stream
+        else return data.streamByQuality
+      } else return data?.server?.qualities
+    }
 
     return Object.keys(data?.mirrors ?? {}) || []
   }, [data, isLoading, isError])
@@ -56,8 +62,18 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
   const handleCloudChangeCurrentVideo = async (id) => {
     if (!id.startsWith('http')) {
       setSelectedCurrentVideoId(id)
+
       const { data } = await axios(`${VITE_MAIN_SERVICE_CLOUD}/server/${id}`)
-      setCurrentVideo(data.data.url)
+      if ('embedUrl' in data) {
+        const info = await fetch(`${VITE_MAIN_SERVICE_CLOUD}/stream-info?url=${encodeURIComponent(data.embedUrl)}`).then((r) => r.json())
+        if (!info.success) {
+          setCurrentVideo(data.embedUrl)
+        } else {
+          setCurrentVideo(`${VITE_MAIN_SERVICE_CLOUD}/stream?url=${encodeURIComponent(data.embedUrl)}`)
+        }
+      } else {
+        setCurrentVideo(data.data.url)
+      }
     } else {
       const currentId = data?.stream.find((item) => item.url === id).id
 
@@ -68,13 +84,18 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
 
   return (
     <>
-      {data && 'series' in data && 'slug' in data.series && (
-        <NavLink to={`/anime/${data.series.slug}`} size='compact-xs'>
+      {data && 'series' in data && 'slug' in data.series ? (
+        <NavLink to={`/anime/${data.series.slug}`} className='max-w-full'>
           <Button size='compact-xs' variant='outline' color='red'>
-            Kembali ke {data.series.judul ?? data.series.title}
+            <span className='max-w-[calc(100vw-4rem)] truncate sm:max-w-[calc(100vw-8rem)]'>Kembali ke {data.series.judul ?? data.series.title}</span>
           </Button>
         </NavLink>
+      ) : (
+        <Button size='compact-xs' variant='outline' color='red' onClick={() => navigate(-1)}>
+          Kembali
+        </Button>
       )}
+
       <div className='mt-2 rounded bg-[#fafafa]'>
         <section className='flex size-full flex-col gap-2'>
           <div className='rounded bg-[#e1e7f5] p-2 md:text-center'>
@@ -92,15 +113,15 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
           <div className='flex items-center justify-between gap-1 overflow-x-auto py-2 sm:gap-2'>
             {qualities.length > 0 && (
               <div className='flex size-full items-center gap-1 sm:gap-2'>
-                {isCloudServer
-                  ? qualities.map((quality) => (
-                      <>
-                        {'id' in quality && 'url' in quality ? (
+                {isCloudServer ? (
+                  <>
+                    {qualities.map((quality, index) => (
+                      <Fragment key={index}>
+                        {'id' in quality && 'url' in quality && quality.id && quality.url ? (
                           <Button
                             key={quality.id}
-                            size='xs'
+                            size='compact-xs'
                             bg={quality.id === selectedCurrentVideoId ? 'red' : ''}
-                            // c={quality.id === selectedCurrentVideoId ? 'white' : 'dark'}
                             onClick={() => handleCloudChangeCurrentVideo(quality.url)}>
                             <Text>{quality.quality}</Text>
                           </Button>
@@ -130,35 +151,63 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
                             </Menu.Dropdown>
                           </Menu>
                         )}
-                      </>
-                    ))
-                  : qualities.map((quality) => (
-                      <Menu key={quality} shadow='md' width={200}>
-                        <Menu.Target>
-                          <Button size='compact-sm' variant='outline' color='grape'>
-                            {quality}
-                          </Button>
-                        </Menu.Target>
-                        <Menu.Dropdown>
-                          {data?.mirrors[quality]?.length > 0 ? (
-                            data?.mirrors[quality]?.map((item, index) => (
-                              <Menu.Item
-                                key={index}
-                                bg={item.url === selectedVideo ? 'red' : ''}
-                                c={item.url === selectedVideo ? 'white' : 'dark'}
-                                onClick={() => setCurrentVideo(item.url)}>
-                                <Text>{item.label}</Text>
-                              </Menu.Item>
-                            ))
-                          ) : (
-                            <Menu.Item disabled>
-                              <Text>No available sources</Text>
-                            </Menu.Item>
-                          )}
-                        </Menu.Dropdown>
-                      </Menu>
+                      </Fragment>
                     ))}
+                  </>
+                ) : (
+                  qualities.map((quality) => (
+                    <Menu key={quality} shadow='md' width={200}>
+                      <Menu.Target>
+                        <Button size='compact-sm' variant='outline' color='grape'>
+                          {quality}
+                        </Button>
+                      </Menu.Target>
+                      <Menu.Dropdown>
+                        {data?.mirrors[quality]?.length > 0 ? (
+                          data?.mirrors[quality]?.map((item, index) => (
+                            <Menu.Item
+                              key={index}
+                              bg={item.url === selectedVideo ? 'red' : ''}
+                              c={item.url === selectedVideo ? 'white' : 'dark'}
+                              onClick={() => setCurrentVideo(item.url)}>
+                              <Text>{item.label}</Text>
+                            </Menu.Item>
+                          ))
+                        ) : (
+                          <Menu.Item disabled>
+                            <Text>No available sources</Text>
+                          </Menu.Item>
+                        )}
+                      </Menu.Dropdown>
+                    </Menu>
+                  ))
+                )}
               </div>
+            )}
+
+            {isCloudServer && data && 'source' in data && data.source === 'sanka' && qualities && typeof qualities === 'object' && (
+              <>
+                {Object.entries(qualities).map(([quality, servers]) => (
+                  <Menu key={quality} shadow='md' width={200}>
+                    <Menu.Target>
+                      <Button size='compact-sm' variant='outline' color='grape'>
+                        {quality}
+                      </Button>
+                    </Menu.Target>
+                    <Menu.Dropdown>
+                      {servers.map((server) => (
+                        <Menu.Item
+                          key={server.serverId}
+                          bg={server.serverId === selectedCurrentVideoId ? 'red' : ''}
+                          c={server.serverId === selectedCurrentVideoId ? 'white' : 'dark'}
+                          onClick={() => handleCloudChangeCurrentVideo(server.serverId)}>
+                          <Text>{server.server}</Text>
+                        </Menu.Item>
+                      ))}
+                    </Menu.Dropdown>
+                  </Menu>
+                ))}
+              </>
             )}
 
             {data?.mirror && (
@@ -189,8 +238,8 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
                   <Skeleton inline className='size-full' />
                 </div>
               ) : (
-                (data?.prev_episode || data?.prevEpisode) && (
-                  <NavLink to={`/episode/${data?.prev_episode || data?.prevEpisode.episodeId}`}>
+                (data?.prev_episode || data?.prevEpisode || data?.navigation?.prev) && (
+                  <NavLink to={`/episode/${data?.prev_episode || data?.prevEpisode?.episodeId || data?.navigation?.prev?.slug}`}>
                     <Button size='compact-sm' variant='outline' color='red'>
                       {isMobile ? <IconPlayerTrackPrevFilled stroke={2} /> : 'Prev Eps.'}
                     </Button>
@@ -203,8 +252,8 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
                   <Skeleton inline className='size-full' />
                 </div>
               ) : (
-                (data?.next_episode || data?.nextEpisode) && (
-                  <NavLink to={`/episode/${data?.next_episode || data.nextEpisode?.episodeId}`}>
+                (data?.next_episode || data?.nextEpisode || data?.navigation?.next) && (
+                  <NavLink to={`/episode/${data?.next_episode || data.nextEpisode?.episodeId || data?.navigation?.next?.slug}`}>
                     <Button size='compact-sm' variant='outline'>
                       {isMobile ? <IconPlayerTrackNextFilled stroke={2} /> : 'Next Eps.'}
                     </Button>
