@@ -30,7 +30,7 @@ const EpisodeLayout = ({ data, isLoading, isError }) => {
       } else {
         return data.stream.find((item) => item.quality === '720p')?.embedUrl
           ? `${VITE_MAIN_SERVICE_CLOUD}/stream?url=${data.stream.find((item) => item.quality === '720p')?.embedUrl}`
-          : data.stream[0]?.embedUrl
+          : `${VITE_MAIN_SERVICE_CLOUD}/stream?url=${encodeURIComponent(data.stream[0]?.embedUrl)}`
       }
     } else return data?.video_player
     // eslint-disable-next-line react-hooks/exhaustive-deps
